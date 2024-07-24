@@ -2,6 +2,7 @@ let express = require("express");
 require("dotenv").config();
 let router = require("./routes/index");
 let { Mongoose } = require("./connections/index");
+let bodyParser = require("body-parser")
 
 
 let PORT = process.env.PORT;
@@ -11,7 +12,7 @@ Mongoose(MONGODB_URI);
 
 let app = express();
 
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 app.use("/", router);
 

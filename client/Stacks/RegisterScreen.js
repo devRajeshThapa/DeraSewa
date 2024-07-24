@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
 
-const RegisterScreen = (props) => {
+const RegisterScreen = ({navigation}) => {
 
     let navTitle = "REGISTER";
 
@@ -17,12 +18,54 @@ const RegisterScreen = (props) => {
     let [password, setPassword] = useState("");
     let [profilePicture, setProfilePicture] = useState("");
 
-    let openGallery = async ()=>{
-        let result = await launchImageLibrary();
-        setProfilePicture(result?.assets[0]?.uri)
-        console.log(profilePicture)
+    let openGallery = async () => {
+        await ImagePicker.openPicker({
+            width: 400,
+            height: 400,
+            cropping: true,
+            includeBase64: true,
+            mediaType: 'photo'
+        }).then(image => {
+
+            let data = `data:${image.mime};base64,${image.data}`;
+            setProfilePicture(data);
+        });
     }
 
+    let uploadForm = async ()=>{
+
+        let data = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phoneNumber: phoneNumber,
+            password: password,
+            profilePicture: profilePicture
+        }
+        
+        await fetch('http://192.168.1.66:8000/register-user', {
+            method: 'POST',
+            headers:{
+              'Content-Type': 'application/json'
+            },    
+            body: JSON.stringify(data)
+        })
+        .then(res=>res.json())
+        .then(async (data)=>{ 
+            await AsyncStorage.removeItem('userID')
+            await AsyncStorage.removeItem('validUser')
+            await AsyncStorage.setItem('userID', data.userID);
+            await AsyncStorage.setItem('validUser', "true");
+        })
+        .then(async ()=>{
+            let validUser = await AsyncStorage.getItem('validUser');
+
+            if(validUser === "true"){
+                navigation.navigate("Home")
+            }
+        })
+        .catch(()=>{console.log("Something went wrong")})
+    }
 
     return (
         <View style={styles.container}>
@@ -36,22 +79,24 @@ const RegisterScreen = (props) => {
 
             <View style={styles.contentWrapper}>
                 <View style={styles.nameInputFeild}>
-                    <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value)=>{ setFirstName(value) }}/>
-                    <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value)=>{ setLastName(value) }}/>
+                    <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value) => { setFirstName(value) }} />
+                    <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value) => { setLastName(value) }} />
                 </View>
-                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value)=>{ setEmail(value) }}/>
-                <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value)=>{ setPhoneNumber(value) }}/>
-                <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value)=>{ setPassword(value) }}/>
-                <View style={{display: "flex", flexDirection: "row", alignItems: "center", gap: 10}} onPress={openGallery}>
+                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value) }} />
+                <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value) }} />
+                <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value) }} />
+                <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery() }}>
                     <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
                     <Text style={{ color: "white", fontFamily: "Poppins-SemiBold" }}>Add your profile picture</Text>
-                </View>
-                <View style={styles.loginButton}>
-                    <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>LOGIN</Text>
-                </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>{ uploadForm() }}>
+                    <View style={styles.registerButton}>
+                        <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>REGISTER</Text>
+                    </View>
+                </TouchableOpacity>
                 <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
                     <Text style={{ color: "red", fontFamily: "Poppins-Light" }}>Forgot Password?</Text>
-                    <Text style={{ color: "white", fontFamily: "Poppins-Light"}}>Already have Account? <Text style={{fontStyle: "italic", textDecorationLine: "underline" }} onPress={() => { props.navigation.navigate("Login") }}>Login</Text></Text>
+                    <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Already have Account? <Text style={{ fontStyle: "italic", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Login") }}>Login</Text></Text>
                 </View>
             </View>
         </View>
@@ -114,7 +159,7 @@ let styles = StyleSheet.create({
         padding: 10,
         fontFamily: "Poppins-Light"
     },
-    loginButton: {
+    registerButton: {
         backgroundColor: "white",
         padding: 18,
         display: "flex",
