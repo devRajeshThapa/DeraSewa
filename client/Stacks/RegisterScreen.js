@@ -61,7 +61,7 @@ const RegisterScreen = ({navigation}) => {
             let validUser = await AsyncStorage.getItem('validUser');
 
             if(validUser === "true"){
-                navigation.navigate("Home")
+                navigation.navigate("Tab")
             }
         })
         .catch(()=>{console.log("Something went wrong")})
