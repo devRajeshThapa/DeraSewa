@@ -8,6 +8,7 @@ import LoginScreen from './Stacks/LoginScreen';
 import RegisterScreen from './Stacks/RegisterScreen';
 import TabNavigator from './Tabs/TabNavigator'
 import { NativeScreen } from 'react-native-screens';
+import AccountInfoScreen from './Stacks/AccountInfoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,7 @@ const App = () => {
         />
         <Stack.Screen
           name="Account"
-          component={TabNavigator}
+          component={AccountInfoScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

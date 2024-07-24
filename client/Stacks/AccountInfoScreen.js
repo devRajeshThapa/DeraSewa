@@ -9,4 +9,4 @@ const AccountInfoScreen = () => {
   )
 }
 
-export default AccountInfoScreen
+export default AccountInfoScreen;

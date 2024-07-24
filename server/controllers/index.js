@@ -3,16 +3,52 @@ let { userModel, roomModel } = require("../models/index");
 let registerUser = async (req, res)=>{
     let { firstName, lastName, email, phoneNumber, password, profilePicture } = await req.body;
 
-    let user = await userModel.create({
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        password,
-        profilePicture
-    });
+    let user = await userModel.findOne({phoneNumber});
 
-    res.json({ userID: `${user._id}` });
+    if(firstName && lastName && email && phoneNumber && password && profilePicture){
+        if( firstName.length >= 3 && lastName.length >= 3 ){
+
+            let emailValidator = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    
+            if(emailValidator.test(email)){
+
+                let phoneValidator = /^(\+\d{1,3}[- ]?)?\d{10}$/;
+
+                if(phoneValidator.test(phoneNumber)){
+                    if(!user){
+                        if(password.length >= 8){
+                            if(profilePicture){
+                                let user = await userModel.create({
+                                    firstName,
+                                    lastName,
+                                    email,
+                                    phoneNumber,
+                                    password,
+                                    profilePicture
+                                });
+                            
+                                res.json({ userID: `${user._id}` });
+                            }else{
+                                res.json({ error: "Image format can be only - JPG, PNG, JPEG!" });
+                            }
+                        }else{
+                            res.json({ error: "Password string can't be less than 8!" });
+                        }
+                    }else{
+                        res.json({ error: "Phone number already registered!" });
+                    }
+                }else{
+                    res.json({ error: "Invalid phone number!" });
+                }
+            }else{
+                res.json({ error: "Invalid email address!" });
+            }
+        }else{
+            res.json({ error: "First Name or Last Name can't have less than 3 string!" });
+        }
+    }else{
+        res.json({ error: "All the feild must be filled!" });
+    }
 }
 
 let loginUser = async (req, res)=>{

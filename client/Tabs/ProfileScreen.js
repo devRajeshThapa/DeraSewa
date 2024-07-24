@@ -29,7 +29,7 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.infoWrappper}>
-        <Image style={{ width: 100, height: 100, borderWidth: 1, borderRadius: 100, borderColor: "black", borderWidth: 5 }} source={{ uri: profilePicture }} />
+        {profilePicture? <Image style={{ width: 100, height: 100, borderWidth: 1, borderRadius: 100, borderColor: "black", borderWidth: 5 }} source={{ uri: profilePicture }} />: <Text>Loading...</Text>}
         <View>
           <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20 }}>{firstName + " " + lastName}</Text>
           <TouchableOpacity onPress={() => { openAccount() }}>

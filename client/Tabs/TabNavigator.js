@@ -18,7 +18,7 @@ const TabNavigator = ({ navigation }) => {
     let validUser = await AsyncStorage.getItem('validUser');
 
     await AsyncStorage.removeItem('userID');
-    await AsyncStorage.removeItem('userID');
+    await AsyncStorage.removeItem('validUser');
 
     navigation.navigate("Login");
   }

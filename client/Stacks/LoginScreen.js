@@ -60,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
     }
   }
 
-  userAuth();
+  userAuth()
 
   return (
     <View style={styles.container}>

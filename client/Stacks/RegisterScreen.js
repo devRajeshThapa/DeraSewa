@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({ navigation }) => {
 
     let navTitle = "REGISTER";
 
@@ -17,6 +17,7 @@ const RegisterScreen = ({navigation}) => {
     let [phoneNumber, setPhoneNumber] = useState("");
     let [password, setPassword] = useState("");
     let [profilePicture, setProfilePicture] = useState("");
+    let [error, setError] = useState("");
 
     let openGallery = async () => {
         await ImagePicker.openPicker({
@@ -32,7 +33,7 @@ const RegisterScreen = ({navigation}) => {
         });
     }
 
-    let uploadForm = async ()=>{
+    let uploadForm = async () => {
 
         let data = {
             firstName: firstName,
@@ -42,29 +43,34 @@ const RegisterScreen = ({navigation}) => {
             password: password,
             profilePicture: profilePicture
         }
-        
+
         await fetch('http://192.168.1.66:8000/register-user', {
             method: 'POST',
-            headers:{
-              'Content-Type': 'application/json'
-            },    
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(data)
         })
-        .then(res=>res.json())
-        .then(async (data)=>{ 
-            await AsyncStorage.removeItem('userID')
-            await AsyncStorage.removeItem('validUser')
-            await AsyncStorage.setItem('userID', data.userID);
-            await AsyncStorage.setItem('validUser', "true");
-        })
-        .then(async ()=>{
-            let validUser = await AsyncStorage.getItem('validUser');
+            .then(res => res.json())
+            .then(async (data) => {
+                if (data.userID) {
+                    await AsyncStorage.removeItem('userID')
+                    await AsyncStorage.removeItem('validUser')
+                    await AsyncStorage.setItem('userID', data.userID);
+                    await AsyncStorage.setItem('validUser', "true");
+                }else{
+                    setError("");
+                    setError(data.error);
+                }
+            })
+            .then(async () => {
+                let validUser = await AsyncStorage.getItem('validUser');
 
-            if(validUser === "true"){
-                navigation.navigate("Tab")
-            }
-        })
-        .catch(()=>{console.log("Something went wrong")})
+                if (validUser === "true") {
+                    navigation.navigate("Tab")
+                }
+            })
+            .catch(() => { console.log("Something went wrong") })
     }
 
     return (
@@ -77,19 +83,21 @@ const RegisterScreen = ({navigation}) => {
                 <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Register your Account to continue</Text>
             </View>
 
+            {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+
             <View style={styles.contentWrapper}>
                 <View style={styles.nameInputFeild}>
-                    <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value) => { setFirstName(value) }} />
-                    <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value) => { setLastName(value) }} />
+                    <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value) => { setFirstName(value); setError("") }} />
+                    <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value) => { setLastName(value); setError("") }} />
                 </View>
-                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value) }} />
-                <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value) }} />
-                <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value) }} />
-                <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery() }}>
+                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} />
+                <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} />
+                <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} />
+                <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
                     <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
                     <Text style={{ color: "white", fontFamily: "Poppins-SemiBold" }}>Add your profile picture</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{ uploadForm() }}>
+                <TouchableOpacity onPress={() => { uploadForm() }}>
                     <View style={styles.registerButton}>
                         <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>REGISTER</Text>
                     </View>
@@ -122,6 +130,15 @@ let styles = StyleSheet.create({
         color: "white",
         fontFamily: "Poppins-Bold",
         fontSize: 30
+    },
+    errorWrapper: {
+        width: "100%",
+        backgroundColor: "red",
+        padding: 10,
+        maxHeight: 65,
+        display: "flex",
+        justifyContent: "center",
+        borderRadius: 10
     },
     contentWrapper: {
         display: "flex",
