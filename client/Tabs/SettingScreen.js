@@ -73,12 +73,7 @@ const SettingScreen = ({navigation}) => {
       id: 14,
       title: "Rate Us",
       link: "Rate"
-    },
-    {
-      id: 15,
-      title: "Logout",
-      link: "Logout"
-    },
+    }
   ]
 
   return (

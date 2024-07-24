@@ -12,7 +12,7 @@ Mongoose(MONGODB_URI);
 
 let app = express();
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.use("/", router);
 

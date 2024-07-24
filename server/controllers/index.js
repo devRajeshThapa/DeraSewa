@@ -20,10 +20,12 @@ let loginUser = async (req, res)=>{
 
     let user = await userModel.findOne({phoneNumber, password});
 
-    console.log(user)
-
     if(user){
         res.json({ userID: `${user._id}` });
+    }else if(!phoneNumber || !password){
+        res.json({ error: "All the input feild must be filled!" });
+    }else{
+        res.json({ error: "Your credentials didn't matched!" });
     }
 }
 

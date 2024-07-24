@@ -95,7 +95,6 @@ const RegisterScreen = ({navigation}) => {
                     </View>
                 </TouchableOpacity>
                 <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
-                    <Text style={{ color: "red", fontFamily: "Poppins-Light" }}>Forgot Password?</Text>
                     <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Already have Account? <Text style={{ fontStyle: "italic", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Login") }}>Login</Text></Text>
                 </View>
             </View>
