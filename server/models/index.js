@@ -86,10 +86,27 @@ let roomSchema = new mongoose.Schema({
     { timestamps: true }
 );
 
+let verificationSchema = new mongoose.Schema({
+    phoneNumber: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    verificationCode: {
+        type: String,
+        required: true,
+        unique: true
+    }
+},
+{ timestamps: true }
+)
+
 let userModel = mongoose.model("User", userSchema);
 let roomModel = mongoose.model("Room", roomSchema);
+let verificationModel = mongoose.model("Varification", verificationSchema)
 
 module.exports = {
     userModel,
-    roomModel
+    roomModel,
+    verificationModel
 };

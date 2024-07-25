@@ -100,7 +100,8 @@ let styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 10,
     display: "flex",
-    gap: 20
+    gap: 20,
+    flex: 1
   },
   nav: {
     width: "100%",
@@ -132,7 +133,7 @@ let styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#5C5C5C",
-    height: 50,
+    height: 60,
     color: "white",
     padding: 10,
     fontFamily: "Poppins-Light"

@@ -9,13 +9,15 @@ import RegisterScreen from './Stacks/RegisterScreen';
 import TabNavigator from './Tabs/TabNavigator'
 import { NativeScreen } from 'react-native-screens';
 import AccountInfoScreen from './Stacks/AccountInfoScreen';
+import DeleteAccount from './Stacks/DeleteAccount';
+import UserAuth from './Stacks/UserAuth';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Login'>
+      <Stack.Navigator initialRouteName='UserAuth'>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -34,6 +36,16 @@ const App = () => {
         <Stack.Screen
           name="Account"
           component={AccountInfoScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DeleteAccount"
+          component={DeleteAccount}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="UserAuth"
+          component={UserAuth}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

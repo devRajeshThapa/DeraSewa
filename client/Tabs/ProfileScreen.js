@@ -11,7 +11,7 @@ const ProfileScreen = ({ navigation }) => {
 
   useEffect(() => {
     let fetchData = async () => {
-      let userID = await AsyncStorage.getItem('userID');
+    let userID = await AsyncStorage.getItem('userID');
     let response = await fetch(`http://192.168.1.66:8000/get-user/${userID}`);
     let data = await response.json();
     setFirstName(data.firstName);
@@ -19,7 +19,9 @@ const ProfileScreen = ({ navigation }) => {
     setProfilePicture(data.profilePicture);
     }
 
-    fetchData();
+    setInterval(()=>{
+      fetchData();
+    },1000)
 
   })
 
@@ -29,9 +31,9 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.infoWrappper}>
-        {profilePicture? <Image style={{ width: 100, height: 100, borderWidth: 1, borderRadius: 100, borderColor: "black", borderWidth: 5 }} source={{ uri: profilePicture }} />: <Text>Loading...</Text>}
+        {profilePicture? <Image style={{ width: 100, height: 100, borderWidth: 1, borderRadius: 100, borderColor: "black", borderWidth: 5 }} source={{ uri: profilePicture }} />: <Text style={{color: "white"}}>Fetching profile picture...</Text>}
         <View>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20 }}>{firstName + " " + lastName}</Text>
+          {(firstName && lastName) ? <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20 }}>{firstName + " " + lastName}</Text>: <Text style={{color: "white"}}>Fetching user name...</Text>}
           <TouchableOpacity onPress={() => { openAccount() }}>
             <Text style={{ color: "white", fontFamily: "Poppins-Light", color: "blue" }}>Account Information</Text>
           </TouchableOpacity>

@@ -58,6 +58,7 @@ const RegisterScreen = ({ navigation }) => {
                     await AsyncStorage.removeItem('validUser')
                     await AsyncStorage.setItem('userID', data.userID);
                     await AsyncStorage.setItem('validUser', "true");
+                    await AsyncStorage.setItem('phoneNumber', phoneNumber);
                 }else{
                     setError("");
                     setError(data.error);
@@ -67,7 +68,7 @@ const RegisterScreen = ({ navigation }) => {
                 let validUser = await AsyncStorage.getItem('validUser');
 
                 if (validUser === "true") {
-                    navigation.navigate("Tab")
+                    navigation.navigate("UserAuth")
                 }
             })
             .catch(() => { console.log("Something went wrong") })
@@ -119,7 +120,8 @@ let styles = StyleSheet.create({
         backgroundColor: "black",
         padding: 10,
         display: "flex",
-        gap: 20
+        gap: 20,
+        felx: 1
     },
     nav: {
         width: "100%",
@@ -151,7 +153,7 @@ let styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#5C5C5C",
-        height: 50,
+        height: 60,
         color: "white",
         padding: 10,
         fontFamily: "Poppins-Light"
@@ -170,7 +172,7 @@ let styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#5C5C5C",
-        height: 50,
+        height: 60,
         color: "white",
         padding: 10,
         fontFamily: "Poppins-Light"
