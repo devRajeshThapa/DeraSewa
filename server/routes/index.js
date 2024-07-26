@@ -8,7 +8,7 @@ router
 .post("/login-user", loginUser)
 .post("/verify-user/:phoneNumber", verifyUser)
 .delete("/delete-user/:userID", deleteUser)
-.post("/host-room", hostRoom)
+.post("/host-room/", hostRoom)
 .get("/get-rooms", getRooms)
 .get("/get-user/:userID", getUser)
 .get("/get-hoster-rooms/:userID", getHosterRoom)

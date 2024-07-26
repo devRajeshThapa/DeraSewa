@@ -64,7 +64,7 @@ const EditOn = ({navigation}) => {
         let userID = await AsyncStorage.getItem('userID');
         console.log(userID)
 
-        await fetch(`http://192.168.1.66:8000/update-user-info/${userID}`, {
+        await fetch(`http://192.168.1.64:8000/update-user-info/${userID}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'

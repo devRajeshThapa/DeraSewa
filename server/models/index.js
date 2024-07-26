@@ -35,7 +35,7 @@ let roomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    roomLocation: {
+    roomCoordinate: {
         type: Array,
         required: true
     },
@@ -46,7 +46,7 @@ let roomSchema = new mongoose.Schema({
     flat: {
         type: Boolean,
     },
-    private: {
+    apartment: {
         type: Boolean,
     },
     floorNumber: {
@@ -75,7 +75,6 @@ let roomSchema = new mongoose.Schema({
     },
     discription: {
         type: String,
-        required: true
     },
     roomPictures: {
         type: Array,

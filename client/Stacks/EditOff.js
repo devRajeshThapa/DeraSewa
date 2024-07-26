@@ -16,7 +16,7 @@ const EditOff = () => {
 
         let fetchData = async () => {
             let userID = await AsyncStorage.getItem('userID');
-            let response = await fetch(`http://192.168.1.66:8000/get-user/${userID}`);
+            let response = await fetch(`http://192.168.1.64:8000/get-user/${userID}`);
             let data = await response.json();
             setFirstName(data.firstName);
             setLastName(data.lastName);

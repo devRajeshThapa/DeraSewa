@@ -11,13 +11,14 @@ import { NativeScreen } from 'react-native-screens';
 import AccountInfoScreen from './Stacks/AccountInfoScreen';
 import DeleteAccount from './Stacks/DeleteAccount';
 import UserAuth from './Stacks/UserAuth';
+import HostRoomScreen from './Stacks/HostRoomScreen';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='UserAuth'>
+      <Stack.Navigator initialRouteName='Tab'>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -46,6 +47,11 @@ const App = () => {
         <Stack.Screen
           name="UserAuth"
           component={UserAuth}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="HostRoom"
+          component={HostRoomScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

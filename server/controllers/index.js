@@ -89,20 +89,29 @@ let deleteUser = async (req, res) => {
 }
 
 let hostRoom = async (req, res) => {
-    let { userID, roomLocation, address, flat, private, floorNumber, bedRoom, bathRoom, kitchen, parking, price, discription, roomPictures } = await req.body;
 
-    let room = await roomModel.create({
-        userID, roomLocation, address, flat, private, floorNumber, bedRoom, bathRoom, kitchen, parking, price, discription, roomPictures
-    });
+    let { userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, discription, roomPictures } = await req.body;
 
-    room.roomLocation.forEach((item) => {
-        console.log(item)
-    })
+    if(roomCoordinate && address && floorNumber && bedRoom && price && roomPictures){
+        let room = await roomModel.create({
+            userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, discription, roomPictures
+        });
+        res.json({ success: "Room hosted succesfully!" });
+    }else{
+        res.json({ error: "All required feild must be feild!" });
+        console.log("error")
+    }
 }
 
 let getRooms = async (req, res) => {
+    console.log("server")
     let room = await roomModel.find({});
-    res.json(room);
+    
+    if(room){
+        res.json(room);
+    }else{
+        res.send(false)
+    }
 }
 
 let getUser = async (req, res) => {

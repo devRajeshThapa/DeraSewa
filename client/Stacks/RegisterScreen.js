@@ -44,7 +44,7 @@ const RegisterScreen = ({ navigation }) => {
             profilePicture: profilePicture
         }
 
-        await fetch('http://192.168.1.66:8000/register-user', {
+        await fetch('http://192.168.1.64:8000/register-user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ const RegisterScreen = ({ navigation }) => {
                 let validUser = await AsyncStorage.getItem('validUser');
 
                 if (validUser === "true") {
-                    navigation.navigate("UserAuth")
+                    navigation.navigate("Tab")
                 }
             })
             .catch(() => { console.log("Something went wrong") })

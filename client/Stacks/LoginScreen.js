@@ -22,7 +22,7 @@ const LoginScreen = ({ navigation }) => {
       password: password,
     }
 
-    await fetch('http://192.168.1.66:8000/login-user', {
+    await fetch('http://192.168.1.64:8000/login-user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
