@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,7 +25,16 @@ const TabNavigator = ({ navigation }) => {
   }
 
   return (
-    <Tab.Navigator initialRouteName='Home'>
+    <Tab.Navigator initialRouteName='Home'
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: "black"
+        },
+        tabBarActiveTintColor: "#88ff00",
+        tabBarInactiveTintColor: "white"
+      }}
+    >
       <Tab.Screen name="Home" component={HomeScreen} options={{
         title: "DERASEWA",
         headerStyle: {
@@ -34,7 +44,10 @@ const TabNavigator = ({ navigation }) => {
           color: "white",
           fontSize: 30,
           fontFamily: "Poppins-Bold"
-        }
+        },
+        tabBarIcon: ({ color, size }) => (
+          <FontAwesome name="home" size={size} color={color} />
+        ),
       }} />
       <Tab.Screen name="Profile" component={ProfileScreen} options={{
         title: "PROFILE",
@@ -45,7 +58,10 @@ const TabNavigator = ({ navigation }) => {
           color: "white",
           fontSize: 30,
           fontFamily: "Poppins-Bold"
-        }
+        },
+        tabBarIcon: ({ color, size }) => (
+          <FontAwesome name="user" size={size} color={color} />
+        ),
       }} />
       <Tab.Screen name="Setting" component={SettingScreen} options={{
         title: "SETTING",
@@ -62,9 +78,12 @@ const TabNavigator = ({ navigation }) => {
             onPress={logout}
             style={styles.logoutButton}
           >
-            <Text style={{ color: "black", fontFamily: "Poppins-Light" }}>Logout</Text>
+            <Text style={{ color: "black", fontFamily: "Poppins-SemiBold" }}>ESC</Text>
           </TouchableOpacity>
-        )
+        ),
+        tabBarIcon: ({ color, size }) => (
+          <FontAwesome name="gear" size={size} color={color} />
+        ),
       }} />
     </Tab.Navigator>
   )

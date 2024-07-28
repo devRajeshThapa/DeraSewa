@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { IP_ADDRESS } from '@env'
 
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,7 +45,7 @@ const RegisterScreen = ({ navigation }) => {
             profilePicture: profilePicture
         }
 
-        await fetch('http://192.168.1.64:8000/register-user', {
+        await fetch(`${IP_ADDRESS}/register-user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -80,7 +81,7 @@ const RegisterScreen = ({ navigation }) => {
                 <Text style={styles.navTitle}>{navTitle}</Text>
             </View>
             <View>
-                <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 25 }}>Hi, Welcome to DeraSewa</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 25 }}>Hi, Welcome to DeraSewa</Text>
                 <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Register your Account to continue</Text>
             </View>
 
@@ -96,7 +97,7 @@ const RegisterScreen = ({ navigation }) => {
                 <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} />
                 <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
                     <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
-                    <Text style={{ color: "white", fontFamily: "Poppins-SemiBold" }}>Add your profile picture</Text>
+                    <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Add your profile picture</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { uploadForm() }}>
                     <View style={styles.registerButton}>
@@ -152,7 +153,7 @@ let styles = StyleSheet.create({
         width: "100%",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#5C5C5C",
+        borderColor: "#262626",
         height: 60,
         color: "white",
         padding: 10,
@@ -171,7 +172,7 @@ let styles = StyleSheet.create({
         width: "48%",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#5C5C5C",
+        borderColor: "#262626",
         height: 60,
         color: "white",
         padding: 10,
@@ -179,7 +180,7 @@ let styles = StyleSheet.create({
     },
     registerButton: {
         backgroundColor: "white",
-        padding: 18,
+        padding: 15,
         display: "flex",
         alignItems: "center",
         borderRadius: 10

@@ -1,5 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { IP_ADDRESS } from '@env'
 
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,7 +23,7 @@ const EditOn = ({navigation}) => {
 
         let fetchData = async () => {
             let userID = await AsyncStorage.getItem('userID');
-            let response = await fetch(`http://192.168.1.66:8000/get-user/${userID}`);
+            let response = await fetch(`${IP_ADDRESS}/get-user/${userID}`);
             let data = await response.json();
             setFirstName(data.firstName);
             setLastName(data.lastName);
@@ -64,7 +65,7 @@ const EditOn = ({navigation}) => {
         let userID = await AsyncStorage.getItem('userID');
         console.log(userID)
 
-        await fetch(`http://192.168.1.64:8000/update-user-info/${userID}`, {
+        await fetch(`${IP_ADDRESS}/update-user-info/${userID}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,10 +89,10 @@ const EditOn = ({navigation}) => {
 
         <View style={styles.contentWrapper}>
             {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
-            {profilePicture ? <Image style={{ width: 150, height: 150, borderWidth: 1, borderRadius: 100, borderColor: "#202020", borderWidth: 5 }} source={{ uri: profilePicture }} /> : <Text>Loading...</Text>}
+            {profilePicture ? <Image style={{ width: 120, height: 120, borderWidth: 1, borderRadius: 100, borderColor: "#88ff00" }} source={{ uri: profilePicture }} /> : <Text>Loading...</Text>}
             <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
                 <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
-                <Text style={{ color: "white", fontFamily: "Poppins-SemiBold" }}>Change your profile picture</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Change your profile picture</Text>
             </TouchableOpacity>
             <View style={styles.nameInputFeild}>
                 <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value) => { setFirstName(value); setError("") }} />
@@ -132,7 +133,7 @@ let styles = StyleSheet.create({
         width: "100%",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#5C5C5C",
+        borderColor: "#161616",
         height: 60,
         color: "white",
         padding: 10,
@@ -151,7 +152,7 @@ let styles = StyleSheet.create({
         width: "48%",
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: "#5C5C5C",
+        borderColor: "#161616",
         height: 60,
         color: "white",
         padding: 10,
@@ -159,7 +160,7 @@ let styles = StyleSheet.create({
     },
     button: {
         backgroundColor: "white",
-        padding: 18,
+        padding: 15,
         display: "flex",
         alignItems: "center",
         borderRadius: 10

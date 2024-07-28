@@ -99,13 +99,23 @@ let hostRoom = async (req, res) => {
         res.json({ success: "Room hosted succesfully!" });
     }else{
         res.json({ error: "All required feild must be feild!" });
-        console.log("error")
     }
 }
 
 let getRooms = async (req, res) => {
-    console.log("server")
     let room = await roomModel.find({});
+    
+    if(room){
+        res.json(room);
+    }else{
+        res.send(false)
+    }
+}
+
+let getRoom = async (req, res) =>{
+    let roomID = await req.params.roomID;
+
+    let room = await roomModel.findById(roomID);
     
     if(room){
         res.json(room);
@@ -116,9 +126,7 @@ let getRooms = async (req, res) => {
 
 let getUser = async (req, res) => {
     let userID = await req.params.userID;
-
     let user = await userModel.findById(userID);
-
     res.json(user);
 }
 
@@ -187,6 +195,7 @@ module.exports = {
     deleteUser,
     hostRoom,
     getRooms,
+    getRoom,
     getUser,
     getHosterRoom,
     deleteRoom,

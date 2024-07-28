@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IP_ADDRESS } from '@env'
 
 const UserAuth = ({ navigation }) => {
 
@@ -18,7 +19,7 @@ const UserAuth = ({ navigation }) => {
             phoneNumber: phoneNumber
         }
 
-        await fetch(`http://192.168.1.66:8000/verify-user/${phoneNumber}`, {
+        await fetch(`${IP_ADDRESS}/verify-user/${phoneNumber}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -12,13 +12,14 @@ import AccountInfoScreen from './Stacks/AccountInfoScreen';
 import DeleteAccount from './Stacks/DeleteAccount';
 import UserAuth from './Stacks/UserAuth';
 import HostRoomScreen from './Stacks/HostRoomScreen';
+import RoomScreen from './Stacks/RoomScreen';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Tab'>
+      <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -52,6 +53,11 @@ const App = () => {
         <Stack.Screen
           name="HostRoom"
           component={HostRoomScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Room"
+          component={RoomScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

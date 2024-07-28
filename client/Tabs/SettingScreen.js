@@ -85,7 +85,7 @@ const SettingScreen = ({navigation}) => {
       })}
       <FlatList
         data={list}
-        renderItem={({item}) => <TouchableOpacity style={styles.itemWrapper} onPress={()=>{navigation.navigate(item.link)}} ><Text style={{color: "white", fontFamily: "Poppins-Bold", fontSize: 18}}>{item.title}</Text></TouchableOpacity> }
+        renderItem={({item}) => <TouchableOpacity style={styles.itemWrapper} onPress={()=>{navigation.navigate(item.link)}} ><Text style={{color: "white", fontFamily: "Poppins-Bold", fontSize: 15}}>{item.title}</Text></TouchableOpacity> }
         keyExtractor={item => item.id}
       />
     </View>
@@ -104,7 +104,7 @@ let styles = StyleSheet.create({
     gap: 20
   },
   itemWrapper: {
-    backgroundColor: "#202020",
+    backgroundColor: "#191919",
     width: "100%",
     padding: 13,
     marginBottom: 10,

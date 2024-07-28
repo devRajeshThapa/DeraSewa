@@ -1,25 +1,32 @@
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { IP_ADDRESS } from '@env'
+import { Dimensions } from 'react-native';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faSliders } from '@fortawesome/free-solid-svg-icons/faSliders'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
 
   let [data, setData] = useState("")
 
   useEffect(() => {
     let getData = async () => {
-      let res = await fetch("http://192.168.1.64:8000/get-rooms", "GET");
+      let res = await fetch(`${IP_ADDRESS}/get-rooms`, "GET");
       let data = await res.json();
-
       setData(data)
     }
 
-    setInterval(()=>{
+    setInterval(() => {
       getData();
     }, 1000)
-  })
+  }, [])
+
+  let roomClick = async (roomID) => {
+    await AsyncStorage.setItem('roomID', roomID);
+    navigation.navigate("Room");
+  }
 
 
   return (
@@ -27,7 +34,7 @@ const HomeScreen = () => {
       <View style={styles.searchSection}>
         <TextInput style={styles.input} placeholder='Provide address' placeholderTextColor={"white"} />
         <TouchableOpacity style={{ backgroundColor: "white", width: "15%", borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <FontAwesomeIcon icon={faSliders} style={{ color: "black" }} />
+        <FontAwesome6 name="sliders" style={{fontSize: 22, color: "black"}} />
         </TouchableOpacity>
       </View>
       {data ?
@@ -35,32 +42,29 @@ const HomeScreen = () => {
           <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20, marginBottom: 10 }}>AVAILABLE ROOMS</Text>
           {data.map((item) => {
             return (
-              <View style={styles.roomWrapper}>
-                <ScrollView>
-
+              <View style={styles.roomWrapper} key={item._id}>
+                <ScrollView horizontal={true} style={{ borderRadius: 10, display: "flex", gap: 10 }}>
                   {
-                    item.roomPictures.map((e) => {
-                      <Image
-                        key={item._id}
-                        style={{ width: "100%", height: "50%" }}
-                        resizeMode="streach"
-                        source={{ uri: e }}
-                      />
+                    item.roomPictures.map((url) => {
+                      return (
+                        <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} />
+                      )
                     })
-
                   }
                 </ScrollView>
-                <View style={{display: "flex", gap: 10}}>
-                  {(item.flat === true) ? <Text style={{ color: "#88ff00", fontFamily: "Poppins-Light", borderWidth: 1, borderColor: "#88ff00", alignSelf: "flex-start", padding: 5, borderRadius: 10, paddingLeft: 10, paddingRight: 10}}>Floor</Text> : null}
-                  {(item.apartment === true) ? <Text style={{ color: "white" }}>Apartment</Text> : null}
-                  <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }} key={item._id}>{item.address}</Text>
-                  <Text style={{ color: "white", fontFamily: "POppins-semiBold", fontSize: 18 }}>{"RS" + " " + item.price}</Text>
-                  <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-                    {(item.bathRoom === true) ? <Text style={{ color: "white", fontFamily: "Poppins-Light", borderWidth: 1, borderColor: "white", alignSelf: "flex-start", padding: 5, borderRadius: 10, paddingLeft: 10, paddingRight: 10 }}>Bathroom</Text> : null}
-                    {(item.kitchen === true) ? <Text style={{ color: "white", fontFamily: "Poppins-Light", borderWidth: 1, borderColor: "white", alignSelf: "flex-start", padding: 5, borderRadius: 10, paddingLeft: 10, paddingRight: 10 }}>Kitchen</Text> : null}
-                    {(item.parking === true) ? <Text style={{ color: "white", fontFamily: "Poppins-Light", borderWidth: 1, borderColor: "white", alignSelf: "flex-start", padding: 5, borderRadius: 10, paddingLeft: 10, paddingRight: 10 }}>Parking</Text> : null}
+                <TouchableOpacity onPress={() => { roomClick(item._id); }}>
+                  <View style={{ display: "flex", gap: 5 }} >
+                    {(item.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
+                    {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
+                    <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 16 }} /> {item.address}</Text>
+                    <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}><FontAwesome6 name="money-bill-wave" style={{ fontSize: 20 }} /> {"RS" + " " + item.price}</Text>
+                    <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+                      {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
+                      {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
+                      {(item.parking === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="car-side" style={{ fontSize: 15 }} /> Parking</Text> : null}
+                    </View>
                   </View>
-                </View>
+                </TouchableOpacity>
               </View>
             )
           })}
@@ -89,7 +93,7 @@ let styles = StyleSheet.create({
     width: "83%",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#5C5C5C",
+    borderColor: "#303030",
     height: 60,
     color: "white",
     padding: 10,
@@ -102,10 +106,31 @@ let styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   roomWrapper: {
-    backgroundColor: "#202020",
-    padding: 20,
+    backgroundColor: "#191919",
+    padding: 15,
     marginBottom: 10,
     borderRadius: 10,
     gap: 10
+  },
+  topDetailBox: {
+    color: "#88ff00",
+    fontFamily: "Poppins-Light",
+    borderWidth: 1, borderColor: "#88ff00",
+    alignSelf: "flex-start",
+    padding: 5,
+    borderRadius: 10,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  bottomDetailBox: {
+    color: "white",
+    fontFamily: "Poppins-Light",
+    borderWidth: 1,
+    borderColor: "white",
+    alignSelf: "flex-start",
+    padding: 5,
+    borderRadius: 10,
+    paddingLeft: 10,
+    paddingRight: 10
   }
 })

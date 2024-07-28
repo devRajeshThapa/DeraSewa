@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { IP_ADDRESS } from '@env'
 
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,7 +23,7 @@ const LoginScreen = ({ navigation }) => {
       password: password,
     }
 
-    await fetch('http://192.168.1.64:8000/login-user', {
+    await fetch(`${IP_ADDRESS}/login-user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -68,11 +69,11 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.navTitle}>{navTitle}</Text>
       </View>
       <View>
-        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 25 }}>Hi, Welcome to back DeraSewa</Text>
-        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Login your Account to continue</Text>
+        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 25 }}>Hi, Welcome to back DeraSewa</Text>
+        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 18 }}>Please Login your Account to continue</Text>
       </View>
 
-      {error && <View style={styles.errorWrapper}><Text style={{color: "white", fontFamily: "Poppins-Light", fontSize: 15}}>{error}</Text></View>}
+      {error && <View style={styles.errorWrapper}><Text style={{color: "white", fontFamily: "Poppins-Regular", fontSize: 15}}>{error}</Text></View>}
 
       <View style={styles.contentWrapper}>
         <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} />
@@ -111,7 +112,7 @@ let styles = StyleSheet.create({
   navTitle: {
     color: "white",
     fontFamily: "Poppins-Bold",
-    fontSize: 30
+    fontSize: 30,
   },
   errorWrapper: {
     width: "100%",
@@ -132,7 +133,7 @@ let styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#5C5C5C",
+    borderColor: "#262626",
     height: 60,
     color: "white",
     padding: 10,
@@ -140,7 +141,7 @@ let styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: "white",
-    padding: 18,
+    padding: 15,
     display: "flex",
     alignItems: "center",
     borderRadius: 10

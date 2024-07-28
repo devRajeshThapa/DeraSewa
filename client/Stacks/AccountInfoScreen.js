@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import ImagePicker from 'react-native-image-crop-picker';
@@ -21,9 +21,10 @@ const AccountInfoScreen = ({navigation}) => {
       <View style={styles.nav}>
         <Text style={styles.navTitle}>{navTitle}</Text>
       </View>
+      <ScrollView>
       {!edit ? <EditOff /> : <EditOn />}
       {!edit ?
-        <View style={{ display: "flex", gap: 10 }}>
+        <View style={{ display: "flex", gap: 10, marginTop: 10 }}>
           <TouchableOpacity onPress={() => { edit ? setEdit("") : setEdit("true") }}>
             <View style={styles.button}>
               <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>UPDATE INFO</Text>
@@ -38,6 +39,7 @@ const AccountInfoScreen = ({navigation}) => {
         :
         null
       }
+      </ScrollView>
     </View>
   )
 }
@@ -66,14 +68,14 @@ let styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "white",
-    padding: 18,
+    padding: 15,
     display: "flex",
     alignItems: "center",
     borderRadius: 10
   },
   deleteButton: {
     backgroundColor: "red",
-    padding: 18,
+    padding: 15,
     display: "flex",
     alignItems: "center",
     borderRadius: 10

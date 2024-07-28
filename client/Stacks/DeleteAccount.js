@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IP_ADDRESS } from '@env'
 
 const DeleteAccount = ({ navigation }) => {
 
@@ -17,7 +18,7 @@ const DeleteAccount = ({ navigation }) => {
             password: password
         }
 
-        await fetch(`http://192.168.1.66:8000/delete-user/${userID}`, {
+        await fetch(`${IP_ADDRESS}/delete-user/${userID}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
