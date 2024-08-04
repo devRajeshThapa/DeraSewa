@@ -9,21 +9,24 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const HomeScreen = ({ navigation }) => {
 
-  let [data, setData] = useState("")
+  let [filterValue, setFilterValue] = useState("")
+  let [filteredData, setFilteredData] = useState("")
 
   useEffect(() => {
     let getData = async () => {
       let res = await fetch(`${IP_ADDRESS}/get-rooms`, "GET");
       let data = await res.json();
-      setData(data)
+      let filteredDataArray = await data.filter((item)=>{
+        return item.address.toUpperCase().includes(filterValue.toUpperCase());
+      });
+      setFilteredData(filteredDataArray);
     }
 
-    setInterval(() => {
       getData();
-    }, 1000)
-  }, [])
+  }, [filteredData])
 
   let roomClick = async (roomID) => {
+    await AsyncStorage.removeItem('roomID')
     await AsyncStorage.setItem('roomID', roomID);
     navigation.navigate("Room");
   }
@@ -32,18 +35,19 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.searchSection}>
-        <TextInput style={styles.input} placeholder='Provide address' placeholderTextColor={"white"} />
+        <TextInput style={styles.input} placeholder='Provide address' placeholderTextColor={"white"} onChangeText={(value)=>{setFilterValue(value);}}/>
         <TouchableOpacity style={{ backgroundColor: "white", width: "15%", borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }}>
         <FontAwesome6 name="sliders" style={{fontSize: 22, color: "black"}} />
         </TouchableOpacity>
       </View>
-      {data ?
+      {filteredData ?
         <ScrollView>
           <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20, marginBottom: 10 }}>AVAILABLE ROOMS</Text>
-          {data.map((item) => {
+          {filteredData.map((item) => {
             return (
               <View style={styles.roomWrapper} key={item._id}>
-                <ScrollView horizontal={true} style={{ borderRadius: 10, display: "flex", gap: 10 }}>
+                <View style={{overflow: "hidden", borderRadius: 10}}>
+                <ScrollView horizontal={true} style={{display: "flex", gap: 10 }}>
                   {
                     item.roomPictures.map((url) => {
                       return (
@@ -52,9 +56,10 @@ const HomeScreen = ({ navigation }) => {
                     })
                   }
                 </ScrollView>
+                </View>
                 <TouchableOpacity onPress={() => { roomClick(item._id); }}>
                   <View style={{ display: "flex", gap: 5 }} >
-                    {(item.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
+                    {(item.flat === true) ? <Text style={styles.topDetailBox}>Flat</Text> : null}
                     {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
                     <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 16 }} /> {item.address}</Text>
                     <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}><FontAwesome6 name="money-bill-wave" style={{ fontSize: 20 }} /> {"RS" + " " + item.price}</Text>

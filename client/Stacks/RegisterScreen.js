@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
+import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
 
 const RegisterScreen = ({ navigation }) => {
 
@@ -18,7 +19,10 @@ const RegisterScreen = ({ navigation }) => {
     let [phoneNumber, setPhoneNumber] = useState("");
     let [password, setPassword] = useState("");
     let [profilePicture, setProfilePicture] = useState("");
+    let [referralCode, setReferralCode] = useState("");
     let [error, setError] = useState("");
+    let [referralCodeActive, setReferralCodeActive] = useState("");
+    let [addReferral, setAddReferral] = useState(true);
 
     let openGallery = async () => {
         await ImagePicker.openPicker({
@@ -36,43 +40,86 @@ const RegisterScreen = ({ navigation }) => {
 
     let uploadForm = async () => {
 
-        let data = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phoneNumber: phoneNumber,
-            password: password,
-            profilePicture: profilePicture
+        if(!addReferral === true){
+            let data = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phoneNumber: phoneNumber,
+                password: password,
+                profilePicture: profilePicture,
+                referralCode: referralCode,
+                referral: true
+            }
+            await fetch(`${IP_ADDRESS}/register-user`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(async (data) => {
+                    if (data.userID) {
+                        await AsyncStorage.removeItem('userID')
+                        await AsyncStorage.removeItem('validUser')
+                        await AsyncStorage.setItem('userID', data.userID);
+                        await AsyncStorage.setItem('validUser', "true");
+                        await AsyncStorage.setItem('phoneNumber', phoneNumber);
+                    } else {
+                        setError("");
+                        setError(data.error);
+                    }
+                })
+                .then(async () => {
+                    let validUser = await AsyncStorage.getItem('validUser');
+    
+                    if (validUser === "true") {
+                        navigation.navigate("Tab")
+                    }
+                })
+                .catch(() => { console.log("Something went wrong") })
+        }else{
+            let data = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phoneNumber: phoneNumber,
+                password: password,
+                profilePicture: profilePicture,
+                referralCode: referralCode,
+                referral: false
+            }
+            await fetch(`${IP_ADDRESS}/register-user`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(async (data) => {
+                    if (data.userID) {
+                        await AsyncStorage.removeItem('userID')
+                        await AsyncStorage.removeItem('validUser')
+                        await AsyncStorage.setItem('userID', data.userID);
+                        await AsyncStorage.setItem('validUser', "true");
+                        await AsyncStorage.setItem('phoneNumber', phoneNumber);
+                    } else {
+                        setError("");
+                        setError(data.error);
+                    }
+                })
+                .then(async () => {
+                    let validUser = await AsyncStorage.getItem('validUser');
+    
+                    if (validUser === "true") {
+                        navigation.navigate("Tab")
+                    }
+                })
+                .catch(() => { console.log("Something went wrong") })
         }
 
-        await fetch(`${IP_ADDRESS}/register-user`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(async (data) => {
-                if (data.userID) {
-                    await AsyncStorage.removeItem('userID')
-                    await AsyncStorage.removeItem('validUser')
-                    await AsyncStorage.setItem('userID', data.userID);
-                    await AsyncStorage.setItem('validUser', "true");
-                    await AsyncStorage.setItem('phoneNumber', phoneNumber);
-                }else{
-                    setError("");
-                    setError(data.error);
-                }
-            })
-            .then(async () => {
-                let validUser = await AsyncStorage.getItem('validUser');
-
-                if (validUser === "true") {
-                    navigation.navigate("Tab")
-                }
-            })
-            .catch(() => { console.log("Something went wrong") })
     }
 
     return (
@@ -95,6 +142,24 @@ const RegisterScreen = ({ navigation }) => {
                 <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} />
                 <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} />
                 <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} />
+                {
+                    referralCodeActive ?
+                        <TextInput style={styles.input} placeholder="Referral code" placeholderTextColor="white" onChangeText={(value) => { setReferralCode(value); setError("") }} />
+                        :
+                        null
+                }
+                {
+                    addReferral ?
+                        <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { setReferralCodeActive(true); setAddReferral(false); }}>
+                            <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
+                            <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Add a referral code</Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { setReferralCodeActive(false); setAddReferral(true); }}>
+                            <FontAwesomeIcon icon={faXmark} style={{ color: "white" }} />
+                            <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Remove referral code</Text>
+                        </TouchableOpacity>
+                }
                 <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
                     <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
                     <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Add your profile picture</Text>

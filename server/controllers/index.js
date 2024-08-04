@@ -1,7 +1,7 @@
-let { userModel, roomModel, verificationModel } = require("../models/index");
+let { userModel, roomModel, referralModel } = require("../models/index");
 
 let registerUser = async (req, res) => {
-    let { firstName, lastName, email, phoneNumber, password, profilePicture } = await req.body;
+    let { firstName, lastName, email, phoneNumber, password, profilePicture, referralCode, referral } = await req.body;
 
     let user = await userModel.findOne({ phoneNumber });
 
@@ -18,16 +18,56 @@ let registerUser = async (req, res) => {
                     if (!user) {
                         if (password.length >= 8) {
                             if (profilePicture) {
-                                let user = await userModel.create({
-                                    firstName,
-                                    lastName,
-                                    email,
-                                    phoneNumber,
-                                    password,
-                                    profilePicture
-                                });
+                                if(referral === true){
+                                    if(referralCode){
+                                        let referral = await referralModel.findOne({ referralCode: `${referralCode}` })
 
-                                res.json({ userID: `${user._id}` });
+                                        if(referral){
+                                            await referralModel.findOneAndUpdate({referralCode: `${referralCode}`}, {
+                                                referralConsumers: referral.referralConsumers+1
+                                            })
+                                            let user = await userModel.create({
+                                                firstName,
+                                                lastName,
+                                                email,
+                                                phoneNumber,
+                                                password,
+                                                profilePicture
+                                            });
+
+                                            let referralCreater = await userModel.findById(referral.referralCreaterUserID)
+
+                                            await userModel.findByIdAndUpdate(referral.referralCreaterUserID, {
+                                                dereCoin: referralCreater.deraCoin + 30
+                                            })
+
+                                            await userModel.findByIdAndUpdate(user._id, {
+                                                deraCoin: user.deraCoin + 100,
+                                            })
+            
+                                            res.json({ userID: `${user._id}` });
+                                        }else{
+                                            res.json({ error: "Referral code didn't matched!" })
+                                        }
+                                    }else{
+                                        res.json({ error: "Please enter referral code!" })
+                                    }
+                                }else{
+                                    let user = await userModel.create({
+                                        firstName,
+                                        lastName,
+                                        email,
+                                        phoneNumber,
+                                        password,
+                                        profilePicture
+                                    });
+
+                                    await userModel.findByIdAndUpdate(user._id, {
+                                        deraCoin: user.deraCoin + 50
+                                    })
+    
+                                    res.json({ userID: `${user._id}` });
+                                }
                             } else {
                                 res.json({ error: "Image format can be only - JPG, PNG, JPEG!" });
                             }
@@ -90,11 +130,11 @@ let deleteUser = async (req, res) => {
 
 let hostRoom = async (req, res) => {
 
-    let { userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, discription, roomPictures } = await req.body;
+    let { userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, description, roomPictures } = await req.body;
 
     if(roomCoordinate && address && floorNumber && bedRoom && price && roomPictures){
         let room = await roomModel.create({
-            userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, discription, roomPictures
+            userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, description, roomPictures
         });
         res.json({ success: "Room hosted succesfully!" });
     }else{
@@ -131,17 +171,29 @@ let getUser = async (req, res) => {
 }
 
 let getHosterRoom = async (req, res) => {
-    let userID = await req.params.userID;
-
-    let room = await roomModel.find({ userID: `${userID}` });
+    let hosterID = await req.params.hosterID;
+    let room = await roomModel.find({ userID: `${hosterID}` });
 
     res.json(room);
 }
 
 let deleteRoom = async (req, res) => {
     let roomID = await req.params.roomID;
+    console.log("Server")
 
-    let room = await roomModel.findByIdAndDelete(roomID);
+    let { password, userID } = await req.body;
+
+    if(password){
+        let user = await userModel.findOne({ _id: `${userID}`, password: `${password}` });
+        if(user){
+            let room = await roomModel.findByIdAndDelete(roomID);
+            res.json({ success: "Room succesfully deleted!" })
+        }else{
+            res.json({ error: "Password didn't matched!" })
+        }
+    }else{
+        res.json({ error: "Please provide password!" })
+    }
 }
 
 let updateUserInfo = async (req, res) => {
@@ -188,6 +240,35 @@ let updateUserInfo = async (req, res) => {
 
 }
 
+let generateReferral = async (req, res) => {
+    let referralCreaterUserID = await req.params.referralCreaterUserID;
+
+    let referral = await referralModel.find({ referralCreaterUserID: `${referralCreaterUserID}` });
+
+    if(referral !== ""){
+        res.json({ error: "Referral code already generated!" });
+    }else{
+        function makeFerralCode(length) {
+            let result = '';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            const charactersLength = characters.length;
+            let counter = 0;
+            while (counter < length) {
+              result += characters.charAt(Math.floor(Math.random() * charactersLength));
+              counter += 1;
+            }
+            return result;
+        }
+
+        let referralCode = makeFerralCode(8);
+
+        let referral = await referralModel.create({
+            referralCreaterUserID,
+            referralCode
+        });
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
@@ -199,5 +280,6 @@ module.exports = {
     getUser,
     getHosterRoom,
     deleteRoom,
-    updateUserInfo
+    updateUserInfo,
+    generateReferral,
 }

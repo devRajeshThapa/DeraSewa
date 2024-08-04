@@ -88,9 +88,9 @@ const RoomScreen = ({ navigation }) => {
                   {(data.parking === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="car-side" style={{fontSize: 15}} /> Parking</Text> : null}
                 </View>
               </View>
-              <View style={styles.roomDiscriptionWrapper}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="scroll" style={{fontSize: 20}} /> Discription</Text>
-                <Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{data.discription}</Text>
+              <View style={styles.roomdescriptionWrapper}>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="scroll" style={{fontSize: 20}} /> description</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{data.description}</Text>
               </View>
               <View style={{ padding: 15, backgroundColor: "#202020", borderRadius: 10 }}>
                 <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="map-location-dot" style={{fontSize: 20}} /> Location</Text>
@@ -201,7 +201,7 @@ let styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
   },
-  roomDiscriptionWrapper: {
+  roomdescriptionWrapper: {
     display: "flex",
     gap: 5,
     backgroundColor: "#191919",

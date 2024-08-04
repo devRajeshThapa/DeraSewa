@@ -32,7 +32,7 @@ const HostRoomScreen = ({ navigation }) => {
   let [kitchen, setKitchen] = useState(false);
   let [parking, setParking] = useState(false);
   let [price, setPrice] = useState("");
-  let [discription, setDiscription] = useState("");
+  let [description, setdescription] = useState("");
   let [roomPictures, setRoomPictures] = useState("");
 
   GetLocation.getCurrentPosition({
@@ -85,7 +85,7 @@ const HostRoomScreen = ({ navigation }) => {
       kitchen: kitchen,
       parking: parking,
       price: price,
-      discription: discription,
+      description: description,
       roomPictures: roomPictures
 
     }
@@ -128,7 +128,7 @@ const HostRoomScreen = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: "flex", gap: 20, paddingTop: 10, paddingBottom: 10 }}>
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Drag and drop the mark</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Drag and drop the mark</Text>
             <View style={styles.mapWrapper}>
               <MapView
                 provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -156,70 +156,70 @@ const HostRoomScreen = ({ navigation }) => {
             </View>
           </View>
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Room address</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Room address</Text>
             <TextInput style={styles.input} placeholder='Maitidevi, Kathmandu' placeholderTextColor={"white"} onChangeText={(value) => { setAddress(value); setError("") }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
             <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
-              <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <View style={{ display: "flex", flexDirection: "row", gap: 10, justifyContent: "center", alignItems: "center" }}>
                 <TouchableOpacity style={styles.radioOuter} onPress={() => { setFlat(true); setApartment(false); setError("") }} >
                   {flat ? <View style={styles.radioInner}></View> : null}
                 </TouchableOpacity>
-                <Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 13 }}>Flat</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, }}>Flat</Text>
               </View>
-              <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <View style={{ display: "flex", flexDirection: "row", gap: 10, justifyContent: "center", alignItems: "center"  }}>
                 <TouchableOpacity style={styles.radioOuter} onPress={() => { setApartment(true); setFlat(false); setError("") }}>
                   {apartment ? <View style={styles.radioInner}></View> : null}
                 </TouchableOpacity>
-                <Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 13 }}>Apartment</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}>Apartment</Text>
               </View>
             </View>
 
           </View>
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Floor number</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Floor number</Text>
             <TextInput style={styles.input} placeholder='' placeholderTextColor={"white"} onChangeText={(value) => { setFloorNumber(value); setError("") }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Bedroom Number</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Number of bedroom</Text>
             <TextInput style={styles.input} placeholder='' placeholderTextColor={"white"} onChangeText={(value) => { setBedRoom(value); setError("") }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Bathroom</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Bathroom</Text>
             <TouchableOpacity style={styles.radioOuter} onPress={() => { bathRoom == true ? setBathRoom(false) : setBathRoom(true); setError("") }} >
               {bathRoom ? <View style={styles.radioInner}></View> : null}
             </TouchableOpacity>
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-          <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Kitchen</Text>
+          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Kitchen</Text>
           <TouchableOpacity style={styles.radioOuter} onPress={() => { kitchen == true ? setKitchen(false) : setKitchen(true); setError("") }} >
             {kitchen ? <View style={styles.radioInner}></View> : null}
           </TouchableOpacity>
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Parking</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Parking</Text>
             <TouchableOpacity style={styles.radioOuter} onPress={() => { parking == true ? setParking(false) : setParking(true); setError("") }} >
               {parking ? <View style={styles.radioInner}></View> : null}
             </TouchableOpacity>
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Price</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Price</Text>
             <TextInput style={styles.input} placeholder='' placeholderTextColor={"white"} onChangeText={(value) => { setPrice(value); setError("") }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Discription (Optional)</Text>
-            <TextInput style={styles.discriptionInput} placeholder='One of the best cost effective room in Maitidevi, Kathmandu' placeholderTextColor={"white"} multiline autoCorrect={false} onChangeText={(value) => { setDiscription(value) }} />
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> description (Optional)</Text>
+            <TextInput style={styles.descriptionInput} placeholder='One of the best cost effective room in Maitidevi, Kathmandu' placeholderTextColor={"white"} multiline autoCorrect={false} onChangeText={(value) => { setdescription(value) }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 18 }}><FontAwesome6 name="square-caret-right" style={{fontSize: 20}} /> Room Pictures</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="caret-right" style={{fontSize: 20}} /> Room Pictures</Text>
             <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
             <FontAwesome6 name="circle-plus" style={{fontSize: 15, color: "white"}} />
               <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Open Gallery</Text>
@@ -283,12 +283,12 @@ let styles = StyleSheet.create({
     padding: 10,
     fontFamily: "Poppins-Light"
   },
-  discriptionInput: {
+  descriptionInput: {
     backgroundColor: "transparent",
     width: "100%",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#303030",
+    borderColor: "#505050",
     height: 100,
     color: "white",
     padding: 10,
@@ -304,7 +304,7 @@ let styles = StyleSheet.create({
   },
   radioOuter: {
     borderColor: "white",
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
     height: 15,
     width: 15,

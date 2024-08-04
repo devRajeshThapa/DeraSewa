@@ -26,6 +26,11 @@ let userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    deraCoin: {
+        type: Number,
+        required: false,
+        default: 0
+    },
 },
     { timestamps: true }
 );
@@ -73,7 +78,7 @@ let roomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    discription: {
+    description: {
         type: String,
     },
     roomPictures: {
@@ -85,27 +90,30 @@ let roomSchema = new mongoose.Schema({
     { timestamps: true }
 );
 
-let verificationSchema = new mongoose.Schema({
-    phoneNumber: {
+let referralSchema = new mongoose.Schema({
+    referralCreaterUserID: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
-    verificationCode: {
+    referralCode: {
         type: String,
-        required: true,
-        unique: true
-    }
+        required: true
+    },
+    referralConsumers: {
+        type: Number,
+        required: false,
+        default: 0
+    },
 },
 { timestamps: true }
 )
 
 let userModel = mongoose.model("User", userSchema);
 let roomModel = mongoose.model("Room", roomSchema);
-let verificationModel = mongoose.model("Varification", verificationSchema)
+let referralModel = mongoose.model("Referral", referralSchema);
 
 module.exports = {
     userModel,
     roomModel,
-    verificationModel
+    referralModel
 };

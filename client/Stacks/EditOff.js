@@ -98,7 +98,7 @@ let styles = StyleSheet.create({
     title: {
         color: "white",
         fontFamily: "Poppins-Bold",
-        fontSize: 18
+        fontSize: 15
     },
     value: {
         color: "white",

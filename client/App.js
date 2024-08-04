@@ -10,6 +10,7 @@ import TabNavigator from './Tabs/TabNavigator'
 import { NativeScreen } from 'react-native-screens';
 import AccountInfoScreen from './Stacks/AccountInfoScreen';
 import DeleteAccount from './Stacks/DeleteAccount';
+import DeleteRoom from './Stacks/DeleteRoom';
 import UserAuth from './Stacks/UserAuth';
 import HostRoomScreen from './Stacks/HostRoomScreen';
 import RoomScreen from './Stacks/RoomScreen';
@@ -43,6 +44,11 @@ const App = () => {
         <Stack.Screen
           name="DeleteAccount"
           component={DeleteAccount}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="DeleteRoom"
+          component={DeleteRoom}
           options={{headerShown: false}}
         />
         <Stack.Screen
