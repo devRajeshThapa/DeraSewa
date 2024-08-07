@@ -32,7 +32,8 @@ const DeleteAccount = ({ navigation }) => {
                 if (data.success) {
                     await AsyncStorage.removeItem('userID');
                     await AsyncStorage.removeItem('validUser')
-                    navigation.navigate("Login")
+                    setError("");
+                    setError(data.success);
                 } else {
                     setError("");
                     setError(data.error)

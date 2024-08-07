@@ -16,13 +16,13 @@ const HomeScreen = ({ navigation }) => {
     let getData = async () => {
       let res = await fetch(`${IP_ADDRESS}/get-rooms`, "GET");
       let data = await res.json();
-      let filteredDataArray = await data.filter((item)=>{
+      let filteredDataArray = await data.filter((item) => {
         return item.address.toUpperCase().includes(filterValue.toUpperCase());
       });
       setFilteredData(filteredDataArray);
     }
 
-      getData();
+    getData();
   }, [filteredData])
 
   let roomClick = async (roomID) => {
@@ -35,27 +35,27 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.searchSection}>
-        <TextInput style={styles.input} placeholder='Provide address' placeholderTextColor={"white"} onChangeText={(value)=>{setFilterValue(value);}}/>
+        <TextInput style={styles.input} placeholder='Enter room address' placeholderTextColor={"white"} onChangeText={(value) => { setFilterValue(value); }} />
         <TouchableOpacity style={{ backgroundColor: "white", width: "15%", borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <FontAwesome6 name="sliders" style={{fontSize: 22, color: "black"}} />
+          <FontAwesome6 name="sliders" style={{ fontSize: 22, color: "black" }} />
         </TouchableOpacity>
       </View>
-      {filteredData ?
+      {(filteredData.length > 0) ?
         <ScrollView>
           <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20, marginBottom: 10 }}>AVAILABLE ROOMS</Text>
           {filteredData.map((item) => {
             return (
               <View style={styles.roomWrapper} key={item._id}>
-                <View style={{overflow: "hidden", borderRadius: 10}}>
-                <ScrollView horizontal={true} style={{display: "flex", gap: 10 }}>
-                  {
-                    item.roomPictures.map((url) => {
-                      return (
-                        <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} />
-                      )
-                    })
-                  }
-                </ScrollView>
+                <View style={{ overflow: "hidden", borderRadius: 10 }}>
+                  <ScrollView horizontal={true} style={{ display: "flex", gap: 10 }}>
+                    {
+                      item.roomPictures.map((url) => {
+                        return (
+                          <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} />
+                        )
+                      })
+                    }
+                  </ScrollView>
                 </View>
                 <TouchableOpacity onPress={() => { roomClick(item._id); }}>
                   <View style={{ display: "flex", gap: 5 }} >
@@ -75,7 +75,10 @@ const HomeScreen = ({ navigation }) => {
           })}
         </ScrollView>
         :
-        null
+        <View style={{ display: "flex", flexDirection: "row", gap: 10, width: "100%" }}>
+          <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white", alignSelf: "center" }} />
+          <Text style={{ color: "white", fontFamily: "Poppins-SemiBold"}}>Seems like rooms are not available at this moment!</Text>
+        </View>
       }
     </View>
   )

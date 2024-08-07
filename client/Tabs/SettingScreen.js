@@ -10,44 +10,24 @@ const SettingScreen = ({navigation}) => {
       link: "Account"
     },
     {
-      id: 2,
-      title: "Theme",
-      link: "Account"
-    },
-    {
-      id: 3,
-      title: "Payment",
-      link: "Payment"
-    },
-    {
-      id: 4,
-      title: "Help and Support",
-      link: "HelpSupport"
-    },
-    {
       id: 5,
       title: "About Us",
-      link: "About"
+      link: "About contact"
     },
     {
       id: 6,
-      title: "Privacy and policy",
-      link: "PrivacyPolicy"
+      title: "Policies",
+      link: "privacy policy, cookie, session"
     },
     {
       id: 7,
-      title: "Terms and Condition",
-      link: "TermCondition"
+      title: "Payment and Referral system",
+      link: "privacy policy, cookie, session"
     },
     {
       id: 8,
-      title: "Session and Cookeis Policy",
-      link: "SessionCookie"
-    },
-    {
-      id: 9,
-      title: "Contact Us",
-      link: "Contact"
+      title: "Referral Code",
+      link: "Referral"
     },
     {
       id: 10,
@@ -55,19 +35,9 @@ const SettingScreen = ({navigation}) => {
       link: "FAQ"
     },
     {
-      id: 11,
-      title: "Payment",
-      link: "Payment"
-    },
-    {
       id: 12,
-      title: "Report a Bug",
-      link: "ReportBug"
-    },
-    {
-      id: 13,
-      title: "Report a Scam",
-      link: "ReportScam"
+      title: "Report",
+      link: ""
     },
     {
       id: 14,

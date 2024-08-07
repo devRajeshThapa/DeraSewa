@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { IP_ADDRESS } from '@env'
 
@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
+import { faImage } from '@fortawesome/free-solid-svg-icons/faImage'
 
 const RegisterScreen = ({ navigation }) => {
 
@@ -40,7 +41,7 @@ const RegisterScreen = ({ navigation }) => {
 
     let uploadForm = async () => {
 
-        if(!addReferral === true){
+        if (!addReferral === true) {
             let data = {
                 firstName: firstName,
                 lastName: lastName,
@@ -73,13 +74,13 @@ const RegisterScreen = ({ navigation }) => {
                 })
                 .then(async () => {
                     let validUser = await AsyncStorage.getItem('validUser');
-    
+
                     if (validUser === "true") {
                         navigation.navigate("Tab")
                     }
                 })
                 .catch(() => { console.log("Something went wrong") })
-        }else{
+        } else {
             let data = {
                 firstName: firstName,
                 lastName: lastName,
@@ -112,7 +113,7 @@ const RegisterScreen = ({ navigation }) => {
                 })
                 .then(async () => {
                     let validUser = await AsyncStorage.getItem('validUser');
-    
+
                     if (validUser === "true") {
                         navigation.navigate("Tab")
                     }
@@ -127,52 +128,56 @@ const RegisterScreen = ({ navigation }) => {
             <View style={styles.nav}>
                 <Text style={styles.navTitle}>{navTitle}</Text>
             </View>
-            <View>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 25 }}>Hi, Welcome to DeraSewa</Text>
-                <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Register your Account to continue</Text>
-            </View>
-
-            {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
-
-            <View style={styles.contentWrapper}>
-                <View style={styles.nameInputFeild}>
-                    <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value) => { setFirstName(value); setError("") }} />
-                    <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value) => { setLastName(value); setError("") }} />
-                </View>
-                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} />
-                <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} />
-                <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} />
-                {
-                    referralCodeActive ?
-                        <TextInput style={styles.input} placeholder="Referral code" placeholderTextColor="white" onChangeText={(value) => { setReferralCode(value); setError("") }} />
-                        :
-                        null
-                }
-                {
-                    addReferral ?
-                        <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { setReferralCodeActive(true); setAddReferral(false); }}>
-                            <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
-                            <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Add a referral code</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { setReferralCodeActive(false); setAddReferral(true); }}>
-                            <FontAwesomeIcon icon={faXmark} style={{ color: "white" }} />
-                            <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Remove referral code</Text>
-                        </TouchableOpacity>
-                }
-                <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
-                    <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
-                    <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Add your profile picture</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { uploadForm() }}>
-                    <View style={styles.registerButton}>
-                        <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>REGISTER</Text>
+            <ScrollView>
+                <View style={{display: "flex", gap: 10}}>
+                    <View>
+                        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 25 }}>Hi, Welcome to DeraSewa</Text>
+                        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Register your Account to continue</Text>
                     </View>
-                </TouchableOpacity>
-                <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
-                    <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Already have Account? <Text style={{ fontStyle: "italic", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Login") }}>Login</Text></Text>
+
+                    {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+
+                    <View style={styles.contentWrapper}>
+                        <View style={styles.nameInputFeild}>
+                            <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value) => { setFirstName(value); setError("") }} />
+                            <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value) => { setLastName(value); setError("") }} />
+                        </View>
+                        <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} />
+                        <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} />
+                        <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} />
+                        {
+                            referralCodeActive ?
+                                <TextInput style={styles.input} placeholder="Referral code" placeholderTextColor="white" onChangeText={(value) => { setReferralCode(value); setError("") }} />
+                                :
+                                null
+                        }
+                        {
+                            addReferral ?
+                                <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { setReferralCodeActive(true); setAddReferral(false); }}>
+                                    <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
+                                    <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Add a referral code</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { setReferralCodeActive(false); setAddReferral(true); }}>
+                                    <FontAwesomeIcon icon={faXmark} style={{ color: "white" }} />
+                                    <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Remove referral code</Text>
+                                </TouchableOpacity>
+                        }
+                        <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
+                            <FontAwesomeIcon icon={faImage} style={{ color: "white" }} />
+                            <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Add your profile picture</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => { uploadForm() }}>
+                            <View style={styles.registerButton}>
+                                <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>REGISTER</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
+                            <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Already have Account? <Text style={{ fontStyle: "italic", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Login") }}>Login</Text></Text>
+                        </View>
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </View>
     )
 }
@@ -186,7 +191,6 @@ let styles = StyleSheet.create({
         backgroundColor: "black",
         padding: 10,
         display: "flex",
-        gap: 20,
         felx: 1
     },
     nav: {

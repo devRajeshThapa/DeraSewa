@@ -1,5 +1,5 @@
 let express = require("express");
-let { registerUser, loginUser, verifyUser, deleteUser ,hostRoom, getRooms,getRoom, getUser, getHosterRoom, deleteRoom, updateUserInfo, generateReferral } = require("../controllers/index");
+let { registerUser, loginUser, verifyUser, deleteUser ,hostRoom, getRooms,getRoom, getUser, getHosterRoom, deleteRoom, updateUserInfo, generateReferral, referralInfo } = require("../controllers/index");
 
 let router = express.Router();
 
@@ -15,6 +15,7 @@ router
 .get("/get-hoster-rooms/:hosterID", getHosterRoom)
 .delete("/delete-room/:roomID", deleteRoom)
 .patch("/update-user-info/:userID", updateUserInfo)
-.post("/generateReferral/:referralCreaterUserID", generateReferral)
+.get("/generate-referral/:referralCreaterUserID", generateReferral)
+.get("/referral-info/:userID", referralInfo)
 
 module.exports = router;

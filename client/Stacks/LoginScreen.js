@@ -69,8 +69,8 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.navTitle}>{navTitle}</Text>
       </View>
       <View>
-        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 25 }}>Hi, Welcome to back DeraSewa</Text>
-        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 18 }}>Please Login your Account to continue</Text>
+        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 25 }}>Hi, Welcome back to DeraSewa</Text>
+        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Login your Account to continue</Text>
       </View>
 
       {error && <View style={styles.errorWrapper}><Text style={{color: "white", fontFamily: "Poppins-Regular", fontSize: 15}}>{error}</Text></View>}
