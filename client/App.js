@@ -13,7 +13,13 @@ import DeleteAccount from './Stacks/DeleteAccount';
 import DeleteRoom from './Stacks/DeleteRoom';
 import HostRoomScreen from './Stacks/HostRoomScreen';
 import RoomScreen from './Stacks/RoomScreen';
-import ReferralScreen from './Stacks/ReferralScreen';
+
+import ReferralScreen from './Stacks/Setting/ReferralScreen';
+import AboutUsScreen from './Stacks/Setting/AboutUsScreen';
+import PrivacyPolicyScreen from './Stacks/Setting/PrivacyPolicyScreen';
+import TermConditionScreen from './Stacks/Setting/TermConditionScreen';
+import HelpSupportScreen from './Stacks/Setting/HelpSupportScreen';
+import FAQScreen from './Stacks/Setting/FAQScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +70,31 @@ const App = () => {
         <Stack.Screen
           name="Referral"
           component={ReferralScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AboutUs"
+          component={AboutUsScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="PrivacyPolicy"
+          component={PrivacyPolicyScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TermCondition"
+          component={TermConditionScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="HelpSupport"
+          component={HelpSupportScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FAQ"
+          component={FAQScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

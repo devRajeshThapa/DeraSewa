@@ -89,7 +89,7 @@ const EditOn = ({navigation}) => {
 
         <View style={styles.contentWrapper}>
             {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
-            {profilePicture ? <Image style={{ width: 120, height: 120, borderWidth: 1, borderRadius: 100, borderColor: "#88ff00" }} source={{ uri: profilePicture }} /> : <Text>Loading...</Text>}
+            {profilePicture ? <Image style={{ width: 85, height: 85, borderWidth: 1, borderRadius: 100,  }} source={{ uri: profilePicture }} /> : <Text>Loading...</Text>}
             <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
                 <FontAwesomeIcon icon={faCirclePlus} style={{ color: "white" }} />
                 <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Change your profile picture</Text>
@@ -134,7 +134,7 @@ let styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#161616",
-        height: 60,
+        height: 52,
         color: "white",
         padding: 10,
         fontFamily: "Poppins-Light"
@@ -153,14 +153,14 @@ let styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#161616",
-        height: 60,
+        height: 52,
         color: "white",
         padding: 10,
         fontFamily: "Poppins-Light"
     },
     button: {
         backgroundColor: "white",
-        padding: 15,
+        padding: 12,
         display: "flex",
         alignItems: "center",
         borderRadius: 10

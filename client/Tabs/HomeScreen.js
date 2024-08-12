@@ -42,7 +42,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
       {(filteredData.length > 0) ?
         <ScrollView>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20, marginBottom: 10 }}>AVAILABLE ROOMS</Text>
+          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>⫸ AVAILABLE ROOMS</Text>
           {filteredData.map((item) => {
             return (
               <View style={styles.roomWrapper} key={item._id}>
@@ -61,8 +61,8 @@ const HomeScreen = ({ navigation }) => {
                   <View style={{ display: "flex", gap: 5 }} >
                     {(item.flat === true) ? <Text style={styles.topDetailBox}>Flat</Text> : null}
                     {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
-                    <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 16 }} /> {item.address}</Text>
-                    <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}><FontAwesome6 name="money-bill-wave" style={{ fontSize: 20 }} /> {"RS" + " " + item.price}</Text>
+                    <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 16 }} /> {item.address}</Text>
+                    <Text style={{ color: "white", fontFamily: "Poppins-Regular", fontSize: 15 }}>{"RS" + " " + item.price}</Text>
                     <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                       {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
                       {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
@@ -102,7 +102,7 @@ let styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#303030",
-    height: 60,
+    height: 52,
     color: "white",
     padding: 10,
     fontFamily: "Poppins-Light"
@@ -116,19 +116,20 @@ let styles = StyleSheet.create({
   roomWrapper: {
     backgroundColor: "#191919",
     padding: 15,
-    marginBottom: 10,
+    marginBottom: 15,
     borderRadius: 10,
     gap: 10
   },
   topDetailBox: {
     color: "#88ff00",
     fontFamily: "Poppins-Light",
-    borderWidth: 1, borderColor: "#88ff00",
+    borderWidth: 1,
+    borderColor: "#88ff00",
     alignSelf: "flex-start",
-    padding: 5,
+    paddingTop: 4,
     borderRadius: 10,
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
   },
   bottomDetailBox: {
     color: "white",
@@ -136,7 +137,7 @@ let styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "white",
     alignSelf: "flex-start",
-    padding: 5,
+    paddingTop: 4,
     borderRadius: 10,
     paddingLeft: 10,
     paddingRight: 10

@@ -131,7 +131,7 @@ const RegisterScreen = ({ navigation }) => {
             <ScrollView>
                 <View style={{display: "flex", gap: 10}}>
                     <View>
-                        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 25 }}>Hi, Welcome to DeraSewa</Text>
+                        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20 }}>Hi, Welcome to DeraSewa</Text>
                         <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Register your Account to continue</Text>
                     </View>
 
@@ -223,7 +223,7 @@ let styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#262626",
-        height: 60,
+        height: 52,
         color: "white",
         padding: 10,
         fontFamily: "Poppins-Light"
@@ -242,14 +242,14 @@ let styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#262626",
-        height: 60,
+        height: 52,
         color: "white",
         padding: 10,
         fontFamily: "Poppins-Light"
     },
     registerButton: {
         backgroundColor: "white",
-        padding: 15,
+        padding: 12,
         display: "flex",
         alignItems: "center",
         borderRadius: 10

@@ -44,7 +44,7 @@ const TabNavigator = ({ navigation }) => {
         },
         headerTitleStyle: {
           color: "white",
-          fontSize: 30,
+          fontSize: 25,
           fontFamily: "Poppins-Bold"
         },
         tabBarIcon: ({ color, size }) => (
@@ -58,7 +58,7 @@ const TabNavigator = ({ navigation }) => {
         },
         headerTitleStyle: {
           color: "white",
-          fontSize: 30,
+          fontSize: 25,
           fontFamily: "Poppins-Bold"
         },
         tabBarIcon: ({ color, size }) => (
@@ -72,7 +72,7 @@ const TabNavigator = ({ navigation }) => {
         },
         headerTitleStyle: {
           color: "white",
-          fontSize: 30,
+          fontSize: 25,
           fontFamily: "Poppins-Bold"
         },
         headerRight: () => (
@@ -80,7 +80,7 @@ const TabNavigator = ({ navigation }) => {
             onPress={logout}
             style={styles.logoutButton}
           >
-            <Text style={{ color: "black", fontFamily: "Poppins-SemiBold" }}>ESC</Text>
+            <Text style={{ color: "black", fontFamily: "Poppins-Bold" }}>LOGOUT</Text>
           </TouchableOpacity>
         ),
         tabBarIcon: ({ color, size }) => (
@@ -96,7 +96,7 @@ export default TabNavigator;
 let styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: "white",
-    padding: 10,
+    padding: 8,
     marginRight: 10,
     borderRadius: 10
   }

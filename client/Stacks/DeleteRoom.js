@@ -47,7 +47,7 @@ const DeleteAccount = ({ navigation }) => {
             <View style={styles.nav}>
                 <Text style={styles.navTitle}>{navTitle}</Text>
             </View>
-            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 18 }}>Please enter your password to delete your room</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>⫸ Please enter your password to delete your room</Text>
             {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
             <TextInput style={styles.input} placeholder='Password' placeholderTextColor={"white"} onChangeText={(value) => { setPassword(value); setError("") }} />
             <TouchableOpacity onPress={() => { deleteRoom() }}>
@@ -68,18 +68,17 @@ let styles = StyleSheet.create({
         backgroundColor: "black",
         padding: 10,
         display: "flex",
-        gap: 20,
+        gap: 10,
         felx: 1
     },
     nav: {
         width: "100%",
         paddingTop: 10,
-        paddingBottom: 10
     },
     navTitle: {
         color: "white",
         fontFamily: "Poppins-Bold",
-        fontSize: 30
+        fontSize: 25
     },
     errorWrapper: {
         width: "100%",
@@ -101,14 +100,14 @@ let styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "#5C5C5C",
-        height: 60,
+        height: 52,
         color: "white",
         padding: 10,
         fontFamily: "Poppins-Light"
     },
     registerButton: {
         backgroundColor: "white",
-        padding: 18,
+        padding: 12,
         display: "flex",
         alignItems: "center",
         borderRadius: 10

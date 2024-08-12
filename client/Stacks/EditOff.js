@@ -33,7 +33,7 @@ const EditOff = () => {
 
     return (
         <View style={styles.contentWrapper}>
-            {profilePicture ? <Image style={{ width: 120, height: 120, borderRadius: 100, borderColor: "#202020", borderWidth: 1, alignSelf: "left" }} source={{ uri: profilePicture }} /> : <Text style={{ color: "white" }}>Loading profile picture...</Text>}
+            {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100, borderColor: "#202020", borderWidth: 1, alignSelf: "left" }} source={{ uri: profilePicture }} /> : <Text style={{ color: "white" }}>Loading profile picture...</Text>}
             <View style={{display: "flex", gap: 20}}>
             <View style={styles.nameFeild}>
                 <View>

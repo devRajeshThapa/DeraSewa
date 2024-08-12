@@ -53,29 +53,27 @@ let styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 10,
     display: "flex",
-    gap: 20,
     felx: 1
   },
   nav: {
     width: "100%",
-    paddingTop: 10,
     paddingBottom: 10
   },
   navTitle: {
     color: "white",
     fontFamily: "Poppins-Bold",
-    fontSize: 30
+    fontSize: 25
   },
   button: {
     backgroundColor: "white",
-    padding: 15,
+    padding: 12,
     display: "flex",
     alignItems: "center",
     borderRadius: 10
   },
   deleteButton: {
     backgroundColor: "red",
-    padding: 15,
+    padding: 12,
     display: "flex",
     alignItems: "center",
     borderRadius: 10

@@ -80,8 +80,8 @@ const RoomScreen = ({ navigation }) => {
               <View style={styles.roomDetailWrapper} >
                 {(data.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
                 {(data.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }} ><FontAwesome6 name="location-dot" style={{fontSize: 16}} /> {data.address}</Text>
-                <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}><FontAwesome6 name="money-bill-wave" style={{fontSize: 20}} /> {"RS" + " " + data.price}</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{fontSize: 15}} /> {data.address}</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"RS" + " " + data.price}</Text>
                 <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                   {(data.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{fontSize: 15}} /> Bathroom</Text> : null}
                   {(data.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{fontSize: 15}} /> Kitchen</Text> : null}
@@ -89,11 +89,11 @@ const RoomScreen = ({ navigation }) => {
                 </View>
               </View>
               <View style={styles.roomdescriptionWrapper}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="scroll" style={{fontSize: 20}} /> description</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="scroll" style={{fontSize: 20}} /> Description</Text>
                 <Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{data.description}</Text>
               </View>
               <View style={{ padding: 15, backgroundColor: "#202020", borderRadius: 10 }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}><FontAwesome6 name="map-location-dot" style={{fontSize: 20}} /> Location</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="map-location-dot" style={{fontSize: 20}} /> Location</Text>
                 <View style={styles.mapWrapper}>
                   <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -130,7 +130,7 @@ const RoomScreen = ({ navigation }) => {
                   {data.updatedAt.replaceAll("-", "/").split("T")[0]}
                 </Text>
               </View>
-              <TouchableOpacity style={{ backgroundColor: "white", padding: 15, borderRadius: 10, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 }} onPress={() => { callHoster() }}>
+              <TouchableOpacity style={{ backgroundColor: "white", padding: 12, borderRadius: 10, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 }} onPress={() => { callHoster() }}>
               <FontAwesome6 name="phone" style={{fontSize: 20, color: "black"}} />
                 <Text style={{ color: "black", fontFamily: "Poppins-Bold" }}>CALL HOSTER</Text>
               </TouchableOpacity>
@@ -153,7 +153,6 @@ let styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 10,
     display: "flex",
-    gap: 20,
     felx: 1
   },
   nav: {
@@ -164,7 +163,7 @@ let styles = StyleSheet.create({
   navTitle: {
     color: "white",
     fontFamily: "Poppins-Bold",
-    fontSize: 30
+    fontSize: 25
   },
   roomImageWrapper: {
     backgroundColor: "#191919",
@@ -178,7 +177,7 @@ let styles = StyleSheet.create({
     fontFamily: "Poppins-Light",
     borderWidth: 1, borderColor: "#88ff00",
     alignSelf: "flex-start",
-    padding: 5,
+    paddingTop: 4,
     borderRadius: 10,
     paddingLeft: 10,
     paddingRight: 10
@@ -189,7 +188,7 @@ let styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "white",
     alignSelf: "flex-start",
-    padding: 5,
+    paddingTop: 4,
     borderRadius: 10,
     paddingLeft: 10,
     paddingRight: 10

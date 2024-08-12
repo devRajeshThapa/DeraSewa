@@ -10,39 +10,39 @@ const SettingScreen = ({navigation}) => {
       link: "Account"
     },
     {
-      id: 5,
-      title: "About Us",
-      link: "About contact"
-    },
-    {
-      id: 6,
-      title: "Policies",
-      link: "privacy policy, cookie, session"
-    },
-    {
-      id: 7,
-      title: "Payment and Referral system",
-      link: "privacy policy, cookie, session"
-    },
-    {
-      id: 8,
+      id: 2,
       title: "Referral Code",
       link: "Referral"
     },
     {
-      id: 10,
+      id: 3,
+      title: "About Us",
+      link: "AboutUs"
+    },
+    {
+      id: 4,
+      title: "Privacy Policy",
+      link: "PrivacyPolicy"
+    },
+    {
+      id: 5,
+      title: "Terms and Conditions",
+      link: "TermCondition"
+    },
+    {
+      id: 6,
+      title: "Help and Support",
+      link: "HelpSupport"
+    },
+    {
+      id: 7,
       title: "FAQ's",
       link: "FAQ"
     },
     {
-      id: 12,
-      title: "Report",
-      link: ""
-    },
-    {
-      id: 14,
+      id: 8,
       title: "Rate Us",
-      link: "Rate"
+      link: ""
     }
   ]
 
@@ -71,12 +71,11 @@ let styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 10,
     display: "flex",
-    gap: 20
   },
   itemWrapper: {
     backgroundColor: "#191919",
     width: "100%",
-    padding: 13,
+    padding: 10,
     marginBottom: 10,
     borderRadius: 10,
   }

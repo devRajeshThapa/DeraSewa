@@ -9,7 +9,7 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const ProfileScreen = ({ navigation }) => {
 
-  let deleteRoom = async(roomID)=>{
+  let deleteRoom = async (roomID) => {
     await AsyncStorage.removeItem('roomID')
     await AsyncStorage.setItem('roomID', roomID);
     navigation.navigate("DeleteRoom")
@@ -61,22 +61,25 @@ const ProfileScreen = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: "flex", gap: 10 }}>
           <View style={styles.infoWrappper}>
-            {profilePicture ? <Image style={{ width: 100, height: 100, borderRadius: 100, borderColor: "#88ff00", borderWidth: 1 }} source={{ uri: profilePicture }} /> : <Text style={{ color: "white" }}>Fetching profile picture...</Text>}
+            <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center", position: "absolute", left: "88%", bottom: "85%" }}>
+              <FontAwesome6 name="coins" style={{ fontSize: 13, color: "white" }} />
+              <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 13 }}>{deraCoin}</Text>
+            </View>
+            {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={{ uri: profilePicture }} /> : <Text style={{ color: "white" }}>Fetching profile picture...</Text>}
             <View>
-              {(firstName && lastName) ? <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20 }}>{firstName + " " + lastName}</Text> : <Text style={{ color: "white" }}>Fetching user name...</Text>}
-              <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-                <FontAwesome6 name="coins" style={{ fontSize: 15, color: "white" }} />
-                <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", }}>{deraCoin}</Text>
-              </View>
+              {(firstName && lastName) ?
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}>{firstName + " " + lastName}</Text>
+                :
+                <Text style={{ color: "white" }}>Fetching user name...</Text>}
               <TouchableOpacity onPress={() => { openAccount() }}>
-                <Text style={{ fontFamily: "Poppins-SemiBold", color: "#03a9fc", textDecorationLine: "underline" }}>Account Information</Text>
+                <Text style={{ fontFamily: "Poppins-SemiBold", color: "#88ff00", textDecorationLine: "underline", fontSize: 13 }}>Account Information</Text>
               </TouchableOpacity>
             </View>
           </View>
           <TouchableOpacity style={styles.hostRoomButtonWrapper} onPress={() => { navigation.navigate("HostRoom") }}>
             <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>HOST ROOM</Text>
           </TouchableOpacity>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20, marginBottom: 10 }}>ROOMS THAT YOU HAVE HOSTED</Text>
+          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, }}>⫸ ROOMS THAT YOU HAVE HOSTED</Text>
           {(data.length != 0) ?
             <View>
               {data.map((item) => {
@@ -97,8 +100,8 @@ const ProfileScreen = ({ navigation }) => {
                       <View style={{ display: "flex", gap: 5 }} >
                         {(item.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
                         {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
-                        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 16 }} /> {item.address}</Text>
-                        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}><FontAwesome6 name="money-bill-wave" style={{ fontSize: 20 }} /> {"RS" + " " + item.price}</Text>
+                        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 15 }} /> {item.address}</Text>
+                        <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"RS" + " " + item.price}</Text>
                         <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                           {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
                           {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
@@ -106,10 +109,10 @@ const ProfileScreen = ({ navigation }) => {
                         </View>
                         <View></View>
                         <View></View>
-                        <TouchableOpacity style={{ backgroundColor: "#88ff00", padding: 10, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <TouchableOpacity style={{ backgroundColor: "#88ff00", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }}>
                           <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>EDIT ROOM</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: "red", padding: 10, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { deleteRoom(item._id) }}>
+                        <TouchableOpacity style={{ backgroundColor: "red", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { deleteRoom(item._id) }}>
                           <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>DELETE ROOM</Text>
                         </TouchableOpacity>
                       </View>
@@ -139,7 +142,6 @@ let styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 10,
     display: "flex",
-    gap: 20
   },
   infoWrappper: {
     display: "flex",
@@ -150,11 +152,12 @@ let styles = StyleSheet.create({
     backgroundColor: "#191919",
     gap: 20,
     padding: 10,
-    borderRadius: 10
+    borderRadius: 10,
+    position: "relative"
   },
   hostRoomButtonWrapper: {
     backgroundColor: "white",
-    padding: 8,
+    padding: 5,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -164,7 +167,7 @@ let styles = StyleSheet.create({
   roomWrapper: {
     backgroundColor: "#191919",
     padding: 15,
-    marginBottom: 10,
+    marginBottom: 15,
     borderRadius: 10,
     gap: 10
   },
@@ -173,7 +176,7 @@ let styles = StyleSheet.create({
     fontFamily: "Poppins-Light",
     borderWidth: 1, borderColor: "#88ff00",
     alignSelf: "flex-start",
-    padding: 5,
+    paddingTop: 4,
     borderRadius: 10,
     paddingLeft: 10,
     paddingRight: 10
@@ -184,7 +187,7 @@ let styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "white",
     alignSelf: "flex-start",
-    padding: 5,
+    paddingTop: 4,
     borderRadius: 10,
     paddingLeft: 10,
     paddingRight: 10

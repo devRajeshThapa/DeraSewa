@@ -69,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.navTitle}>{navTitle}</Text>
       </View>
       <View>
-        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 25 }}>Hi, Welcome back to DeraSewa</Text>
+        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20 }}>Hi, Welcome back to DeraSewa</Text>
         <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Login your Account to continue</Text>
       </View>
 
@@ -101,13 +101,12 @@ let styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 10,
     display: "flex",
-    gap: 20,
+    gap: 5,
     flex: 1
   },
   nav: {
     width: "100%",
-    paddingTop: 10,
-    paddingBottom: 10
+    paddingTop: 5,
   },
   navTitle: {
     color: "white",
@@ -134,14 +133,14 @@ let styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#262626",
-    height: 60,
+    height: 52,
     color: "white",
     padding: 10,
     fontFamily: "Poppins-Light"
   },
   loginButton: {
     backgroundColor: "white",
-    padding: 15,
+    padding: 12,
     display: "flex",
     alignItems: "center",
     borderRadius: 10
