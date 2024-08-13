@@ -24,7 +24,7 @@ const AccountInfoScreen = ({navigation}) => {
       <ScrollView>
       {!edit ? <EditOff /> : <EditOn />}
       {!edit ?
-        <View style={{ display: "flex", gap: 10, marginTop: 10 }}>
+        <View style={{ display: "flex", gap: 10, marginTop: 50 }}>
           <TouchableOpacity onPress={() => { edit ? setEdit("") : setEdit("true") }}>
             <View style={styles.button}>
               <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>UPDATE INFO</Text>

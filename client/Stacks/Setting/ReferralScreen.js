@@ -1,15 +1,14 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { IP_ADDRESS } from '@env'
+import { IP_ADDRESS, SERVER_PORT } from '@env'
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Share from 'react-native-share';
-import { Image } from 'react-native-svg';
 import { height, width } from '@fortawesome/free-solid-svg-icons/faCirclePlus';
 
 const ReferralScreen = ({ navigation }) => {
 
-    let navTitle = "REFERRAL CODE";
+    let navTitle = "REFERRAL";
 
     let [referralCode, setReferralCode] = useState("")
     let [userName, setUserName] = useState("");
@@ -19,7 +18,7 @@ const ReferralScreen = ({ navigation }) => {
     let generateReferral = async () => {
 
         let referralCreaterUserID = await AsyncStorage.getItem("userID")
-        await fetch(`${IP_ADDRESS}/generate-referral/${referralCreaterUserID}`, "GET")
+        await fetch(`${IP_ADDRESS}:${SERVER_PORT}/generate-referral/${referralCreaterUserID}`, "GET")
             .then(res => res.json())
             .then(async (data) => {
                 setReferralCode(data.referralCode)
@@ -35,7 +34,7 @@ const ReferralScreen = ({ navigation }) => {
     useState(() => {
         let fetchCode = async () => {
             let userID = await AsyncStorage.getItem("userID")
-            await fetch(`${IP_ADDRESS}/referral-info/${userID}`, "GET")
+            await fetch(`${IP_ADDRESS}:${SERVER_PORT}/referral-info/${userID}`, "GET")
                 .then(res => res.json())
                 .then(async (data) => {
                     setReferralCode(data.referralCode)
@@ -72,16 +71,25 @@ const ReferralScreen = ({ navigation }) => {
             <View style={styles.nav}>
                 <Text style={styles.navTitle}>{navTitle}</Text>
             </View>
+            <View>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}>⫸ REFER AND EARN</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Medium", }}>
+                    For each refer you will get 30 Deracoin, Which can be used as a payment method whether buying or hosting a room.
+                </Text>
+                <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                    <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../../assets/images/refer_earn.png")} />
+                </View>
+            </View>
             {
                 referralCode ?
                     <View style={{ display: "flex", gap: 10 }}>
-                        <View style={{ display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "space-around" }}>
+                        <View style={{ display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "space-around", gap: 5 }}>
                             <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
                                 <Text style={{ color: "white", fontFamily: "Poppins-Bold", }}>
-                                    REFERRAL CODE : <Text style={{ fontFamily: "Poppins-Medium" }}>{referralCode}</Text>
+                                    YOUR REFERRAL CODE : <Text style={{ fontFamily: "Poppins-Medium" }}>{referralCode}</Text>
                                 </Text>
                             </View>
-                            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
                                 <TouchableOpacity onPress={() => { copyToClipboard() }}>
                                     <FontAwesome6 name="copy" style={styles.button} />
                                 </TouchableOpacity>
@@ -90,17 +98,12 @@ const ReferralScreen = ({ navigation }) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
-                            <Text style={{ color: "white", fontFamily: "Poppins-Bold", }}>
-                                For each refer you will get 30 Deracoin, Which can be used as a payment method whether buying or hosting a room.
-                            </Text>
-                        </View>
                     </View>
                     :
-                    <View style={{display: "flex", gap: 10}}>
-                        <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
-                            <Text style={{ color: "white", fontFamily: "Poppins-Bold", }}>
-                                Seems like you did not have referral code.
+                    <View style={{ display: "flex", gap: 10 }}>
+                        <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10, alignItems: "center" }}>
+                            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", }}>
+                                Seems like you did not have referral code
                             </Text>
                         </View>
                         <TouchableOpacity onPress={() => { generateReferral() }}>

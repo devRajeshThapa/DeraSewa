@@ -3,7 +3,7 @@ import React, { useState, useEffect, useId } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import HomeScreen from '../Tabs/HomeScreen';
-import { IP_ADDRESS } from '@env'
+import { IP_ADDRESS, SERVER_PORT } from '@env'
 
 import GetLocation from 'react-native-get-location';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
@@ -35,19 +35,20 @@ const HostRoomScreen = ({ navigation }) => {
   let [description, setdescription] = useState("");
   let [roomPictures, setRoomPictures] = useState("");
 
-  GetLocation.getCurrentPosition({
-    enableHighAccuracy: true,
-    timeout: 60000,
-  })
-    .then(location => {
-
-      setLocalLatitude(location.latitude)
-      setLocalLongitude(location.longitude)
+  useEffect(()=>{
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 60000,
     })
-    .catch(error => {
-      const { code, message } = error;
-      //console.warn(code, message);
-    })
+      .then(location => {
+        setLocalLatitude(location.latitude)
+        setLocalLongitude(location.longitude)
+      })
+      .catch(error => {
+        const { code, message } = error;
+        //console.warn(code, message);
+      })
+  }, [])
 
   let imagesURl = [];
 
@@ -91,7 +92,7 @@ const HostRoomScreen = ({ navigation }) => {
     }
 
 
-    await fetch(`${IP_ADDRESS}/host-room`, {
+    await fetch(`${IP_ADDRESS}:${SERVER_PORT}/host-room`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -128,7 +129,7 @@ const HostRoomScreen = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: "flex", gap: 20, paddingTop: 10, paddingBottom: 10 }}>
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Drag and drop the mark</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="map-location-dot" style={{fontSize: 20}} /> Drag and drop the mark</Text>
             <View style={styles.mapWrapper}>
               <MapView
                 provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -156,7 +157,7 @@ const HostRoomScreen = ({ navigation }) => {
             </View>
           </View>
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Room address</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="location-dot" style={{fontSize: 20}} /> Room address</Text>
             <TextInput style={styles.input} placeholder='e.g: Maitidevi, Kathmandu' placeholderTextColor={"white"} onChangeText={(value) => { setAddress(value); setError("") }} />
           </View>
 
@@ -188,21 +189,21 @@ const HostRoomScreen = ({ navigation }) => {
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10, display: "flex", flexDirection: "row", gap: 5, alignItems: "center"}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Bathroom</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="bath" style={{fontSize: 20}} /> Bathroom</Text>
             <TouchableOpacity style={styles.radioOuter} onPress={() => { bathRoom == true ? setBathRoom(false) : setBathRoom(true); setError("") }} >
               {bathRoom ? <View style={styles.radioInner}></View> : null}
             </TouchableOpacity>
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10, display: "flex", flexDirection: "row", gap: 5, alignItems: "center"}}>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Kitchen</Text>
+          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="kitchen-set" style={{fontSize: 20}} /> Kitchen</Text>
           <TouchableOpacity style={styles.radioOuter} onPress={() => { kitchen == true ? setKitchen(false) : setKitchen(true); setError("") }} >
             {kitchen ? <View style={styles.radioInner}></View> : null}
           </TouchableOpacity>
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10, display: "flex", flexDirection: "row", gap: 5, alignItems: "center"}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Parking</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="car-side" style={{fontSize: 20}} /> Parking</Text>
             <TouchableOpacity style={styles.radioOuter} onPress={() => { parking == true ? setParking(false) : setParking(true); setError("") }} >
               {parking ? <View style={styles.radioInner}></View> : null}
             </TouchableOpacity>
@@ -214,7 +215,7 @@ const HostRoomScreen = ({ navigation }) => {
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Description (Optional)</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="scroll" style={{fontSize: 20}} /> Description (Optional)</Text>
             <TextInput style={styles.descriptionInput} placeholder={`e.g: "Rooftop terrace," "Elegant wooden floors," or "Modern kitchen." ${"\n"}${"\n"}Highlight unique features to make your space stand out.`} placeholderTextColor={"white"} multiline autoCorrect={false} onChangeText={(value) => { setdescription(value) }} />
           </View>
 
@@ -302,10 +303,10 @@ let styles = StyleSheet.create({
   },
   radioOuter: {
     borderColor: "white",
-    borderWidth: 2,
+    borderWidth: 3,
     borderRadius: 10,
-    height: 12,
-    width: 12,
+    height: 13,
+    width: 13,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

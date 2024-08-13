@@ -11,7 +11,7 @@ const SettingScreen = ({navigation}) => {
     },
     {
       id: 2,
-      title: "Referral Code",
+      title: "Referral",
       link: "Referral"
     },
     {

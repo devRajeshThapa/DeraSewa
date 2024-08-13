@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { IP_ADDRESS } from '@env'
+import { IP_ADDRESS, SERVER_PORT } from '@env'
 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
@@ -24,7 +24,7 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     let fetchData = async () => {
       let userID = await AsyncStorage.getItem('userID');
-      let response = await fetch(`${IP_ADDRESS}/get-user/${userID}`);
+      let response = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-user/${userID}`);
       let data = await response.json();
       setFirstName(data.firstName);
       setLastName(data.lastName);
@@ -39,7 +39,7 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     let getData = async () => {
       let hosterID = await AsyncStorage.getItem('userID')
-      let res = await fetch(`${IP_ADDRESS}/get-hoster-rooms/${hosterID}`, "GET");
+      let res = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-hoster-rooms/${hosterID}`, "GET");
       let data = await res.json();
       setData(data);
     }
@@ -61,9 +61,10 @@ const ProfileScreen = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: "flex", gap: 10 }}>
           <View style={styles.infoWrappper}>
-            <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center", position: "absolute", left: "88%", bottom: "85%" }}>
-              <FontAwesome6 name="coins" style={{ fontSize: 13, color: "white" }} />
-              <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 13 }}>{deraCoin}</Text>
+            <View style={{
+              display: "flex", flexDirection: "row", gap: 5, alignItems: "center", position: "absolute", left: "88%", bottom: "80%", borderWidth: 1, borderColor: "#FFCF40", padding: 2, borderRadius: 10 , paddingLeft: 5, paddingRight: 5 }}>
+              <FontAwesome6 name="coins" style={{ fontSize: 13, color: "#FFCF40" }} />
+              <Text style={{ color: "#FFCF40", fontFamily: "Poppins-SemiBold", fontSize: 13 }}>{deraCoin}</Text>
             </View>
             {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={{ uri: profilePicture }} /> : <Text style={{ color: "white" }}>Fetching profile picture...</Text>}
             <View>
@@ -109,7 +110,7 @@ const ProfileScreen = ({ navigation }) => {
                         </View>
                         <View></View>
                         <View></View>
-                        <TouchableOpacity style={{ backgroundColor: "#88ff00", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <TouchableOpacity style={{ backgroundColor: "white", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }}>
                           <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>EDIT ROOM</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ backgroundColor: "red", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { deleteRoom(item._id) }}>
@@ -122,9 +123,14 @@ const ProfileScreen = ({ navigation }) => {
               })}
             </View>
             :
-            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-              <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
-              <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", }}>Seems like you did not hosted any room!</Text>
+            <View>
+              <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 380 }}>
+                <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
+                <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                  <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
+                  <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>Seems like you did not hosted any room!</Text>
+                </View>
+              </View>
             </View>
           }
         </View>
@@ -174,7 +180,8 @@ let styles = StyleSheet.create({
   topDetailBox: {
     color: "#88ff00",
     fontFamily: "Poppins-Light",
-    borderWidth: 1, borderColor: "#88ff00",
+    borderWidth: 1,
+    borderColor: "#88ff00",
     alignSelf: "flex-start",
     paddingTop: 4,
     borderRadius: 10,

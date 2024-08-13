@@ -1,6 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import React, { useEffect, useState } from 'react';
-import { IP_ADDRESS } from '@env'
+import { IP_ADDRESS, SERVER_PORT } from '@env'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -17,7 +17,7 @@ const EditOff = () => {
 
         let fetchData = async () => {
             let userID = await AsyncStorage.getItem('userID');
-            let response = await fetch(`${IP_ADDRESS}/get-user/${userID}`);
+            let response = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-user/${userID}`);
             let data = await response.json();
             setFirstName(data.firstName);
             setLastName(data.lastName);
@@ -34,7 +34,7 @@ const EditOff = () => {
     return (
         <View style={styles.contentWrapper}>
             {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100, borderColor: "#202020", borderWidth: 1, alignSelf: "left" }} source={{ uri: profilePicture }} /> : <Text style={{ color: "white" }}>Loading profile picture...</Text>}
-            <View style={{display: "flex", gap: 20}}>
+            <View style={{display: "flex", gap: 10}}>
             <View style={styles.nameFeild}>
                 <View>
                     <Text style={styles.title}>Full Name</Text>
@@ -86,13 +86,6 @@ let styles = StyleSheet.create({
         alignItems: "center",
         padding: 10,
         backgroundColor: "#202020",
-        borderRadius: 10
-    },
-    button: {
-        backgroundColor: "white",
-        padding: 18,
-        display: "flex",
-        alignItems: "center",
         borderRadius: 10
     },
     title: {

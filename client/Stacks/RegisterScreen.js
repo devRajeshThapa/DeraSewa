@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { IP_ADDRESS } from '@env'
+import { IP_ADDRESS, SERVER_PORT } from '@env';
 
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -52,7 +52,7 @@ const RegisterScreen = ({ navigation }) => {
                 referralCode: referralCode,
                 referral: true
             }
-            await fetch(`${IP_ADDRESS}/register-user`, {
+            await fetch(`${IP_ADDRESS}:${SERVER_PORT}/register-user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ const RegisterScreen = ({ navigation }) => {
                 referralCode: referralCode,
                 referral: false
             }
-            await fetch(`${IP_ADDRESS}/register-user`, {
+            await fetch(`${IP_ADDRESS}:${SERVER_PORT}/register-user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -132,7 +132,7 @@ const RegisterScreen = ({ navigation }) => {
                 <View style={{display: "flex", gap: 10}}>
                     <View>
                         <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20 }}>Hi, Welcome to DeraSewa</Text>
-                        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Register your Account to continue</Text>
+                        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please register your account to continue</Text>
                     </View>
 
                     {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
@@ -173,7 +173,7 @@ const RegisterScreen = ({ navigation }) => {
                             </View>
                         </TouchableOpacity>
                         <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
-                            <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Already have Account? <Text style={{ fontStyle: "italic", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Login") }}>Login</Text></Text>
+                            <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Already have Account? <Text style={{ color: "#88ff00", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Login") }}>Login</Text></Text>
                         </View>
                     </View>
                 </View>

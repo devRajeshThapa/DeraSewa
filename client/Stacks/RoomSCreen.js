@@ -1,6 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { IP_ADDRESS } from '@env'
+import { IP_ADDRESS, SERVER_PORT } from '@env'
 import { Dimensions, Linking, Alert, Platform } from 'react-native';
 import { Marker } from 'react-native-maps';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
@@ -22,10 +22,10 @@ const RoomScreen = ({ navigation }) => {
   useEffect(() => {
     let getData = async () => {
       let roomID = await AsyncStorage.getItem('roomID')
-      let response = await fetch(`${IP_ADDRESS}/get-room/${roomID}`, "GET");
+      let response = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-room/${roomID}`, "GET");
       let data = await response.json();
       setData(data)
-      let userResponse = await fetch(`${IP_ADDRESS}/get-user/${data.userID}`);
+      let userResponse = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-user/${data.userID}`);
       let userData = await userResponse.json();
       setHosterNumber(userData.phoneNumber)
       setHosterFirstName(userData.firstName)
@@ -47,13 +47,13 @@ const RoomScreen = ({ navigation }) => {
     Linking.canOpenURL(phoneNumber)
       .then(supported => {
         //if (!supported) {
-          //Alert.alert('Phone number is not available');
+        //Alert.alert('Phone number is not available');
         //} else {
-          //return Linking.openURL(phoneNumber);
+        //return Linking.openURL(phoneNumber);
         //}
         return Linking.openURL(phoneNumber);
       })
-      //.catch(err => console.log(err));
+    //.catch(err => console.log(err));
   }
 
   return (
@@ -80,20 +80,25 @@ const RoomScreen = ({ navigation }) => {
               <View style={styles.roomDetailWrapper} >
                 {(data.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
                 {(data.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{fontSize: 15}} /> {data.address}</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 15 }} /> {data.address}</Text>
                 <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"RS" + " " + data.price}</Text>
                 <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-                  {(data.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{fontSize: 15}} /> Bathroom</Text> : null}
-                  {(data.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{fontSize: 15}} /> Kitchen</Text> : null}
-                  {(data.parking === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="car-side" style={{fontSize: 15}} /> Parking</Text> : null}
+                  {(data.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
+                  {(data.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
+                  {(data.parking === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="car-side" style={{ fontSize: 15 }} /> Parking</Text> : null}
                 </View>
               </View>
-              <View style={styles.roomdescriptionWrapper}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="scroll" style={{fontSize: 20}} /> Description</Text>
-                <Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{data.description}</Text>
-              </View>
+              {
+                (data.description !== "") ?
+                  < View style={styles.roomdescriptionWrapper}>
+                    <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="scroll" style={{ fontSize: 20 }} /> Description</Text>
+                    <Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{data.description}</Text>
+                  </View>
+                  :
+                  null
+              }
               <View style={{ padding: 15, backgroundColor: "#202020", borderRadius: 10 }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="map-location-dot" style={{fontSize: 20}} /> Location</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="map-location-dot" style={{ fontSize: 20 }} /> Location</Text>
                 <View style={styles.mapWrapper}>
                   <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -117,21 +122,21 @@ const RoomScreen = ({ navigation }) => {
                   </MapView>
                 </View>
               </View>
-              <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", backgroundColor: "#202020", padding: 15, borderRadius: 10}}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold" }}><FontAwesome6 name="building-user" style={{fontSize: 15}} /> Hosted By</Text>
+              <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", backgroundColor: "#202020", padding: 15, borderRadius: 10 }}>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold" }}><FontAwesome6 name="building-user" style={{ fontSize: 15 }} /> Hosted By</Text>
                 <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center" }}>
                   <Image style={{ height: 40, width: 40, borderRadius: 50 }} source={{ uri: hosterPicture }} />
                   <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>{hosterFirstName + " " + hosterLastName}</Text>
                 </View>
               </View>
-              <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", backgroundColor: "#202020", padding: 15, borderRadius: 10}}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold" }}><FontAwesome6 name="calendar-days" style={{fontSize: 15}} /> Property listed on</Text>
+              <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", backgroundColor: "#202020", padding: 15, borderRadius: 10 }}>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold" }}><FontAwesome6 name="calendar-days" style={{ fontSize: 15 }} /> Property listed on</Text>
                 <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>
                   {data.updatedAt.replaceAll("-", "/").split("T")[0]}
                 </Text>
               </View>
               <TouchableOpacity style={{ backgroundColor: "white", padding: 12, borderRadius: 10, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 10 }} onPress={() => { callHoster() }}>
-              <FontAwesome6 name="phone" style={{fontSize: 20, color: "black"}} />
+                <FontAwesome6 name="phone" style={{ fontSize: 20, color: "black" }} />
                 <Text style={{ color: "black", fontFamily: "Poppins-Bold" }}>CALL HOSTER</Text>
               </TouchableOpacity>
             </View>
@@ -140,7 +145,7 @@ const RoomScreen = ({ navigation }) => {
         :
         null
       }
-    </View>
+    </View >
   )
 }
 

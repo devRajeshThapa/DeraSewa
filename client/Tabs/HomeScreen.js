@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { IP_ADDRESS } from '@env'
+import { IP_ADDRESS, SERVER_PORT } from '@env'
 import { Dimensions } from 'react-native';
 
 import { faSliders } from '@fortawesome/free-solid-svg-icons/faSliders'
@@ -14,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     let getData = async () => {
-      let res = await fetch(`${IP_ADDRESS}/get-rooms`, "GET");
+      let res = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-rooms`, "GET");
       let data = await res.json();
       let filteredDataArray = await data.filter((item) => {
         return item.address.toUpperCase().includes(filterValue.toUpperCase());
@@ -75,9 +75,15 @@ const HomeScreen = ({ navigation }) => {
           })}
         </ScrollView>
         :
-        <View style={{ display: "flex", flexDirection: "row", gap: 10, width: "100%" }}>
-          <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white", alignSelf: "center" }} />
-          <Text style={{ color: "white", fontFamily: "Poppins-SemiBold"}}>Seems like rooms are not available at this moment!</Text>
+        <View>
+          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>⫸ AVAILABLE ROOMS</Text>
+          <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 480}}>
+            <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
+              <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>No rooms are available!</Text>
+            </View>
+          </View>
         </View>
       }
     </View>

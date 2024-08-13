@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { IP_ADDRESS } from '@env'
+import { IP_ADDRESS, SERVER_PORT } from '@env'
 
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +16,17 @@ const LoginScreen = ({ navigation }) => {
   let [password, setPassword] = useState("");
   let [error, setError] = useState("");
 
+  let userAuth = async()=>{
+    let userID = await AsyncStorage.getItem('userID');
+    let validUser = await AsyncStorage.getItem('validUser');
+
+    if(validUser && userID){
+      navigation.navigate("Tab");
+    }
+  }
+
+  userAuth()
+
   let uploadForm = async () => {
 
     let data = {
@@ -23,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
       password: password,
     }
 
-    await fetch(`${IP_ADDRESS}/login-user`, {
+    await fetch(`${IP_ADDRESS}:${SERVER_PORT}/login-user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -52,17 +63,6 @@ const LoginScreen = ({ navigation }) => {
       .catch(() => { console.log("Something went wrong") })
   }
 
-  let userAuth = async()=>{
-    let userID = await AsyncStorage.getItem('userID');
-    let validUser = await AsyncStorage.getItem('validUser');
-
-    if(validUser && userID){
-      navigation.navigate("Tab");
-    }
-  }
-
-  userAuth()
-
   return (
     <View style={styles.container}>
       <View style={styles.nav}>
@@ -70,7 +70,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
       <View>
         <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 20 }}>Hi, Welcome back to DeraSewa</Text>
-        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please Login your Account to continue</Text>
+        <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please login your account to continue</Text>
       </View>
 
       {error && <View style={styles.errorWrapper}><Text style={{color: "white", fontFamily: "Poppins-Regular", fontSize: 15}}>{error}</Text></View>}
@@ -85,7 +85,7 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
         <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
           <Text style={{ color: "red", fontFamily: "Poppins-Light" }}>Forgot Password?</Text>
-          <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Don't have Account? <Text style={{ fontStyle: "italic", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Register") }}>Register</Text></Text>
+          <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Don't have Account? <Text style={{ color: "#88ff00", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Register") }}>Register</Text></Text>
         </View>
       </View>
     </View>
