@@ -62,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
                     {(item.flat === true) ? <Text style={styles.topDetailBox}>Flat</Text> : null}
                     {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
                     <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 16 }} /> {item.address}</Text>
-                    <Text style={{ color: "white", fontFamily: "Poppins-Regular", fontSize: 15 }}>{"RS" + " " + item.price}</Text>
+                    <Text style={{ color: "white", fontFamily: "Poppins-Regular", fontSize: 15 }}>{"RS" + " " + item.price + "/Month"}</Text>
                     <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                       {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
                       {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}

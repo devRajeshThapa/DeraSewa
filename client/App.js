@@ -14,12 +14,12 @@ import DeleteRoom from './Stacks/DeleteRoom';
 import HostRoomScreen from './Stacks/HostRoomScreen';
 import RoomScreen from './Stacks/RoomScreen';
 
-import ReferralScreen from './Stacks/Setting/ReferralScreen';
 import AboutUsScreen from './Stacks/Setting/AboutUsScreen';
 import PrivacyPolicyScreen from './Stacks/Setting/PrivacyPolicyScreen';
 import TermConditionScreen from './Stacks/Setting/TermConditionScreen';
 import HelpSupportScreen from './Stacks/Setting/HelpSupportScreen';
 import FAQScreen from './Stacks/Setting/FAQScreen';
+import EditRoom from './Stacks/EditRoom';
 
 const Stack = createNativeStackNavigator();
 
@@ -68,8 +68,8 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Referral"
-          component={ReferralScreen}
+          name="EditRoom"
+          component={EditRoom}
           options={{headerShown: false}}
         />
         <Stack.Screen

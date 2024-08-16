@@ -90,30 +90,11 @@ let roomSchema = new mongoose.Schema({
     { timestamps: true }
 );
 
-let referralSchema = new mongoose.Schema({
-    referralCreaterUserID: {
-        type: String,
-        required: true
-    },
-    referralCode: {
-        type: String,
-        required: true
-    },
-    referralConsumers: {
-        type: Number,
-        required: false,
-        default: 0
-    },
-},
-{ timestamps: true }
-)
 
 let userModel = mongoose.model("User", userSchema);
 let roomModel = mongoose.model("Room", roomSchema);
-let referralModel = mongoose.model("Referral", referralSchema);
 
 module.exports = {
     userModel,
     roomModel,
-    referralModel
 };

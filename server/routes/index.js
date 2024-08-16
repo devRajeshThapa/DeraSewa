@@ -1,12 +1,11 @@
 let express = require("express");
-let { registerUser, loginUser, verifyUser, deleteUser ,hostRoom, getRooms,getRoom, getUser, getHosterRoom, deleteRoom, updateUserInfo, generateReferral, referralInfo } = require("../controllers/index");
+let { registerUser, loginUser, deleteUser ,hostRoom, getRooms,getRoom, getUser, getHosterRoom, deleteRoom, updateUserInfo, editRoom } = require("../controllers/index");
 
 let router = express.Router();
 
 router
 .post("/register-user", registerUser)
 .post("/login-user", loginUser)
-.post("/verify-user/:phoneNumber", verifyUser)
 .delete("/delete-user/:userID", deleteUser)
 .post("/host-room", hostRoom)
 .get("/get-rooms", getRooms)
@@ -15,7 +14,6 @@ router
 .get("/get-hoster-rooms/:hosterID", getHosterRoom)
 .delete("/delete-room/:roomID", deleteRoom)
 .patch("/update-user-info/:userID", updateUserInfo)
-.get("/generate-referral/:referralCreaterUserID", generateReferral)
-.get("/referral-info/:userID", referralInfo)
+.patch("/edit-room/:roomID", editRoom)
 
 module.exports = router;

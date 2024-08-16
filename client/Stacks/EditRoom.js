@@ -14,9 +14,9 @@ import { Marker } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProfileScreen from '../Tabs/ProfileScreen';
 
-const HostRoomScreen = ({ navigation }) => {
+const EditRoom = ({ navigation }) => {
 
-  let navTitle = "HOST ROOM"
+  let navTitle = "EDIT ROOM INFO"
 
 
   let [error, setError] = useState("")
@@ -32,22 +32,45 @@ const HostRoomScreen = ({ navigation }) => {
   let [kitchen, setKitchen] = useState(false);
   let [parking, setParking] = useState(false);
   let [price, setPrice] = useState("");
-  let [description, setdescription] = useState("");
+  let [description, setDescription] = useState("");
   let [roomPictures, setRoomPictures] = useState("");
 
   useEffect(()=>{
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 60000,
-    })
-      .then(location => {
-        setLocalLatitude(location.latitude)
-        setLocalLongitude(location.longitude)
-      })
-      .catch(error => {
-        const { code, message } = error;
-        //console.warn(code, message);
-      })
+
+    let getData = async () => {
+        let roomID = await AsyncStorage.getItem('roomID')
+        let response = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-room/${roomID}`, "GET");
+        let data = await response.json();
+        
+        setLocalLatitude(data.roomCoordinate[0])
+        setLocalLongitude(data.roomCoordinate[1])
+        setRoomCoordinate(data.roomCoordinate);
+        setAddress(data.address);
+        setFloorNumber(data.floorNumber);
+        setBedRoom(data.bedRoom);
+        setPrice(data.price)
+        setDescription(data.description);
+        setRoomPictures(data.roomPictures)
+
+        if(data.flat === true){
+            setFlat(true);
+        }else{
+            setApartment(true);
+        }
+
+        if(data.bathRoom){
+            setBathRoom(true);
+        }
+        if(data.kitchen){
+            setKitchen(true);
+        }
+        if(data.parking){
+            setParking(true);
+        }
+      }
+  
+      getData();
+
   }, [])
 
   let imagesURl = [];
@@ -70,9 +93,10 @@ const HostRoomScreen = ({ navigation }) => {
     });
   }
 
-  let hostRoom = async () => {
+  let EditRoom = async () => {
 
     let userID = await AsyncStorage.getItem('userID');
+    let roomID = await AsyncStorage.getItem('roomID');
 
     let data = {
       userID: userID,
@@ -92,8 +116,8 @@ const HostRoomScreen = ({ navigation }) => {
     }
 
 
-    await fetch(`${IP_ADDRESS}:${SERVER_PORT}/host-room`, {
-      method: 'POST',
+    await fetch(`${IP_ADDRESS}:${SERVER_PORT}/edit-room/${roomID}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -158,7 +182,7 @@ const HostRoomScreen = ({ navigation }) => {
           </View>
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
             <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="location-dot" style={{fontSize: 20}} /> Room address</Text>
-            <TextInput style={styles.input} placeholder='e.g: Maitidevi, Kathmandu' placeholderTextColor={"white"} onChangeText={(value) => { setAddress(value); setError("") }} />
+            <TextInput style={styles.input} placeholder='e.g: Maitidevi, Kathmandu' placeholderTextColor={"white"} value={address} onChangeText={(value) => { setAddress(value); setError("") }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
@@ -180,12 +204,12 @@ const HostRoomScreen = ({ navigation }) => {
           </View>
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
             <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Floor number</Text>
-            <TextInput style={styles.input} placeholder='e.g: 3' placeholderTextColor={"white"} onChangeText={(value) => { setFloorNumber(value); setError("") }} />
+            <TextInput style={styles.input} placeholder='e.g: 3' placeholderTextColor={"white"} value={`${floorNumber}`} onChangeText={(value) => { setFloorNumber(value); setError("") }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
             <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Number of bedroom</Text>
-            <TextInput style={styles.input} placeholder='e.g: 1' placeholderTextColor={"white"} onChangeText={(value) => { setBedRoom(value); setError("") }} />
+            <TextInput style={styles.input} placeholder='e.g: 1' placeholderTextColor={"white"} value={`${bedRoom}`} onChangeText={(value) => { setBedRoom(value); setError("") }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10, display: "flex", flexDirection: "row", gap: 5, alignItems: "center"}}>
@@ -210,13 +234,13 @@ const HostRoomScreen = ({ navigation }) => {
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Price (NEPALI RUPEES PER MONTH)</Text>
-            <TextInput style={styles.input} placeholder='e.g: 20000' placeholderTextColor={"white"} onChangeText={(value) => { setPrice(value); setError("") }} />
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>⫸ Price (NEPALI RUPEES PER MONTH )</Text>
+            <TextInput style={styles.input} placeholder='e.g: 20000' placeholderTextColor={"white"} value={price} onChangeText={(value) => { setPrice(value); setError("") }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
             <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}><FontAwesome6 name="scroll" style={{fontSize: 20}} /> Description (OPTIONAL)</Text>
-            <TextInput style={styles.descriptionInput} placeholder={`e.g: "Rooftop terrace," "Elegant wooden floors," or "Modern kitchen." ${"\n"}${"\n"}Highlight unique features to make your space stand out.`} placeholderTextColor={"white"} multiline autoCorrect={false} onChangeText={(value) => { setdescription(value) }} />
+            <TextInput style={styles.descriptionInput} placeholder={`e.g: "Rooftop terrace," "Elegant wooden floors," or "Modern kitchen." ${"\n"}${"\n"}Highlight unique features to make your space stand out.`} placeholderTextColor={"white"} multiline autoCorrect={false} value={description} onChangeText={(value) => { setDescription(value) }} />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
@@ -227,9 +251,9 @@ const HostRoomScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={() => { hostRoom() }}>
+          <TouchableOpacity onPress={() => { EditRoom() }}>
             <View style={styles.hostButton}>
-              <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>HOST ROOM</Text>
+              <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>SAVE CHANGES</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -238,7 +262,7 @@ const HostRoomScreen = ({ navigation }) => {
   )
 }
 
-export default HostRoomScreen;
+export default EditRoom;
 
 let styles = StyleSheet.create({
   container: {

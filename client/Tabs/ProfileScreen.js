@@ -6,13 +6,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { IP_ADDRESS, SERVER_PORT } from '@env'
 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import EditRoom from '../Stacks/EditRoom'
 
 const ProfileScreen = ({ navigation }) => {
 
   let deleteRoom = async (roomID) => {
     await AsyncStorage.removeItem('roomID')
     await AsyncStorage.setItem('roomID', roomID);
-    navigation.navigate("DeleteRoom")
+    navigation.navigate("DeleteRoom");
+  }
+
+  let EditRoom = async (roomID) => {
+    await AsyncStorage.removeItem('roomID')
+    await AsyncStorage.setItem('roomID', roomID);
+    navigation.navigate("EditRoom");
   }
 
   let [firstName, setFirstName] = useState("");
@@ -34,7 +41,7 @@ const ProfileScreen = ({ navigation }) => {
 
     fetchData();
 
-  }, [])
+  })
 
   useEffect(() => {
     let getData = async () => {
@@ -45,7 +52,7 @@ const ProfileScreen = ({ navigation }) => {
     }
 
     getData();
-  }, [])
+  })
 
   let roomClick = async (roomID) => {
     await AsyncStorage.removeItem('roomID')
@@ -61,11 +68,6 @@ const ProfileScreen = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: "flex", gap: 10 }}>
           <View style={styles.infoWrappper}>
-            <View style={{
-              display: "flex", flexDirection: "row", gap: 5, alignItems: "center", position: "absolute", left: "88%", bottom: "80%", borderWidth: 1, borderColor: "#FFCF40", padding: 2, borderRadius: 10 , paddingLeft: 5, paddingRight: 5 }}>
-              <FontAwesome6 name="coins" style={{ fontSize: 13, color: "#FFCF40" }} />
-              <Text style={{ color: "#FFCF40", fontFamily: "Poppins-SemiBold", fontSize: 13 }}>{deraCoin}</Text>
-            </View>
             {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={{ uri: profilePicture }} /> : <Text style={{ color: "white" }}>Fetching profile picture...</Text>}
             <View>
               {(firstName && lastName) ?
@@ -102,7 +104,7 @@ const ProfileScreen = ({ navigation }) => {
                         {(item.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
                         {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
                         <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 15 }} /> {item.address}</Text>
-                        <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"RS" + " " + item.price}</Text>
+                        <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"RS" + " " + item.price + "/Month"}</Text>
                         <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                           {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
                           {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
@@ -110,7 +112,7 @@ const ProfileScreen = ({ navigation }) => {
                         </View>
                         <View></View>
                         <View></View>
-                        <TouchableOpacity style={{ backgroundColor: "white", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <TouchableOpacity style={{ backgroundColor: "white", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { EditRoom(item._id) }}>
                           <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>EDIT ROOM</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ backgroundColor: "red", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { deleteRoom(item._id) }}>

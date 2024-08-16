@@ -11,36 +11,31 @@ const SettingScreen = ({navigation}) => {
     },
     {
       id: 2,
-      title: "Referral",
-      link: "Referral"
-    },
-    {
-      id: 3,
       title: "About Us",
       link: "AboutUs"
     },
     {
-      id: 4,
+      id: 3,
       title: "Privacy Policy",
       link: "PrivacyPolicy"
     },
     {
-      id: 5,
+      id: 4,
       title: "Terms and Conditions",
       link: "TermCondition"
     },
     {
-      id: 6,
+      id: 5,
       title: "Help and Support",
       link: "HelpSupport"
     },
     {
-      id: 7,
+      id: 6,
       title: "FAQ's",
       link: "FAQ"
     },
     {
-      id: 8,
+      id: 7,
       title: "Rate Us",
       link: ""
     }
