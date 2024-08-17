@@ -92,7 +92,7 @@ const ProfileScreen = ({ navigation }) => {
                         {
                           item.roomPictures.map((url) => {
                             return (
-                              <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} />
+                              <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} key={url} />
                             )
                           })
                         }

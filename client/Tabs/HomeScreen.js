@@ -24,25 +24,11 @@ const HomeScreen = ({ navigation }) => {
         return item.address.toUpperCase().includes(filterValue.toUpperCase());
       });
 
-      if(flat === true || apartment === true){
-        if(flat === true){
-          let filteredDataArray = await data.filter((item)=>{
-            return item.flat == true;
-          })
-          setFilteredData(filteredDataArray)
-        }else{
-          let filteredDataArray = await data.filter((item)=>{
-            return item.apartment == true;
-          })
-          setFilteredData(filteredDataArray)
-        }
-      }else{
-        setFilteredData(filteredDataArray);
-      }
+      setFilteredData(filteredDataArray)
     }
 
     getData();
-  }, [filteredData, setFilteredData])
+  }, [filteredData])
 
   let roomClick = async (roomID) => {
     await AsyncStorage.removeItem('roomID')
@@ -54,42 +40,8 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
 
-      {
-        filterBox ?
-          <View style={styles.filterBox}>
-            <View style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}>FILTER</Text>
-              <TouchableOpacity onPress={() => { setFilterBox(false) }}>
-                <FontAwesome6 name="xmark" style={{ fontSize: 18, color: "white" }} />
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ backgroundColor: "#222222", padding: 10, borderRadius: 10 }}>
-              <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
-                <View style={{ display: "flex", flexDirection: "row", gap: 5, justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                  <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15, }}>※ Flat</Text>
-                  <TouchableOpacity style={styles.radioOuter} onPress={() => { flat == true ? setFlat(false) : setFlat(true); setApartment(false); }} >
-                    {flat ? <View style={styles.radioInner}></View> : null}
-                  </TouchableOpacity>
-                </View>
-                <View style={{ display: "flex", flexDirection: "row", gap: 5, justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                  <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>※ Apartment</Text>
-                  <TouchableOpacity style={styles.radioOuter} onPress={() => { apartment == true ? setApartment(false) : setApartment(true); setFlat(false); }}>
-                    {apartment ? <View style={styles.radioInner}></View> : null}
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </View>
-          :
-          null
-      }
-
       <View style={styles.searchSection}>
-        <TextInput style={styles.input} placeholder='Enter room address' placeholderTextColor={"white"} onChangeText={(value) => { setFilterValue(value); }} />
-        <TouchableOpacity style={{ backgroundColor: "white", width: "15%", borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { setFilterBox(true) }}>
-          <FontAwesome6 name="sliders" style={{ fontSize: 22, color: "black" }} />
-        </TouchableOpacity>
+        <TextInput style={styles.input} placeholder='Search room via address' placeholderTextColor={"white"} onChangeText={(value) => { setFilterValue(value); }} />
       </View>
       {(filteredData.length > 0) ?
         <ScrollView>
@@ -102,7 +54,7 @@ const HomeScreen = ({ navigation }) => {
                     {
                       item.roomPictures.map((url) => {
                         return (
-                          <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} />
+                          <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} key={url} />
                         )
                       })
                     }
@@ -127,8 +79,8 @@ const HomeScreen = ({ navigation }) => {
         </ScrollView>
         :
         <View>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>⫸ AVAILABLE ROOMS</Text>
-          <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 480 }}>
+          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
+          <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 400 }}>
             <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
             <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
               <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
@@ -156,7 +108,7 @@ let styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "transparent",
-    width: "83%",
+    width: "100%",
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#303030",
@@ -169,7 +121,6 @@ let styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    justifyContent: "space-between"
   },
   roomWrapper: {
     backgroundColor: "#191919",

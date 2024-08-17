@@ -178,7 +178,7 @@ let deleteRoom = async (req, res) => {
     let { password, userID } = await req.body;
 
     if (password) {
-        let user = await userModel.findOne({ _id: `${userID}`, password: `${password}` });
+        let user = await userModel.findOne({ _id:`${userID}`, password:`${password}` });
         if (user) {
             let room = await roomModel.findByIdAndDelete(roomID);
             res.json({ success: "Room succesfully deleted!" })
@@ -349,7 +349,11 @@ let forgotPass = async (req, res) => {
         let user = await userModel.find({ email: `${email}` });
 
         if (user.length !== 0) {
-            res.json({ success: "Enter OTP to verify!" })
+            if(password.length >= 8){
+                res.json({ success: "Enter OTP to verify!" })
+            }else{
+                res.json({ error: "Password string can't be less than 8!" })
+            }
         } else {
             res.json({ error: "Email does not exist!" })
         }
