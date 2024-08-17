@@ -25,9 +25,9 @@ const RoomScreen = ({ navigation }) => {
       let response = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-room/${roomID}`, "GET");
       let data = await response.json();
       setData(data)
+      setHosterNumber(data.phoneNumber)
       let userResponse = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-user/${data.userID}`);
       let userData = await userResponse.json();
-      setHosterNumber(userData.phoneNumber)
       setHosterFirstName(userData.firstName)
       setHosterLastName(userData.lastName)
       setHosterPicture(userData.profilePicture)
@@ -81,7 +81,7 @@ const RoomScreen = ({ navigation }) => {
                 {(data.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
                 {(data.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
                 <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 15 }} /> {data.address}</Text>
-                <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"RS" + " " + data.price + "/Month"}</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"Rs." + " " + data.price + "/Month"}</Text>
                 <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                   {(data.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
                   {(data.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
@@ -125,7 +125,12 @@ const RoomScreen = ({ navigation }) => {
               <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", backgroundColor: "#202020", padding: 15, borderRadius: 10 }}>
                 <Text style={{ color: "white", fontFamily: "Poppins-Bold" }}><FontAwesome6 name="building-user" style={{ fontSize: 15 }} /> Hosted By</Text>
                 <View style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center" }}>
-                  <Image style={{ height: 40, width: 40, borderRadius: 50 }} source={{ uri: hosterPicture }} />
+                  {
+                    hosterPicture?
+                    <Image style={{ height: 40, width: 40, borderRadius: 50 }} source={{ uri: hosterPicture }} />
+                    :
+                    <Image style={{ width: 40, height: 40, borderRadius: 50 }} source={require("../assets/images/default_profile.jpg")} />
+                  }
                   <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>{hosterFirstName + " " + hosterLastName}</Text>
                 </View>
               </View>

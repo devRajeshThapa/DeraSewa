@@ -2,13 +2,9 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useState, useEffect } from 'react';
 import { IP_ADDRESS, SERVER_PORT } from '@env';
 
-import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
-import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
-import { faImage } from '@fortawesome/free-solid-svg-icons/faImage'
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const RegisterScreen = ({ navigation }) => {
 
@@ -19,32 +15,17 @@ const RegisterScreen = ({ navigation }) => {
     let [email, setEmail] = useState("");
     let [phoneNumber, setPhoneNumber] = useState("");
     let [password, setPassword] = useState("");
-    let [profilePicture, setProfilePicture] = useState("");
     let [error, setError] = useState("");
-
-    let openGallery = async () => {
-        await ImagePicker.openPicker({
-            width: 400,
-            height: 400,
-            cropping: true,
-            includeBase64: true,
-            mediaType: 'photo'
-        }).then(image => {
-
-            let data = `data:${image.mime};base64,${image.data}`;
-            setProfilePicture(data);
-        });
-    }
+    let [passHidden, setPassHidden] = useState(true)
 
     let uploadForm = async () => {
 
-        let data = {
+        let Data = {
             firstName: firstName,
             lastName: lastName,
             email: email,
             phoneNumber: phoneNumber,
             password: password,
-            profilePicture: profilePicture,
         }
 
         await fetch(`${IP_ADDRESS}:${SERVER_PORT}/register-user`, {
@@ -52,30 +33,19 @@ const RegisterScreen = ({ navigation }) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(Data)
         })
             .then(res => res.json())
             .then(async (data) => {
-                if (data.userID) {
-                    await AsyncStorage.removeItem('userID')
-                    await AsyncStorage.removeItem('validUser')
-                    await AsyncStorage.setItem('userID', data.userID);
-                    await AsyncStorage.setItem('validUser', "true");
-                    await AsyncStorage.setItem('phoneNumber', phoneNumber);
+                if (data.success) {
+                    await navigation.navigate("RegisterVerification", {
+                        Data
+                    });
                 } else {
                     setError("");
                     setError(data.error);
                 }
             })
-            .then(async () => {
-                let validUser = await AsyncStorage.getItem('validUser');
-
-                if (validUser === "true") {
-                    navigation.navigate("Tab")
-                }
-            })
-            .catch(() => { console.log("Something went wrong") })
-
     }
 
     return (
@@ -94,16 +64,29 @@ const RegisterScreen = ({ navigation }) => {
 
                     <View style={styles.contentWrapper}>
                         <View style={styles.nameInputFeild}>
-                            <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value) => { setFirstName(value); setError("") }} />
-                            <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value) => { setLastName(value); setError("") }} />
+                            <TextInput style={styles.nameInput} placeholder="First Name" placeholderTextColor="white" onChangeText={(value) => { setFirstName(value); setError("") }} autoCorrect={false} />
+                            <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value) => { setLastName(value); setError("") }} autoCorrect={false} />
                         </View>
-                        <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} />
+                        <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} autoCorrect={false} />
                         <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} />
-                        <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} />
-                        <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
-                            <FontAwesomeIcon icon={faImage} style={{ color: "white" }} />
-                            <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Add your profile picture</Text>
-                        </TouchableOpacity>
+                        <View style={{ position: "relative", display: "flex", justifyContent: "center" }}>
+                            {
+                                passHidden ?
+                                    <TouchableOpacity onPress={() => { setPassHidden(false) }} style={{ position: "absolute", alignSelf: "flex-end", paddingRight: 15, zIndex: 4 }} >
+                                        <FontAwesome6 name="eye-slash" style={{ fontSize: 15, color: "white" }} />
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity onPress={() => { setPassHidden(true) }} style={{ position: "absolute", alignSelf: "flex-end", paddingRight: 15, zIndex: 4 }} >
+                                        <FontAwesome6 name="eye" style={{ fontSize: 15, color: "white" }} />
+                                    </TouchableOpacity>
+                            }
+                            {
+                                passHidden ?
+                                    <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} autoCorrect={false} />
+                                    :
+                                    <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" onChangeText={(value) => { setPassword(value); setError("") }} autoCorrect={false} />
+                            }
+                        </View>
                         <TouchableOpacity onPress={() => { uploadForm() }}>
                             <View style={styles.registerButton}>
                                 <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>REGISTER</Text>

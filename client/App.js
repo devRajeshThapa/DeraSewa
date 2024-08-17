@@ -9,8 +9,8 @@ import RegisterScreen from './Stacks/RegisterScreen';
 import TabNavigator from './Tabs/TabNavigator'
 import { NativeScreen } from 'react-native-screens';
 import AccountInfoScreen from './Stacks/AccountInfoScreen';
-import DeleteAccount from './Stacks/DeleteAccount';
-import DeleteRoom from './Stacks/DeleteRoom';
+import DeleteAccount from './Stacks/Delete/DeleteAccount';
+import DeleteRoom from './Stacks/Delete/DeleteRoom';
 import HostRoomScreen from './Stacks/HostRoomScreen';
 import RoomScreen from './Stacks/RoomScreen';
 
@@ -19,7 +19,11 @@ import PrivacyPolicyScreen from './Stacks/Setting/PrivacyPolicyScreen';
 import TermConditionScreen from './Stacks/Setting/TermConditionScreen';
 import HelpSupportScreen from './Stacks/Setting/HelpSupportScreen';
 import FAQScreen from './Stacks/Setting/FAQScreen';
-import EditRoom from './Stacks/EditRoom';
+import EditRoom from './Stacks/Update/EditRoom';
+import RegisterVerification from './Stacks/Verification/RegisterVerification';
+import EditProfile from './Stacks/Update/EditProfile';
+import ForgotPass from './Stacks/Update/ForgotPass';
+import ForgotPassVerification from './Stacks/Verification/ForgotPassVerification'
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +39,16 @@ const App = () => {
         <Stack.Screen
           name="Register"
           component={RegisterScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RegisterVerification"
+          component={RegisterVerification}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ForgotPassVerification"
+          component={ForgotPassVerification}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -73,6 +87,11 @@ const App = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="EditProfile"
+          component={EditProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="AboutUs"
           component={AboutUsScreen}
           options={{headerShown: false}}
@@ -95,6 +114,11 @@ const App = () => {
         <Stack.Screen
           name="FAQ"
           component={FAQScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ForgotPass"
+          component={ForgotPass}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

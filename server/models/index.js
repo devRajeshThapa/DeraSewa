@@ -24,12 +24,7 @@ let userSchema = new mongoose.Schema({
     },
     profilePicture: {
         type: String,
-        required: true
-    },
-    deraCoin: {
-        type: Number,
-        required: false,
-        default: 0
+        required: false
     },
 },
     { timestamps: true }
@@ -84,17 +79,34 @@ let roomSchema = new mongoose.Schema({
     roomPictures: {
         type: Array,
         required: true
+    },
+    phoneNumber: {
+        type: String,
+        required: true
     }
 },
 
     { timestamps: true }
 );
 
+let verificationSchema = new mongoose.Schema({
+    email: {
+        required: true,
+        type: String
+    },
+    OTP: {
+        type: Number,
+        required: true
+    }
+})
+
 
 let userModel = mongoose.model("User", userSchema);
 let roomModel = mongoose.model("Room", roomSchema);
+let verificationModel = mongoose.model("Verify", verificationSchema)
 
 module.exports = {
     userModel,
     roomModel,
+    verificationModel
 };

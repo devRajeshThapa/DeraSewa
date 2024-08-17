@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { IP_ADDRESS, SERVER_PORT } from '@env'
 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import EditRoom from '../Stacks/EditRoom'
 
 const ProfileScreen = ({ navigation }) => {
 
@@ -68,7 +67,7 @@ const ProfileScreen = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: "flex", gap: 10 }}>
           <View style={styles.infoWrappper}>
-            {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={{ uri: profilePicture }} /> : <Text style={{ color: "white" }}>Fetching profile picture...</Text>}
+            {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={{ uri: profilePicture }} /> : <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={require("../assets/images/default_profile.jpg")} /> }
             <View>
               {(firstName && lastName) ?
                 <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}>{firstName + " " + lastName}</Text>
@@ -82,7 +81,7 @@ const ProfileScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.hostRoomButtonWrapper} onPress={() => { navigation.navigate("HostRoom") }}>
             <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>HOST ROOM</Text>
           </TouchableOpacity>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, }}>⫸ ROOMS THAT YOU HAVE HOSTED</Text>
+          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, }}>※ ROOMS THAT YOU HAVE HOSTED</Text>
           {(data.length != 0) ?
             <View>
               {data.map((item) => {
@@ -104,7 +103,7 @@ const ProfileScreen = ({ navigation }) => {
                         {(item.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
                         {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
                         <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 15 }} /> {item.address}</Text>
-                        <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"RS" + " " + item.price + "/Month"}</Text>
+                        <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"Rs." + " " + item.price + "/Month"}</Text>
                         <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                           {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
                           {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
@@ -158,7 +157,7 @@ let styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#191919",
-    gap: 20,
+    justifyContent: "space-around",
     padding: 10,
     borderRadius: 10,
     position: "relative"

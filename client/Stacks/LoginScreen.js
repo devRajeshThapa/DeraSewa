@@ -5,22 +5,22 @@ import { IP_ADDRESS, SERVER_PORT } from '@env'
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const LoginScreen = ({ navigation }) => {
 
   let navTitle = "LOGIN";
 
-  let [phoneNumber, setPhoneNumber] = useState("");
+  let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [error, setError] = useState("");
+  let [passHidden, setPassHidden] = useState(true)
 
-  let userAuth = async()=>{
+  let userAuth = async () => {
     let userID = await AsyncStorage.getItem('userID');
     let validUser = await AsyncStorage.getItem('validUser');
 
-    if(validUser && userID){
+    if (validUser && userID) {
       navigation.navigate("Tab");
     }
   }
@@ -30,7 +30,7 @@ const LoginScreen = ({ navigation }) => {
   let uploadForm = async () => {
 
     let data = {
-      phoneNumber: phoneNumber,
+      email: email,
       password: password,
     }
 
@@ -48,7 +48,7 @@ const LoginScreen = ({ navigation }) => {
           await AsyncStorage.removeItem('validUser')
           await AsyncStorage.setItem('userID', data.userID);
           await AsyncStorage.setItem('validUser', "true");
-        }else{
+        } else {
           setError("");
           setError(data.error);
         }
@@ -73,18 +73,35 @@ const LoginScreen = ({ navigation }) => {
         <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please login your account to continue</Text>
       </View>
 
-      {error && <View style={styles.errorWrapper}><Text style={{color: "white", fontFamily: "Poppins-Regular", fontSize: 15}}>{error}</Text></View>}
+      {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Regular", fontSize: 15 }}>{error}</Text></View>}
 
       <View style={styles.contentWrapper}>
-        <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} />
-        <TextInput style={styles.input} placeholder='Password' placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} />
+        <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} autoCorrect={false} />
+        <View style={{ position: "relative", display: "flex", justifyContent: "center" }}>
+          {
+            passHidden ?
+              <TouchableOpacity onPress={() => { setPassHidden(false) }} style={{ position: "absolute", alignSelf: "flex-end", paddingRight: 15, zIndex: 4 }} >
+                <FontAwesome6 name="eye-slash" style={{ fontSize: 15, color: "white" }} />
+              </TouchableOpacity>
+              :
+              <TouchableOpacity onPress={() => { setPassHidden(true) }} style={{ position: "absolute", alignSelf: "flex-end", paddingRight: 15, zIndex: 4 }} >
+                <FontAwesome6 name="eye" style={{ fontSize: 15, color: "white" }} />
+              </TouchableOpacity>
+          }
+          {
+            passHidden ?
+              <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} autoCorrect={false} />
+              :
+              <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" onChangeText={(value) => { setPassword(value); setError("") }} autoCorrect={false} />
+          }
+        </View>
         <TouchableOpacity onPress={() => { uploadForm() }}>
           <View style={styles.loginButton}>
             <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>LOGIN</Text>
           </View>
         </TouchableOpacity>
         <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <Text style={{ color: "red", fontFamily: "Poppins-Light" }}>Forgot Password?</Text>
+          <Text style={{ color: "red", fontFamily: "Poppins-Light" }} onPress={()=>{navigation.navigate("ForgotPass")}}>Forgot Password?</Text>
           <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Don't have Account? <Text style={{ color: "#88ff00", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Register") }}>Register</Text></Text>
         </View>
       </View>
@@ -117,7 +134,7 @@ let styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "red",
     padding: 10,
-    height: 50,
+    maxHeight: 65,
     display: "flex",
     justifyContent: "center",
     borderRadius: 10

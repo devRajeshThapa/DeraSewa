@@ -15,9 +15,6 @@ const TabNavigator = ({ navigation }) => {
 
   let logout = async () => {
 
-    let userID = await AsyncStorage.getItem('userID');
-    let validUser = await AsyncStorage.getItem('validUser');
-
     await AsyncStorage.removeItem('userID');
     await AsyncStorage.removeItem('validUser');
 
@@ -77,7 +74,7 @@ const TabNavigator = ({ navigation }) => {
         },
         headerRight: () => (
           <TouchableOpacity
-            onPress={logout}
+            onPress={()=>{logout()}}
             style={styles.logoutButton}
           >
             <Text style={{ color: "black", fontFamily: "Poppins-Bold" }}>LOGOUT</Text>
