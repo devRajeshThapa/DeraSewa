@@ -43,6 +43,7 @@ router
   .version{
     font-family: "Poppins", sans-serif;
     font-size: 15px;
+    color: white;
   }
 
   span{
