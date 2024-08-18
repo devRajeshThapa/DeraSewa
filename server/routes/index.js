@@ -6,7 +6,8 @@ let router = express.Router();
 router
     .get("/", (req, res) => {
         let html = `
-
+        <title>DeraSewa - Official</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -15,18 +16,21 @@ router
     padding: 0px;
     box-sizing: border-box;
   }
-  .wrapper{
-    padding: 20px;
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(200deg, #DCFC35, black 75%);
+  body{
+    overflow: hidden;
   }
-  .link {
+  .wrapper{
+    padding: 10px;
     height: 100%;
     width: 100%;
+    background: linear-gradient(400deg, #198450,black 50%);
+  }
+
+  .logoWrapper{
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
+    aligh-items: flex-end;
+    gap: 5px
   }
 
   .logo {
@@ -36,8 +40,22 @@ router
     color: white;
   }
 
+  .version{
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+  }
+
   span{
-    color: #DCFC35;
+    color: #84eab3;
+  }
+
+  .link {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
 
   a {
@@ -46,15 +64,24 @@ router
     color: black;
     text-decoration: none;
     padding: 10px;
-    background-color: #DCFC35;
+    background-color: #84eab3;
     border-radius: 15px;
   }
 </style>
 <div class="wrapper">
-  <p class="logo">Dera<span>Sewa</span></p>
+  <div class="logoWrapper">
+    <p class="logo">Dera<span>Sewa</span></p>
+    <p class="version">V1.0.0</p>
+  </div>
   <div class="link">
     <a href="https://drive.google.com/file/d/1P64d9eTs9X8Modoensq2gVTLCUsfvtSO/view?usp=sharing"
       download="DeraSewa">Download DeraSewa APK <i class="fa-solid fa-cloud-arrow-down"></i></a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
   </div>
 </div>
     
