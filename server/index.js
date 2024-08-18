@@ -6,9 +6,9 @@ let bodyParser = require("body-parser")
 
 
 let PORT = process.env.PORT;
-let MONGODB_URI = process.env.MONGODB_URI;
+let ATLAS_CONNECTION_STRING = process.env.ATLAS_CONNECTION_STRING;
 
-Mongoose(MONGODB_URI);
+Mongoose(ATLAS_CONNECTION_STRING);
 
 let app = express();
 
