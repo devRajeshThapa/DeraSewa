@@ -58,7 +58,7 @@ router
     flex-direction: column;
   }
 
-  a {
+  .download{
     font-family: "Poppins", sans-serif;
     font-weight: bold;
     color: black;
@@ -67,6 +67,15 @@ router
     background-color: #84eab3;
     border-radius: 15px;
   }
+
+  .copyright{
+   color: white;
+   font-family: "Poppins", sans-serif;
+  }
+
+  a{
+  color: white;
+  }
 </style>
 <div class="wrapper">
   <div class="logoWrapper">
@@ -74,9 +83,10 @@ router
     <p class="version">V1.0.0</p>
   </div>
   <div class="link">
-    <a href="https://drive.google.com/file/d/1P64d9eTs9X8Modoensq2gVTLCUsfvtSO/view?usp=sharing"
+    <a class="download" href="https://drive.google.com/file/d/1P64d9eTs9X8Modoensq2gVTLCUsfvtSO/view?usp=sharing"
       download="DeraSewa">Download DeraSewa APK <i class="fa-solid fa-cloud-arrow-down"></i></a>
     <br>
+    <p class="copyright">&#169 <a href="https://rajeshthapa69.com.np/">Rajesh Thapa</a></p>
     <br>
     <br>
     <br>
