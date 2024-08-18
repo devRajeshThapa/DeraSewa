@@ -98,7 +98,7 @@ const HostRoomScreen = ({ navigation }) => {
     }
 
 
-    await fetch(`${IP_ADDRESS}:${SERVER_PORT}/host-room`, {
+    await fetch(`https://derasewa.onrender.com/host-room`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

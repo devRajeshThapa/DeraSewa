@@ -38,7 +38,7 @@ const EditRoom = ({ navigation }) => {
 
     let getData = async () => {
         let roomID = await AsyncStorage.getItem('roomID')
-        let response = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-room/${roomID}`, "GET");
+        let response = await fetch(`https://derasewa.onrender.com/get-room/${roomID}`, "GET");
         let data = await response.json();
         
         setLocalLatitude(data.roomCoordinate[0])
@@ -116,7 +116,7 @@ const EditRoom = ({ navigation }) => {
     }
 
 
-    await fetch(`${IP_ADDRESS}:${SERVER_PORT}/edit-room/${roomID}`, {
+    await fetch(`https://derasewa.onrender.com/edit-room/${roomID}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'

@@ -25,7 +25,7 @@ const EditProfile = ({ navigation }) => {
 
         let fetchData = async () => {
             let userID = await AsyncStorage.getItem('userID');
-            let response = await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-user/${userID}`);
+            let response = await fetch(`https://derasewa.onrender.com/get-user/${userID}`);
             let data = await response.json();
             setFirstName(data.firstName);
             setLastName(data.lastName);
@@ -65,7 +65,7 @@ const EditProfile = ({ navigation }) => {
 
         let userID = await AsyncStorage.getItem('userID');
 
-        await fetch(`${IP_ADDRESS}:${SERVER_PORT}/update-user-info/${userID}`, {
+        await fetch(`https://derasewa.onrender.com/update-user-info/${userID}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'

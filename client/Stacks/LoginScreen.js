@@ -34,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
       password: password,
     }
 
-    await fetch(`${IP_ADDRESS}:${SERVER_PORT}/login-user`, {
+    await fetch(`https://derasewa.onrender.com/login-user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -14,14 +14,14 @@ const RegisterVarification = ({ route, navigation }) => {
 
   useEffect(() => {
     let genOTP = async () => {
-      await fetch(`${IP_ADDRESS}:${SERVER_PORT}/gen-otp/${Data["email"]}`)
+      await fetch(`https://derasewa.onrender.com/gen-otp/${Data["email"]}`)
     }
 
     genOTP()
   }, []);
 
   let createUser = async () => {
-    await fetch(`${IP_ADDRESS}:${SERVER_PORT}/get-otp/${Data["email"]}`)
+    await fetch(`https://derasewa.onrender.com/get-otp/${Data["email"]}`)
       .then((res) => {
         return res.json();
       })
@@ -43,7 +43,7 @@ const RegisterVarification = ({ route, navigation }) => {
                 profilePicture: Data["profilePicture"],
               }
 
-              await fetch(`${IP_ADDRESS}:${SERVER_PORT}/create-user`, {
+              await fetch(`https://derasewa.onrender.com/create-user`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

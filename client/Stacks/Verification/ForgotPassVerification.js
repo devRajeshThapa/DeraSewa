@@ -15,7 +15,7 @@ const ForgotPassVerification = ({ route, navigation }) => {
 
   useEffect(() => {
     let genOTP = async () => {
-      await fetch(`${IP_ADDRESS}:${SERVER_PORT}/gen-otp-forgot-pass/${email}`)
+      await fetch(`https://derasewa.onrender.com/gen-otp-forgot-pass/${email}`)
     }
 
     genOTP()
@@ -28,7 +28,7 @@ const ForgotPassVerification = ({ route, navigation }) => {
       OTP: OTP
   }
 
-  await fetch(`${IP_ADDRESS}:${SERVER_PORT}/change-pass/${email}`, {
+  await fetch(`https://derasewa.onrender.com/change-pass/${email}`, {
       method: 'PATCH',
       headers: {
           'Content-Type': 'application/json'

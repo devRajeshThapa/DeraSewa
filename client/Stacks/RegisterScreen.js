@@ -28,7 +28,7 @@ const RegisterScreen = ({ navigation }) => {
             password: password,
         }
 
-        await fetch(`${IP_ADDRESS}:${SERVER_PORT}/register-user`, {
+        await fetch(`https://derasewa.onrender.com/register-user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

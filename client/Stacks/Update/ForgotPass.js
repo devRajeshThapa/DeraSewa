@@ -20,7 +20,7 @@ const ForgotPass = ({ navigation }) => {
             password: password,
         }
 
-        await fetch(`${IP_ADDRESS}:${SERVER_PORT}/forgot-pass/${email}`, {
+        await fetch(`https://derasewa.onrender.com/forgot-pass/${email}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'

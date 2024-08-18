@@ -21,7 +21,7 @@ const DeleteAccount = ({ navigation }) => {
             password: password
         }
 
-        await fetch(`${IP_ADDRESS}:${SERVER_PORT}/delete-user/${userID}`, {
+        await fetch(`https://derasewa.onrender.com/delete-user/${userID}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
