@@ -6,6 +6,7 @@ import { Dimensions } from 'react-native';
 import { faSliders } from '@fortawesome/free-solid-svg-icons/faSliders'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native'
 
 const HomeScreen = ({ navigation }) => {
 
@@ -14,6 +15,7 @@ const HomeScreen = ({ navigation }) => {
   let [flat, setFlat] = useState(false);
   let [apartment, setApartment] = useState(false)
   let [filterBox, setFilterBox] = useState(false)
+  let [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let getData = async () => {
@@ -23,8 +25,8 @@ const HomeScreen = ({ navigation }) => {
       let filteredDataArray = await data.filter((item) => {
         return item.address.toUpperCase().includes(filterValue.toUpperCase());
       });
-
       setFilteredData(filteredDataArray)
+      setLoading(false)
     }
 
     getData();
@@ -39,55 +41,106 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-
       <View style={styles.searchSection}>
         <TextInput style={styles.input} placeholder='Search room via address' placeholderTextColor={"white"} onChangeText={(value) => { setFilterValue(value); }} />
       </View>
-      {(filteredData.length > 0) ?
-        <ScrollView>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
-          {filteredData.map((item) => {
-            return (
-              <View style={styles.roomWrapper} key={item._id}>
-                <View style={{ overflow: "hidden", borderRadius: 10 }}>
-                  <ScrollView horizontal={true} style={{ display: "flex", gap: 10 }}>
-                    {
-                      item.roomPictures.map((url) => {
-                        return (
-                          <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} key={url} />
-                        )
-                      })
-                    }
-                  </ScrollView>
-                </View>
-                <TouchableOpacity onPress={() => { roomClick(item._id); }}>
-                  <View style={{ display: "flex", gap: 5 }} >
-                    {(item.flat === true) ? <Text style={styles.topDetailBox}>Flat</Text> : null}
-                    {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
-                    <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 16 }} /> {item.address}</Text>
-                    <Text style={{ color: "white", fontFamily: "Poppins-Regular", fontSize: 15 }}>{"Rs." + " " + item.price + "/Month"}</Text>
-                    <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-                      {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
-                      {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
-                      {(item.parking === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="car-side" style={{ fontSize: 15 }} /> Parking</Text> : null}
+      {
+        !loading ?
+          <View>
+            {(filteredData.length > 0) ?
+              <ScrollView>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
+                {filteredData.map((item) => {
+                  return (
+                    <View style={styles.roomWrapper} key={item._id}>
+                      <View style={{ overflow: "hidden", borderRadius: 10 }}>
+                        <ScrollView horizontal={true} style={{ display: "flex", gap: 10 }}>
+                          {
+                            item.roomPictures.map((url) => {
+                              return (
+                                <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} key={url} />
+                              )
+                            })
+                          }
+                        </ScrollView>
+                      </View>
+                      <TouchableOpacity onPress={() => { roomClick(item._id); }}>
+                        <View style={{ display: "flex", gap: 5 }} >
+                          {(item.flat === true) ? <Text style={styles.topDetailBox}>Flat</Text> : null}
+                          {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
+                          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 16 }} /> {item.address}</Text>
+                          <Text style={{ color: "white", fontFamily: "Poppins-Regular", fontSize: 15 }}>{"Rs." + " " + item.price + "/Month"}</Text>
+                          <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+                            {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
+                            {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
+                            {(item.parking === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="car-side" style={{ fontSize: 15 }} /> Parking</Text> : null}
+                          </View>
+                        </View>
+                      </TouchableOpacity>
                     </View>
+                  )
+                })}
+              </ScrollView>
+              :
+              <View>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
+                <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 400 }}>
+                  <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
+                  <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                    <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
+                    <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>No rooms are available!</Text>
                   </View>
-                </TouchableOpacity>
+                </View>
               </View>
-            )
-          })}
-        </ScrollView>
-        :
-        <View>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
-          <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 400 }}>
-            <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
-            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-              <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
-              <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>No rooms are available!</Text>
-            </View>
+            }
           </View>
-        </View>
+          :
+          <ScrollView>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
+            <View style={styles.roomWrapper}>
+              <View style={{ overflow: "hidden", borderRadius: 10 }}>
+                <ContentLoader viewBox="0 0" width={"100%"} height={"200"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="100%" height="200" />
+                </ContentLoader>
+              </View>
+              <View style={{ display: "flex", gap: 5 }} >
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="50" height="20" />
+                </ContentLoader>
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="130" height="20" />
+                </ContentLoader>
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="100" height="20" />
+                </ContentLoader>
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                <Rect x="0" y="0" rx="5" ry="5" width="60" height="20" />
+                </ContentLoader>
+              </View>
+            </View>
+
+            <View style={styles.roomWrapper}>
+              <View style={{ overflow: "hidden", borderRadius: 10 }}>
+                <ContentLoader viewBox="0 0" width={"100%"} height={"200"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="100%" height="200" />
+                </ContentLoader>
+              </View>
+              <View style={{ display: "flex", gap: 5 }} >
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="50" height="20" />
+                </ContentLoader>
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="130" height="20" />
+                </ContentLoader>
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="100" height="20" />
+                </ContentLoader>
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                <Rect x="0" y="0" rx="5" ry="5" width="60" height="20" />
+                </ContentLoader>
+              </View>
+            </View>
+          </ScrollView>
       }
     </View>
   )

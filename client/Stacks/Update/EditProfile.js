@@ -178,7 +178,7 @@ let styles = StyleSheet.create({
     },
     successWrapper: {
         width: "100%",
-        backgroundColor: "#88ff00",
+        backgroundColor: "#198450",
         padding: 10,
         maxHeight: 65,
         display: "flex",

@@ -47,7 +47,7 @@ const DeleteAccount = ({ navigation }) => {
             <View style={styles.nav}>
                 <Text style={styles.navTitle}>{navTitle}</Text>
             </View>
-            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>※ Please enter your password to delete your account</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>※ Please enter your password to delete account</Text>
             {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
             <View style={{ position: "relative", display: "flex", justifyContent: "center" }}>
                 {

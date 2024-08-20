@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native'
+
 const AccountInfoScreen = ({ navigation }) => {
 
   let navTitle = "ACCOUNT INFO";
@@ -35,7 +37,7 @@ const AccountInfoScreen = ({ navigation }) => {
 
       let passLen = data.password.length;
       let star = "*";
-      pass = star.padStart(passLen,"*");
+      pass = star.padStart(passLen, "*");
       setHiddenPass(pass)
     }
 
@@ -51,18 +53,37 @@ const AccountInfoScreen = ({ navigation }) => {
         {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100, borderColor: "#202020", borderWidth: 1, alignSelf: "left" }} source={{ uri: profilePicture }} /> : <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={require("../assets/images/default_profile.jpg")} />}
         <View style={{ display: "flex", gap: 10, marginTop: 20 }}>
           <View style={styles.nameFeild}>
-            <View>
-              <Text style={styles.title}>Full Name</Text>
-              <Text style={styles.value}>{firstName + " " + lastName}</Text>
-            </View>
+            <Text style={styles.title}>Full Name</Text>
+            {
+              firstName && lastName ?
+                <Text style={styles.value}>{firstName + " " + lastName}</Text>
+                :
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="150" height="20" />
+                </ContentLoader>
+            }
           </View>
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
             <Text style={styles.title}>Email</Text>
-            <Text style={styles.value}>{email}</Text>
+            {
+              email ?
+                <Text style={styles.value}>{email}</Text>
+                :
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="150" height="20" />
+                </ContentLoader>
+            }
           </View>
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
             <Text style={styles.title}>Phone Number</Text>
-            <Text style={styles.value}>{phoneNumber}</Text>
+            {
+              phoneNumber ?
+                <Text style={styles.value}>{phoneNumber}</Text>
+                :
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="150" height="20" />
+                </ContentLoader>
+            }
           </View>
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10, position: "relative", display: "flex", justifyContent: "flex-end" }}>
             {
@@ -77,10 +98,19 @@ const AccountInfoScreen = ({ navigation }) => {
             }
             <Text style={styles.title}>Password</Text>
             {
-              passHidden?
-              <Text style={styles.value}>{hiddenPass}</Text>
-              :
-              <Text style={styles.value}>{password}</Text>
+              password ?
+                <View>
+                  {
+                    passHidden ?
+                      <Text style={styles.value}>{hiddenPass}</Text>
+                      :
+                      <Text style={styles.value}>{password}</Text>
+                  }
+                </View>
+                :
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="150" height="20" />
+                </ContentLoader>
             }
           </View>
         </View>
@@ -153,11 +183,10 @@ let styles = StyleSheet.create({
   },
   nameFeild: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
-    gap: 10,
     width: "100%",
-    alignItems: "center",
+    alignItems: "left",
     padding: 10,
     backgroundColor: "#202020",
     borderRadius: 10

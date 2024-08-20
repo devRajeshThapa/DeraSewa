@@ -137,7 +137,8 @@ let styles = StyleSheet.create({
     maxHeight: 65,
     display: "flex",
     justifyContent: "center",
-    borderRadius: 10
+    borderRadius: 10,
+    marginBottom: 5
   },
   contentWrapper: {
     display: "flex",

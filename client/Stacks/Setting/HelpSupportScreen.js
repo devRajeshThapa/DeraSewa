@@ -1,9 +1,29 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
+import { Linking, Platform } from 'react-native';
 
 const HelpSupportScreen = ({ navigation }) => {
 
     let navTitle = "HELP AND SUPPORT"
+
+    let call = () => {
+        if (Platform.OS !== 'android') {
+          phoneNumber = `telprompt:${9767664483}`;
+        }
+        else {
+          phoneNumber = `tel:${9767664483}`;
+        }
+        Linking.canOpenURL(phoneNumber)
+          .then(supported => {
+            //if (!supported) {
+            //Alert.alert('Phone number is not available');
+            //} else {
+            //return Linking.openURL(phoneNumber);
+            //}
+            return Linking.openURL(phoneNumber);
+          })
+        //.catch(err => console.log(err));
+      }
 
     return (
         <View style={styles.container}>
@@ -22,10 +42,10 @@ const HelpSupportScreen = ({ navigation }) => {
                     <View>
                         <View style={{display: "flex"}}>
                             <Text style={styles.topic}>Contact Support:</Text>
-                            <Text style={styles.paragraph}>⫸ Email: derasewa.official@gmail.com</Text>
-                            <Text style={styles.paragraph}>⫸ Phone: 9767664483</Text>
-                            <Text style={styles.paragraph}>⫸ Facebook: DeraSewa</Text>
-                            <Text style={styles.paragraph}>⫸ Official Website:derasewa.com</Text>
+                            <Text style={styles.paragraph}>⫸ Email: <Text style={{color: "#88ff00", textDecorationLine: "underline"}} onPress={()=>{ Linking.openURL("mailto:derasewa.official@gmail.com") }}>derasewa.official@gmail.com</Text></Text>
+                            <Text style={styles.paragraph}>⫸ Phone: <Text style={{color: "#88ff00", textDecorationLine: "underline"}} onPress={call}>9767664483</Text></Text>
+                            <Text style={styles.paragraph}>⫸ Facebook: <Text style={{color: "#88ff00", textDecorationLine: "underline"}} onPress={()=>{ Linking.openURL("https://www.facebook.com/profile.php?id=61562749183107") }}>DeraSewa</Text></Text>
+                            <Text style={styles.paragraph}>⫸ Official Website: <Text style={{color: "#88ff00", textDecorationLine: "underline"}} onPress={()=>{ Linking.openURL("https://derasewa.onrender.com/") }}>derasewa.com</Text></Text>
                         </View>
                     </View>
 

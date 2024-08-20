@@ -7,10 +7,21 @@ const RegisterVarification = ({ route, navigation }) => {
 
   let [error, setError] = useState();
   let [OTP, setOTP] = useState();
+  let [resend, setResend] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setResend(true);
+    }, 15000)
+  }, [resend])
 
   let navTitle = "VERIFICATION";
 
   let { Data } = route.params;
+
+  let genOTP = async () => {
+    await fetch(`https://derasewa.onrender.com/gen-otp/${Data["email"]}`)
+  }
 
   useEffect(() => {
     let genOTP = async () => {
@@ -93,6 +104,14 @@ const RegisterVarification = ({ route, navigation }) => {
           <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>VERIFY</Text>
         </View>
       </TouchableOpacity>
+      <Text style={{ color: "white", fontFamily: "Poppins-Light", alignSelf: "center", marginTop: 5 }}>Didn't got OTP?
+        {
+          resend ?
+            <Text style={{ color: "#88ff00", alignSelf: "center" }} onPress={() => { genOTP(); setResend(false); }}> Resend</Text>
+            :
+            <Text style={{ color: "gray", alignSelf: "center" }}> Resend</Text>
+        }
+      </Text>
     </View>
   )
 }

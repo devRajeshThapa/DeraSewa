@@ -8,10 +8,21 @@ const ForgotPassVerification = ({ route, navigation }) => {
   let [error, setError] = useState();
   let [OTP, setOTP] = useState();
   let [success, setSuccess] = useState(false)
+  let [resend, setResend] = useState(false)
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setResend(true);
+    }, 15000)
+  }, [resend])
 
   let navTitle = "VERIFICATION";
 
   let { email, password } = route.params;
+
+  let genOTP = async () => {
+    await fetch(`https://derasewa.onrender.com/gen-otp-forgot-pass/${email}`)
+  }
 
   useEffect(() => {
     let genOTP = async () => {
@@ -44,7 +55,7 @@ const ForgotPassVerification = ({ route, navigation }) => {
             setError(data.success)
             setTimeout(()=>{
               navigation.navigate("Login")
-            }, 3000)
+            }, 2000)
           } else {
               setError("");
               setError(data.error)
@@ -66,6 +77,14 @@ const ForgotPassVerification = ({ route, navigation }) => {
           <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>VERIFY</Text>
         </View>
       </TouchableOpacity>
+      <Text style={{ color: "white", fontFamily: "Poppins-Light", alignSelf: "center", marginTop: 5 }}>Didn't got OTP? 
+        {
+          resend?
+            <Text style={{ color: "#88ff00", alignSelf: "center" }} onPress={() => { genOTP(); setResend(false);}}> Resend</Text>
+          :
+          <Text style={{ color: "gray", alignSelf: "center" }}> Resend</Text>
+        }
+      </Text>
     </View>
   )
 }
@@ -108,7 +127,7 @@ let styles = StyleSheet.create({
   },
   successWrapper: {
     width: "100%",
-    backgroundColor: "#88ff00",
+    backgroundColor: "#198450",
     padding: 10,
     maxHeight: 65,
     display: "flex",

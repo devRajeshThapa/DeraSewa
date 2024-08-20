@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 
+import { Linking, Platform } from 'react-native';
+
 const TermConditionScreen = ({ navigation }) => {
 
     let navTitle = "TERMS AND CONDITIONS"
@@ -88,7 +90,7 @@ const TermConditionScreen = ({ navigation }) => {
                     <View>
                         <View style={{display: "flex"}}>
                             <Text style={styles.topic}>Contact Us</Text>
-                            <Text style={styles.paragraph}>⫸ For any questions or concerns regarding these Terms and Conditions, please contact us at derasewa.official@gmail.com.</Text>
+                            <Text style={styles.paragraph}>⫸ For any questions or concerns regarding these Terms and Conditions, please contact us at <Text style={{color: "#88ff00", textDecorationLine: "underline"}} onPress={()=>{ Linking.openURL("mailto:derasewa.official@gmail.com") }}>derasewa.official@gmail.com</Text>.</Text>
                         </View>
                     </View>
 

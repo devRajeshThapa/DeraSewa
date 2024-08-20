@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { IP_ADDRESS, SERVER_PORT } from '@env'
 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import ContentLoader, { Rect, Circle } from 'react-content-loader/native'
 
 const ProfileScreen = ({ navigation }) => {
 
@@ -25,7 +26,7 @@ const ProfileScreen = ({ navigation }) => {
   let [lastName, setLastName] = useState("");
   let [profilePicture, setProfilePicture] = useState("");
   let [data, setData] = useState("");
-  let [deraCoin, setDeraCoin] = useState("")
+  let [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let fetchData = async () => {
@@ -48,6 +49,7 @@ const ProfileScreen = ({ navigation }) => {
       let res = await fetch(`https://derasewa.onrender.com/get-hoster-rooms/${hosterID}`, "GET");
       let data = await res.json();
       setData(data);
+      setLoading(false);
     }
 
     getData();
@@ -67,12 +69,15 @@ const ProfileScreen = ({ navigation }) => {
       <ScrollView>
         <View style={{ display: "flex", gap: 10 }}>
           <View style={styles.infoWrappper}>
-            {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={{ uri: profilePicture }} /> : <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={require("../assets/images/default_profile.jpg")} /> }
+            {profilePicture ? <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={{ uri: profilePicture }} /> : <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={require("../assets/images/default_profile.jpg")} />}
             <View>
               {(firstName && lastName) ?
                 <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18 }}>{firstName + " " + lastName}</Text>
                 :
-                <Text style={{ color: "white" }}>Fetching user name...</Text>}
+                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                  <Rect x="0" y="0" rx="5" ry="5" width="140" height="20" />
+                </ContentLoader>
+              }
               <TouchableOpacity onPress={() => { openAccount() }}>
                 <Text style={{ fontFamily: "Poppins-SemiBold", color: "#88ff00", textDecorationLine: "underline", fontSize: 13 }}>Account Information</Text>
               </TouchableOpacity>
@@ -82,57 +87,108 @@ const ProfileScreen = ({ navigation }) => {
             <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>HOST ROOM</Text>
           </TouchableOpacity>
           <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, }}>※ ROOMS THAT YOU HAVE HOSTED</Text>
-          {(data.length != 0) ?
-            <View>
-              {data.map((item) => {
-                return (
-                  <View style={styles.roomWrapper} key={item._id}>
-                    <View style={{ overflow: "hidden", borderRadius: 10 }}>
-                      <ScrollView horizontal={true} style={{ display: "flex", gap: 10 }}>
-                        {
-                          item.roomPictures.map((url) => {
-                            return (
-                              <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} key={url} />
-                            )
-                          })
-                        }
-                      </ScrollView>
-                    </View>
-                    <TouchableOpacity onPress={() => { roomClick(item._id); }}>
-                      <View style={{ display: "flex", gap: 5 }} >
-                        {(item.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
-                        {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
-                        <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 15 }} /> {item.address}</Text>
-                        <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"Rs." + " " + item.price + "/Month"}</Text>
-                        <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-                          {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
-                          {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
-                          {(item.parking === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="car-side" style={{ fontSize: 15 }} /> Parking</Text> : null}
+          {
+            !loading ?
+              <View>
+                {(data.length != 0) ?
+                  <View>
+                    {data.map((item) => {
+                      return (
+                        <View style={styles.roomWrapper} key={item._id}>
+                          <View style={{ overflow: "hidden", borderRadius: 10 }}>
+                            <ScrollView horizontal={true} style={{ display: "flex", gap: 10 }}>
+                              {
+                                item.roomPictures.map((url) => {
+                                  return (
+                                    <Image style={{ height: 200, width: Dimensions.get('window').width - 90, borderRadius: 10, marginRight: 10 }} source={{ uri: url }} key={url} />
+                                  )
+                                })
+                              }
+                            </ScrollView>
+                          </View>
+                          <TouchableOpacity onPress={() => { roomClick(item._id); }}>
+                            <View style={{ display: "flex", gap: 5 }} >
+                              {(item.flat === true) ? <Text style={styles.topDetailBox}>Floor</Text> : null}
+                              {(item.apartment === true) ? <Text style={styles.topDetailBox}>Apartment</Text> : null}
+                              <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }} ><FontAwesome6 name="location-dot" style={{ fontSize: 15 }} /> {item.address}</Text>
+                              <Text style={{ color: "white", fontFamily: "Poppins-Medium", fontSize: 15 }}>{"Rs." + " " + item.price + "/Month"}</Text>
+                              <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+                                {(item.bathRoom === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="bath" style={{ fontSize: 15 }} /> Bathroom</Text> : null}
+                                {(item.kitchen === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="kitchen-set" style={{ fontSize: 15 }} /> Kitchen</Text> : null}
+                                {(item.parking === true) ? <Text style={styles.bottomDetailBox}><FontAwesome6 name="car-side" style={{ fontSize: 15 }} /> Parking</Text> : null}
+                              </View>
+                              <View></View>
+                              <View></View>
+                              <TouchableOpacity style={{ backgroundColor: "white", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { EditRoom(item._id) }}>
+                                <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>EDIT ROOM</Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity style={{ backgroundColor: "red", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { deleteRoom(item._id) }}>
+                                <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>DELETE ROOM</Text>
+                              </TouchableOpacity>
+                            </View>
+                          </TouchableOpacity>
                         </View>
-                        <View></View>
-                        <View></View>
-                        <TouchableOpacity style={{ backgroundColor: "white", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { EditRoom(item._id) }}>
-                          <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>EDIT ROOM</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: "red", padding: 8, borderRadius: 10, display: "flex", justifyContent: "center", alignItems: "center" }} onPress={() => { deleteRoom(item._id) }}>
-                          <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>DELETE ROOM</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </TouchableOpacity>
+                      )
+                    })}
                   </View>
-                )
-              })}
-            </View>
-            :
-            <View>
-              <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 380 }}>
-                <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
-                <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-                  <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
-                  <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>Seems like you did not hosted any room!</Text>
+                  :
+                  <View>
+                    <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 380 }}>
+                      <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
+                      <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                        <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
+                        <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>Seems like you did not hosted any room!</Text>
+                      </View>
+                    </View>
+                  </View>
+                }
+              </View>
+              :
+              <View>
+                <View style={styles.roomWrapper}>
+                  <View style={{ overflow: "hidden", borderRadius: 10 }}>
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"200"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="100%" height="200" />
+                    </ContentLoader>
+                  </View>
+                  <View style={{ display: "flex", gap: 5 }} >
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="50" height="20" />
+                    </ContentLoader>
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="130" height="20" />
+                    </ContentLoader>
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="100" height="20" />
+                    </ContentLoader>
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="60" height="20" />
+                    </ContentLoader>
+                  </View>
+                </View>
+
+                <View style={styles.roomWrapper}>
+                  <View style={{ overflow: "hidden", borderRadius: 10 }}>
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"200"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="100%" height="200" />
+                    </ContentLoader>
+                  </View>
+                  <View style={{ display: "flex", gap: 5 }} >
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="50" height="20" />
+                    </ContentLoader>
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="130" height="20" />
+                    </ContentLoader>
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="100" height="20" />
+                    </ContentLoader>
+                    <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
+                      <Rect x="0" y="0" rx="5" ry="5" width="60" height="20" />
+                    </ContentLoader>
+                  </View>
                 </View>
               </View>
-            </View>
           }
         </View>
       </ScrollView>
