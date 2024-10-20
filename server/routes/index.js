@@ -5,7 +5,7 @@ let router = express.Router();
 
 router
   .get("/", (req, res) => {
-    res.redirect('https://devrajeshthapa.github.io/Derasewa/');
+    res.redirect('https://devrajeshthapa.github.io/DeraSewa-APK-Archive/');
   })
   .post("/register-user", registerUser)
   .post("/login-user", loginUser)
