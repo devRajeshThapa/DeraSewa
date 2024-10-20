@@ -25,16 +25,15 @@ const LoginScreen = ({ navigation }) => {
     }
   }
 
-  userAuth()
+  userAuth();
 
   let uploadForm = async () => {
-
     let data = {
       email: email,
       password: password,
     }
 
-    await fetch(`https://derasewa.onrender.com/login-user`, {
+    await fetch(`${IP_ADDRESS}/login-user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

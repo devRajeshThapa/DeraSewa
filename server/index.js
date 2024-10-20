@@ -4,7 +4,6 @@ let router = require("./routes/index");
 let { Mongoose } = require("./connections/index");
 let bodyParser = require("body-parser")
 
-
 let PORT = process.env.PORT;
 let ATLAS_CONNECTION_STRING = process.env.ATLAS_CONNECTION_STRING;
 

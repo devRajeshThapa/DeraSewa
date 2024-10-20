@@ -20,19 +20,19 @@ const RegisterVarification = ({ route, navigation }) => {
   let { Data } = route.params;
 
   let genOTP = async () => {
-    await fetch(`https://derasewa.onrender.com/gen-otp/${Data["email"]}`)
+    await fetch(`${IP_ADDRESS}/gen-otp/${Data["email"]}`)
   }
 
   useEffect(() => {
     let genOTP = async () => {
-      await fetch(`https://derasewa.onrender.com/gen-otp/${Data["email"]}`)
+      await fetch(`${IP_ADDRESS}/gen-otp/${Data["email"]}`)
     }
 
     genOTP()
   }, []);
 
   let createUser = async () => {
-    await fetch(`https://derasewa.onrender.com/get-otp/${Data["email"]}`)
+    await fetch(`${IP_ADDRESS}/get-otp/${Data["email"]}`)
       .then((res) => {
         return res.json();
       })
@@ -54,7 +54,7 @@ const RegisterVarification = ({ route, navigation }) => {
                 profilePicture: Data["profilePicture"],
               }
 
-              await fetch(`https://derasewa.onrender.com/create-user`, {
+              await fetch(`${IP_ADDRESS}/create-user`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ const RegisterVarification = ({ route, navigation }) => {
 
           } else {
             setError("");
-            setError("OTP did not matched!")
+            setError("OTP did not matched!");
           }
         }
       })

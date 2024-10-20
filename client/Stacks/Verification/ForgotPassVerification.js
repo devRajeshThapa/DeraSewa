@@ -21,12 +21,12 @@ const ForgotPassVerification = ({ route, navigation }) => {
   let { email, password } = route.params;
 
   let genOTP = async () => {
-    await fetch(`https://derasewa.onrender.com/gen-otp-forgot-pass/${email}`)
+    await fetch(`${IP_ADDRESS}/gen-otp-forgot-pass/${email}`)
   }
 
   useEffect(() => {
     let genOTP = async () => {
-      await fetch(`https://derasewa.onrender.com/gen-otp-forgot-pass/${email}`)
+      await fetch(`${IP_ADDRESS}/gen-otp-forgot-pass/${email}`)
     }
 
     genOTP()
@@ -39,7 +39,7 @@ const ForgotPassVerification = ({ route, navigation }) => {
       OTP: OTP
   }
 
-  await fetch(`https://derasewa.onrender.com/change-pass/${email}`, {
+  await fetch(`${IP_ADDRESS}/change-pass/${email}`, {
       method: 'PATCH',
       headers: {
           'Content-Type': 'application/json'
@@ -58,7 +58,7 @@ const ForgotPassVerification = ({ route, navigation }) => {
             }, 2000)
           } else {
               setError("");
-              setError(data.error)
+              setError(data.error);
           }
       })
       .catch(() => { console.log("Something went wrong") })

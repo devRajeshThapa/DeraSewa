@@ -16,27 +16,31 @@ const RoomScreen = ({ navigation }) => {
   let navTitle = "ROOM";
 
   let [data, setData] = useState("")
-  let [hosterNumber, setHosterNumber] = useState("")
+  let [hosterNumber, setHosterNumber] = useState("");
   let [hosterFirstName, setHosterFirstName] = useState("")
   let [hosterLastName, setHosterLastName] = useState("")
   let [hosterPicture, setHosterPicture] = useState("")
 
   useEffect(() => {
     let getData = async () => {
-      let roomID = await AsyncStorage.getItem('roomID')
-      let response = await fetch(`https://derasewa.onrender.com/get-room/${roomID}`, "GET");
+      try{
+        let roomID = await AsyncStorage.getItem('roomID')
+      let response = await fetch(`${IP_ADDRESS}/get-room/${roomID}`, "GET");
       let data = await response.json();
       setData(data)
       setHosterNumber(data.phoneNumber)
-      let userResponse = await fetch(`https://derasewa.onrender.com/get-user/${data.userID}`);
+      let userResponse = await fetch(`${IP_ADDRESS}/get-user/${data.userID}`);
       let userData = await userResponse.json();
       setHosterFirstName(userData.firstName)
       setHosterLastName(userData.lastName)
       setHosterPicture(userData.profilePicture)
+      }catch(err){
+        console.log(err);
+      }
     }
 
     getData();
-  }, [])
+  }, []);
 
 
   let callHoster = () => {

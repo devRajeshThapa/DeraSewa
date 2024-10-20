@@ -19,13 +19,13 @@ const EditProfile = ({ navigation }) => {
     let [profilePicture, setProfilePicture] = useState("");
     let [error, setError] = useState("");
     let [success, setSuccess] = useState(false);
-    let [passHidden, setPassHidden] = useState(true)
+    let [passHidden, setPassHidden] = useState(true);
 
     useEffect(() => {
 
         let fetchData = async () => {
             let userID = await AsyncStorage.getItem('userID');
-            let response = await fetch(`https://derasewa.onrender.com/get-user/${userID}`);
+            let response = await fetch(`${IP_ADDRESS}/get-user/${userID}`);
             let data = await response.json();
             setFirstName(data.firstName);
             setLastName(data.lastName);
@@ -65,23 +65,25 @@ const EditProfile = ({ navigation }) => {
 
         let userID = await AsyncStorage.getItem('userID');
 
-        await fetch(`https://derasewa.onrender.com/update-user-info/${userID}`, {
+        await fetch(`${IP_ADDRESS}/update-user-info/${userID}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
-            .then((res) => { return res.json() })
+            .then((res) => {
+                return res.json();
+            })
             .then(async (data) => {
                 if (data.success) {
                     setError("");
                     setSuccess(true);
-                    setError(data.success)
+                    setError(data.success);
                 } else {
-                    setError("")
-                    setSuccess(false)
-                    setError(data.error)
+                    setError("");
+                    setSuccess(false);
+                    setError(data.error);
                 }
             })
     }

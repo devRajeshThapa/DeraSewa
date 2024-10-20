@@ -16,7 +16,7 @@ const RegisterScreen = ({ navigation }) => {
     let [phoneNumber, setPhoneNumber] = useState("");
     let [password, setPassword] = useState("");
     let [error, setError] = useState("");
-    let [passHidden, setPassHidden] = useState(true)
+    let [passHidden, setPassHidden] = useState(true);
 
     let uploadForm = async () => {
 
@@ -28,7 +28,7 @@ const RegisterScreen = ({ navigation }) => {
             password: password,
         }
 
-        await fetch(`https://derasewa.onrender.com/register-user`, {
+        await fetch(`${IP_ADDRESS}/register-user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

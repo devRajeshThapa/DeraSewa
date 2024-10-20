@@ -19,8 +19,8 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     let getData = async () => {
-      let userID = await AsyncStorage.getItem("userID")
-      let res = await fetch(`https://derasewa.onrender.com/get-rooms/${userID}`, "GET");
+      let userID = await AsyncStorage.getItem("userID");
+      let res = await fetch(`${IP_ADDRESS}/get-rooms/${userID}`, "GET");
       let data = await res.json();
       let filteredDataArray = await data.filter((item) => {
         return item.address.toUpperCase().includes(filterValue.toUpperCase());
@@ -30,7 +30,7 @@ const HomeScreen = ({ navigation }) => {
     }
 
     getData();
-  }, [filteredData])
+  }, [filteredData]);
 
   let roomClick = async (roomID) => {
     await AsyncStorage.removeItem('roomID')

@@ -7,7 +7,7 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const ForgotPass = ({ navigation }) => {
 
-    let navTitle = "CHANGE PASSWORD"
+    let navTitle = "CHANGE PASSWORD";
 
     let [password, setPassword] = useState("");
     let [error, setError] = useState("");
@@ -20,12 +20,12 @@ const ForgotPass = ({ navigation }) => {
             password: password,
         }
 
-        await fetch(`https://derasewa.onrender.com/forgot-pass/${email}`, {
+        await fetch(`${IP_ADDRESS}/forgot-pass/${email}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
         })
             .then(res => res.json())
             .then(async (data) => {
@@ -36,7 +36,7 @@ const ForgotPass = ({ navigation }) => {
                     })
                 } else {
                     setError("");
-                    setError(data.error)
+                    setError(data.error);
                 }
             })
             .catch(() => { console.log("Something went wrong") })

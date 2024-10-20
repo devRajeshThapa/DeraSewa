@@ -31,12 +31,11 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     let fetchData = async () => {
       let userID = await AsyncStorage.getItem('userID');
-      let response = await fetch(`https://derasewa.onrender.com/get-user/${userID}`);
+      let response = await fetch(`${IP_ADDRESS}/get-user/${userID}`);
       let data = await response.json();
       setFirstName(data.firstName);
       setLastName(data.lastName);
       setProfilePicture(data.profilePicture);
-      setDeraCoin(data.deraCoin)
     }
 
     fetchData();
@@ -45,15 +44,19 @@ const ProfileScreen = ({ navigation }) => {
 
   useEffect(() => {
     let getData = async () => {
-      let hosterID = await AsyncStorage.getItem('userID')
-      let res = await fetch(`https://derasewa.onrender.com/get-hoster-rooms/${hosterID}`, "GET");
-      let data = await res.json();
-      setData(data);
-      setLoading(false);
+      try {
+        let hosterID = await AsyncStorage.getItem('userID')
+        let res = await fetch(`${IP_ADDRESS}/get-hoster-rooms/${hosterID}`, "GET");
+        let data = await res.json();
+        setData(data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err)
+      }
     }
 
     getData();
-  })
+  });
 
   let roomClick = async (roomID) => {
     await AsyncStorage.removeItem('roomID')

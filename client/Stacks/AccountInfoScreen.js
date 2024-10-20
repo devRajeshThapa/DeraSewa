@@ -20,25 +20,29 @@ const AccountInfoScreen = ({ navigation }) => {
   let [password, setPassword] = useState("");
   let [profilePicture, setProfilePicture] = useState("");
   let [passHidden, setPassHidden] = useState(true);
-  let [hiddenPass, setHiddenPass] = useState("")
+  let [hiddenPass, setHiddenPass] = useState("");
 
   useEffect(() => {
 
     let fetchData = async () => {
-      let userID = await AsyncStorage.getItem('userID');
-      let response = await fetch(`https://derasewa.onrender.com/get-user/${userID}`);
-      let data = await response.json();
-      setFirstName(data.firstName);
-      setLastName(data.lastName);
-      setEmail(data.email);
-      setPhoneNumber(data.phoneNumber);
-      setPassword(data.password);
-      setProfilePicture(data.profilePicture);
+      try {
+        let userID = await AsyncStorage.getItem('userID');
+        let response = await fetch(`${IP_ADDRESS}/get-user/${userID}`);
+        let data = await response.json();
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setEmail(data.email);
+        setPhoneNumber(data.phoneNumber);
+        setPassword(data.password);
+        setProfilePicture(data.profilePicture);
 
-      let passLen = data.password.length;
-      let star = "*";
-      pass = star.padStart(passLen, "*");
-      setHiddenPass(pass)
+        let passLen = data.password.length;
+        let star = "*";
+        pass = star.padStart(passLen, "*");
+        setHiddenPass(pass);
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     fetchData();

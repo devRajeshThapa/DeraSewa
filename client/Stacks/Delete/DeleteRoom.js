@@ -7,7 +7,7 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const DeleteAccount = ({ navigation }) => {
 
-    let navTitle = "DELETE ROOM"
+    let navTitle = "DELETE ROOM";
 
     let [password, setPassword] = useState("");
     let [error, setError] = useState("");
@@ -25,7 +25,7 @@ const DeleteAccount = ({ navigation }) => {
             userID: userID
         }
 
-        await fetch(`https://derasewa.onrender.com/delete-room/${roomID}`, {
+        await fetch(`${IP_ADDRESS}/delete-room/${roomID}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

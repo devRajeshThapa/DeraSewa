@@ -98,7 +98,7 @@ const HostRoomScreen = ({ navigation }) => {
     }
 
 
-    await fetch(`https://derasewa.onrender.com/host-room`, {
+    await fetch(`${IP_ADDRESS}/host-room`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -112,7 +112,7 @@ const HostRoomScreen = ({ navigation }) => {
         if (data.success) {
           setError("")
           setSuccess(true)
-          setError(data.success)
+          setError(data.success);
 
           setRoomCoordinate("");
           setAddress("");

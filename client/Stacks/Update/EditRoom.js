@@ -18,9 +18,9 @@ const EditRoom = ({ navigation }) => {
 
 
   let [error, setError] = useState("")
-  let [localLatitude, setLocalLatitude] = useState("")
-  let [localLongitude, setLocalLongitude] = useState("")
-  let [roomCoordinate, setRoomCoordinate] = useState("")
+  let [localLatitude, setLocalLatitude] = useState("");
+  let [localLongitude, setLocalLongitude] = useState("");
+  let [roomCoordinate, setRoomCoordinate] = useState("");
   let [address, setAddress] = useState("")
   let [flat, setFlat] = useState(false);
   let [apartment, setApartment] = useState(false);
@@ -38,7 +38,7 @@ const EditRoom = ({ navigation }) => {
 
     let getData = async () => {
         let roomID = await AsyncStorage.getItem('roomID')
-        let response = await fetch(`https://derasewa.onrender.com/get-room/${roomID}`, "GET");
+        let response = await fetch(`${IP_ADDRESS}/get-room/${roomID}`, "GET");
         let data = await response.json();
         
         setLocalLatitude(data.roomCoordinate[0])
@@ -116,7 +116,7 @@ const EditRoom = ({ navigation }) => {
     }
 
 
-    await fetch(`https://derasewa.onrender.com/edit-room/${roomID}`, {
+    await fetch(`${IP_ADDRESS}/edit-room/${roomID}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
