@@ -69,8 +69,8 @@ const ForgotPassVerification = ({ route, navigation }) => {
       <View style={styles.nav}>
         <Text style={styles.navTitle}>{navTitle}</Text>
       </View>
-      {error && <View style={[styles.errorWrapper, success && styles.successWrapper]}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
-      <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>※ Please enter the OTP sent on your email</Text>
+      {error && <View style={[styles.errorWrapper, success && styles.successWrapper]}><Text style={{ color: "black", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+      <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please enter the OTP sent on your email</Text>
       <TextInput style={styles.input} placeholder='Enter your OTP here' placeholderTextColor={"white"} onChangeText={(value) => { setOTP(value); setError("") }} />
       <TouchableOpacity onPress={() => { changePass() }}>
         <View style={styles.verifyButton}>
@@ -127,7 +127,7 @@ let styles = StyleSheet.create({
   },
   successWrapper: {
     width: "100%",
-    backgroundColor: "#198450",
+    backgroundColor: "#88ff00",
     padding: 10,
     maxHeight: 65,
     display: "flex",

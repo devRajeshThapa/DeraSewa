@@ -42,14 +42,14 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.searchSection}>
-        <TextInput style={styles.input} placeholder='Search room via address' placeholderTextColor={"white"} onChangeText={(value) => { setFilterValue(value); }} />
+        <TextInput style={styles.input} placeholder='Search room via Address' placeholderTextColor={"white"} onChangeText={(value) => { setFilterValue(value); }} />
       </View>
       {
         !loading ?
           <View>
             {(filteredData.length > 0) ?
               <ScrollView>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>AVAILABLE ROOMS</Text>
                 {filteredData.map((item) => {
                   return (
                     <View style={styles.roomWrapper} key={item._id}>
@@ -83,7 +83,7 @@ const HomeScreen = ({ navigation }) => {
               </ScrollView>
               :
               <View>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>AVAILABLE ROOMS</Text>
                 <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 400 }}>
                   <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
                   <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
@@ -96,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           :
           <ScrollView>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>※ AVAILABLE ROOMS</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>AVAILABLE ROOMS</Text>
             <View style={styles.roomWrapper}>
               <View style={{ overflow: "hidden", borderRadius: 10 }}>
                 <ContentLoader viewBox="0 0" width={"100%"} height={"200"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
@@ -157,7 +157,8 @@ let styles = StyleSheet.create({
     display: "flex",
     gap: 20,
     felx: 1,
-    position: "relative"
+    position: "relative",
+    paddingBottom: 60,
   },
   input: {
     backgroundColor: "transparent",

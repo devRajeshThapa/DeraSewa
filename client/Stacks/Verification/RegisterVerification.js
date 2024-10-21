@@ -96,7 +96,7 @@ const RegisterVarification = ({ route, navigation }) => {
       <View style={styles.nav}>
         <Text style={styles.navTitle}>{navTitle}</Text>
       </View>
-      <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>※ Please enter the OTP sent on your email</Text>
+      <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please enter the OTP sent on your email</Text>
       {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
       <TextInput style={styles.input} placeholder='Enter your OTP here' placeholderTextColor={"white"} onChangeText={(value) => { setOTP(value); setError("") }} />
       <TouchableOpacity onPress={() => { createUser() }}>

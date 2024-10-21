@@ -186,13 +186,13 @@ const HostRoomScreen = ({ navigation }) => {
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
             <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
               <View style={{ display: "flex", flexDirection: "row", gap: 5, justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15, }}>※ Flat</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15, }}>Flat</Text>
                 <TouchableOpacity style={styles.radioOuter} onPress={() => { setFlat(true); setApartment(false); setError("") }} >
                   {flat ? <View style={styles.radioInner}></View> : null}
                 </TouchableOpacity>
               </View>
               <View style={{ display: "flex", flexDirection: "row", gap: 5, justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Apartment</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Apartment</Text>
                 <TouchableOpacity style={styles.radioOuter} onPress={() => { setApartment(true); setFlat(false); setError("") }}>
                   {apartment ? <View style={styles.radioInner}></View> : null}
                 </TouchableOpacity>
@@ -201,12 +201,12 @@ const HostRoomScreen = ({ navigation }) => {
           </View>
 
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Floor Number</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Floor Number</Text>
             <TextInput style={styles.input} placeholder='e.g: 3' placeholderTextColor={"white"} onChangeText={(value) => { setFloorNumber(value); setError("") }} keyboardType='numeric' />
           </View>
 
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Number of Bedroom</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Number of Bedroom</Text>
             <TextInput style={styles.input} placeholder='e.g: 1' placeholderTextColor={"white"} onChangeText={(value) => { setBedRoom(value); setError("") }} keyboardType='numeric'  />
           </View>
 
@@ -232,20 +232,20 @@ const HostRoomScreen = ({ navigation }) => {
           </View>
 
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Price (NEPALI RUPEES PER MONTH)</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Price (NEPALI RUPEES PER MONTH)</Text>
             <TextInput style={styles.input} placeholder='e.g: 20000' placeholderTextColor={"white"} onChangeText={(value) => { setPrice(value); setError("") }} keyboardType='numeric'  />
           </View>
 
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
             <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
               <View style={{ display: "flex", flexDirection: "row", gap: 5, justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15, }}>※ Add Your Phone No.</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15, }}>Add Your Phone No.</Text>
                 <TouchableOpacity style={styles.radioOuter} onPress={() => { setOwnPhone(true); setAnotherPhone(false); setPhoneNumber(false); setError("") }} >
                   {ownPhone ? <View style={styles.radioInner}></View> : null}
                 </TouchableOpacity>
               </View>
               <View style={{ display: "flex", flexDirection: "row", gap: 5, justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Another</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Another</Text>
                 <TouchableOpacity style={styles.radioOuter} onPress={() => { setAnotherPhone(true); setOwnPhone(false); setError("") }}>
                   {anotherPhone ? <View style={styles.radioInner}></View> : null}
                 </TouchableOpacity>
@@ -256,7 +256,7 @@ const HostRoomScreen = ({ navigation }) => {
           {
             anotherPhone ?
               <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Phone Number</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Phone Number</Text>
                 <TextInput style={styles.input} placeholder='' placeholderTextColor={"white"} onChangeText={(value) => { setPhoneNumber(value); setError("") }} keyboardType='numeric'  />
               </View>
               :
@@ -269,7 +269,7 @@ const HostRoomScreen = ({ navigation }) => {
           </View>
 
           <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10 }}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Room Pictures</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Room Pictures</Text>
             <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 10, }} onPress={() => { openGallery(); setError("") }}>
               <FontAwesome6 name="image" style={{ fontSize: 18, color: "white" }} />
               <Text style={{ color: "white", fontFamily: "Poppins-SemiBold"}}>Open Gallery</Text>

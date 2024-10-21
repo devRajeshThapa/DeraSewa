@@ -100,7 +100,7 @@ const LoginScreen = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <Text style={{ color: "red", fontFamily: "Poppins-Light" }} onPress={()=>{navigation.navigate("ForgotPass")}}>Forgot Password?</Text>
+          <Text style={{ color: "red", fontFamily: "Poppins-Light", textDecorationLine:"underline" }} onPress={()=>{navigation.navigate("ForgotPass")}}>Forgot Password?</Text>
           <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Don't have Account? <Text style={{ color: "#88ff00", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Register") }}>Register</Text></Text>
         </View>
       </View>

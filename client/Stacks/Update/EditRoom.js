@@ -18,6 +18,7 @@ const EditRoom = ({ navigation }) => {
 
 
   let [error, setError] = useState("")
+  let [success, setSuccess] = useState("");
   let [localLatitude, setLocalLatitude] = useState("");
   let [localLongitude, setLocalLongitude] = useState("");
   let [roomCoordinate, setRoomCoordinate] = useState("");
@@ -128,9 +129,11 @@ const EditRoom = ({ navigation }) => {
       })
       .then((data) => {
         if (data.success) {
+          setSuccess("")
           setError("")
-          setError(data.success)
+          setSuccess(data.success)
         } else {
+          setSuccess("")
           setError("")
           setError(data.error)
         }
@@ -149,6 +152,7 @@ const EditRoom = ({ navigation }) => {
       </View>
 
       {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+      {success && <View style={styles.successWrapper}><Text style={{ color: "black", fontFamily: "Poppins-Light", fontSize: 15 }}>{success}</Text></View>}
 
       <ScrollView>
         <View style={{ display: "flex", gap: 20, paddingTop: 10, paddingBottom: 10 }}>
@@ -188,13 +192,13 @@ const EditRoom = ({ navigation }) => {
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
             <View style={{ display: "flex", flexDirection: "row", gap: 20 }}>
               <View style={{ display: "flex", flexDirection: "row", gap: 5, justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15, }}>※ Flat</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15, }}>Flat</Text>
                 <TouchableOpacity style={styles.radioOuter} onPress={() => { setFlat(true); setApartment(false); setError("") }} >
                   {flat ? <View style={styles.radioInner}></View> : null}
                 </TouchableOpacity>
               </View>
               <View style={{ display: "flex", flexDirection: "row", gap: 5, justifyContent: "center", alignItems: "center", display: "flex", flexDirection: "row", gap: 5, alignItems: "center" }}>
-                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Apartment</Text>
+                <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Apartment</Text>
                 <TouchableOpacity style={styles.radioOuter} onPress={() => { setApartment(true); setFlat(false); setError("") }}>
                   {apartment ? <View style={styles.radioInner}></View> : null}
                 </TouchableOpacity>
@@ -203,12 +207,12 @@ const EditRoom = ({ navigation }) => {
 
           </View>
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Floor number</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Floor number</Text>
             <TextInput style={styles.input} placeholder='e.g: 3' placeholderTextColor={"white"} value={`${floorNumber}`} onChangeText={(value) => { setFloorNumber(value); setError("") }} keyboardType='numeric'  />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Number of bedroom</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Number of bedroom</Text>
             <TextInput style={styles.input} placeholder='e.g: 1' placeholderTextColor={"white"} value={`${bedRoom}`} onChangeText={(value) => { setBedRoom(value); setError("") }} keyboardType='numeric'  />
           </View>
 
@@ -234,12 +238,12 @@ const EditRoom = ({ navigation }) => {
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Price (NEPALI RUPEES PER MONTH )</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Price (NEPALI RUPEES PER MONTH )</Text>
             <TextInput style={styles.input} placeholder='e.g: 20000' placeholderTextColor={"white"} value={price} onChangeText={(value) => { setPrice(value); setError("") }} keyboardType='numeric'  />
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Phone Number</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Phone Number</Text>
             <TextInput style={styles.input} placeholder='' placeholderTextColor={"white"} value={phoneNumber} onChangeText={(value) => { setPhoneNumber(value); setError("") }} keyboardType='numeric'  />
           </View>
 
@@ -249,7 +253,7 @@ const EditRoom = ({ navigation }) => {
           </View>
 
           <View style={{backgroundColor: "#202020", padding: 10, borderRadius: 10}}>
-            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>※ Room Pictures</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 15 }}>Room Pictures</Text>
             <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 10, }} onPress={() => { openGallery(); setError("") }}>
             <FontAwesome6 name="image" style={{fontSize: 18, color: "white"}} />
               <Text style={{ color: "white", fontFamily: "Poppins-Medium" }}>Open Gallery</Text>
@@ -289,6 +293,15 @@ let styles = StyleSheet.create({
   errorWrapper: {
     width: "100%",
     backgroundColor: "red",
+    padding: 10,
+    maxHeight: 65,
+    display: "flex",
+    justifyContent: "center",
+    borderRadius: 10
+  },
+  successWrapper: {
+    width: "100%",
+    backgroundColor: "#88ff00",
     padding: 10,
     maxHeight: 65,
     display: "flex",

@@ -11,7 +11,7 @@ const DeleteAccount = ({ navigation }) => {
 
     let [password, setPassword] = useState("");
     let [error, setError] = useState("");
-    let [success, setSuccess] = useState(false);
+    let [success, setSuccess] = useState("");
     let [passHidden, setPassHidden] = useState(true);
 
 
@@ -38,12 +38,12 @@ const DeleteAccount = ({ navigation }) => {
                     await AsyncStorage.removeItem('userID');
                     await AsyncStorage.removeItem('validUser')
                     setError("");
-                    setSuccess(true)
-                    setError(data.success);
+                    setSuccess("")
+                    setSuccess(data.success);
                     setPassword("");
                 } else {
                     setError("");
-                    setSuccess(false)
+                    setSuccess("")
                     setError(data.error)
                 }
             })
@@ -55,8 +55,9 @@ const DeleteAccount = ({ navigation }) => {
             <View style={styles.nav}>
                 <Text style={styles.navTitle}>{navTitle}</Text>
             </View>
-            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>※ Please enter your password to delete room</Text>
-            {error && <View style={[styles.errorWrapper, success && styles.successWrapper]}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please enter your password to delete room</Text>
+            {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+            {success && <View style={styles.successWrapper}><Text style={{ color: "black", fontFamily: "Poppins-Light", fontSize: 15 }}>{success}</Text></View>}
             <View style={{ position: "relative", display: "flex", justifyContent: "center" }}>
                 {
                     passHidden ?
@@ -70,9 +71,9 @@ const DeleteAccount = ({ navigation }) => {
                 }
                 {
                     passHidden ?
-                        <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} autoCorrect={false} />
+                        <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError(""); setSuccess(""); }} autoCorrect={false} />
                         :
-                        <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" onChangeText={(value) => { setPassword(value); setError("") }} autoCorrect={false} />
+                        <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" onChangeText={(value) => { setPassword(value); setError(""); setSuccess(""); }} autoCorrect={false} />
                 }
             </View>
             <TouchableOpacity onPress={() => { deleteRoom() }}>

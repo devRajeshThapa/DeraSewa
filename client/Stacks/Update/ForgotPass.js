@@ -48,9 +48,9 @@ const ForgotPass = ({ navigation }) => {
                 <Text style={styles.navTitle}>{navTitle}</Text>
             </View>
             {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
-            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>※ Enter your email</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Enter your email</Text>
             <TextInput style={styles.input} placeholder='Email' placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} autoCorrect={false} />
-            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>※ Enter your new password</Text>
+            <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Enter your new password</Text>
             <View style={{ position: "relative", display: "flex", justifyContent: "center" }}>
                 {
                     passHidden ?

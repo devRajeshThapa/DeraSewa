@@ -89,7 +89,7 @@ const ProfileScreen = ({ navigation }) => {
           <TouchableOpacity style={styles.hostRoomButtonWrapper} onPress={() => { navigation.navigate("HostRoom") }}>
             <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>HOST ROOM</Text>
           </TouchableOpacity>
-          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, }}>※ ROOMS THAT YOU HAVE HOSTED</Text>
+          <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, }}>ROOMS THAT YOU HAVE HOSTED</Text>
           {
             !loading ?
               <View>

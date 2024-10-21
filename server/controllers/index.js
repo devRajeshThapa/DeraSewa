@@ -221,7 +221,7 @@ let updateUserInfo = async (req, res) => {
                             res.json({ error: "Image format can be only - JPG, PNG, JPEG!" });
                         }
                     } else {
-                        res.json({ error: "Password string can't be less than 8!" });
+                        res.json({ error: "Password string length can't be less than 8!" });
                     }
                 } else {
                     res.json({ error: "Invalid phone number!" });
@@ -230,7 +230,7 @@ let updateUserInfo = async (req, res) => {
                 res.json({ error: "Invalid email address!" });
             }
         } else {
-            res.json({ error: "First Name or Last Name can't have less than 3 string!" });
+            res.json({ error: "First Name and Last Name string can't have length less than 3!" });
         }
     } else {
         res.json({ error: "All the input feild must be filled!" });
@@ -263,7 +263,7 @@ let editRoom = async (req, res) => {
             })
             res.json({ success: "Room info changed successfully!" })
         } else {
-            res.json({ error: "Invalid Phone Number" })
+            res.json({ error: "Invalid phone number!" })
         }
     } else {
         res.json({ error: "All required feild must be feild!" })

@@ -18,7 +18,7 @@ const EditProfile = ({ navigation }) => {
     let [password, setPassword] = useState("");
     let [profilePicture, setProfilePicture] = useState("");
     let [error, setError] = useState("");
-    let [success, setSuccess] = useState(false);
+    let [success, setSuccess] = useState("");
     let [passHidden, setPassHidden] = useState(true);
 
     useEffect(() => {
@@ -78,11 +78,11 @@ const EditProfile = ({ navigation }) => {
             .then(async (data) => {
                 if (data.success) {
                     setError("");
-                    setSuccess(true);
-                    setError(data.success);
+                    setSuccess("");
+                    setSuccess(data.success);
                 } else {
                     setError("");
-                    setSuccess(false);
+                    setSuccess("");
                     setError(data.error);
                 }
             })
@@ -96,11 +96,12 @@ const EditProfile = ({ navigation }) => {
                 <Text style={styles.navTitle}>{navTitle}</Text>
             </View>
             <View style={styles.contentWrapper}>
-                {error && <View style={[styles.errorWrapper, success && styles.successWrapper]}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+                {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+                {success && <View style={styles.successWrapper}><Text style={{ color: "black", fontFamily: "Poppins-Light", fontSize: 15 }}>{success}</Text></View>}
                 {profilePicture ? <Image style={{ width: 85, height: 85, borderWidth: 1, borderRadius: 100, }} source={{ uri: profilePicture }} /> : <Image style={{ width: 85, height: 85, borderRadius: 100 }} source={require("../../assets/images/default_profile.jpg")} />}
                 <TouchableOpacity style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", gap: 10 }} onPress={() => { openGallery(); setError("") }}>
                     <FontAwesome6 name="circle-plus" style={{ fontSize: 15, color: "white" }} />
-                    <Text style={{ color: "white", fontFamily: "Poppins-SemiBold" }}>Change your profile picture</Text>
+                    <Text style={{ color: "white", fontFamily: "Poppins-SemiBold" }}>Change your Profile picture</Text>
                 </TouchableOpacity>
                 <View style={styles.nameInputFeild}>
                     <View>
@@ -180,7 +181,7 @@ let styles = StyleSheet.create({
     },
     successWrapper: {
         width: "100%",
-        backgroundColor: "#198450",
+        backgroundColor: "#88ff00",
         padding: 10,
         maxHeight: 65,
         display: "flex",
