@@ -422,7 +422,7 @@ let changePass = async(req, res)=>{
         })
         res.json({ success: "Password changed succesfully!" })
     }else{
-        res.json({ error: "OTP did not matched" })
+        res.json({ error: "OTP did not matched!" })
     }
 }
 

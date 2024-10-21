@@ -5,9 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ForgotPassVerification = ({ route, navigation }) => {
 
-  let [error, setError] = useState();
+  let [error, setError] = useState("");
   let [OTP, setOTP] = useState();
-  let [success, setSuccess] = useState(false)
+  let [success, setSuccess] = useState("")
   let [resend, setResend] = useState(false)
 
   useEffect(()=>{
@@ -50,14 +50,15 @@ const ForgotPassVerification = ({ route, navigation }) => {
       .then(async (data) => {
           if (data.success) {
             setError("");
-            setSuccess(true)
+            setSuccess("")
             setOTP("")
-            setError(data.success)
+            setSuccess(data.success)
             setTimeout(()=>{
               navigation.navigate("Login")
-            }, 2000)
+            }, 1500)
           } else {
               setError("");
+              setSuccess("")
               setError(data.error);
           }
       })
@@ -69,7 +70,8 @@ const ForgotPassVerification = ({ route, navigation }) => {
       <View style={styles.nav}>
         <Text style={styles.navTitle}>{navTitle}</Text>
       </View>
-      {error && <View style={[styles.errorWrapper, success && styles.successWrapper]}><Text style={{ color: "black", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+      {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+      {success && <View style={styles.successWrapper}><Text style={{ color: "black", fontFamily: "Poppins-Light", fontSize: 15 }}>{success}</Text></View>}
       <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please enter the OTP sent on your email</Text>
       <TextInput style={styles.input} placeholder='Enter your OTP here' placeholderTextColor={"white"} onChangeText={(value) => { setOTP(value); setError("") }} />
       <TouchableOpacity onPress={() => { changePass() }}>
