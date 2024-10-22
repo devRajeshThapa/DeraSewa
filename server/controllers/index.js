@@ -1,5 +1,5 @@
 let { userModel, roomModel, verificationModel } = require("../models/index");
-let { registerAccountAlert, loginAlert, deleteAccountAlert, hostRoomAlert, editRoomAlert, changePassAlert } = require("./mail");
+let { registerAccountAlert, loginAlert, deleteAccountAlert, hostRoomAlert, deleteRoomAlert, editRoomAlert, changePassAlert } = require("./mail");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
