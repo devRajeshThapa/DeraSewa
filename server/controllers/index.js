@@ -61,14 +61,14 @@ let loginUser = async (req, res) => {
 
     let user = await userModel.findOne({ email, password });
 
-    let userData = {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName
-    }
-
     if (user) {
         res.json({ userID: `${user._id}` });
+
+        let userData = {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName
+        }
         loginAlert(userData);
     } else if (!email || !password) {
         res.json({ error: "All the input feild must be filled!" });
@@ -93,7 +93,13 @@ let deleteUser = async (req, res) => {
         if (user) {
             let user = await userModel.findByIdAndDelete(userID);
             res.json({ success: "Account succesfully deleted!" })
-            deleteAccountAlert(user.email);
+
+            let userData = {
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName
+            }
+            deleteAccountAlert(userData);
         } else {
             res.json({ error: "Password didn't matched!" })
         }
@@ -107,11 +113,6 @@ let hostRoom = async (req, res) => {
     let { userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, description, roomPictures, phoneNumber, anotherPhone } = await req.body;
 
     let user = await userModel.findById(userID);
-    let userData = {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName
-    }
 
     if (anotherPhone) {
         if (roomCoordinate && address && floorNumber && bedRoom && price && roomPictures && phoneNumber) {
@@ -122,6 +123,11 @@ let hostRoom = async (req, res) => {
                 });
                 res.json({ success: "Room hosted succesfully!" });
 
+                let userData = {
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                }
                 hostRoomAlert(userData);
             } else {
                 res.json({ error: "Invalid phone number!" })
@@ -266,11 +272,6 @@ let editRoom = async (req, res) => {
     let { userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, description, roomPictures, phoneNumber } = await req.body;
 
     let user = await userModel.findById(userID);
-    let userData = {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName
-    }
 
     if (roomCoordinate && address && floorNumber && bedRoom && price && roomPictures, phoneNumber) {
         let phoneValidator = /^(\+\d{1,3}[- ]?)?\d{10}$/;
@@ -292,6 +293,12 @@ let editRoom = async (req, res) => {
                 phoneNumber
             })
             res.json({ success: "Room info changed successfully!" })
+
+            let userData = {
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName
+            }
             editRoomAlert(userData);
         } else {
             res.json({ error: "Invalid phone number!" })
