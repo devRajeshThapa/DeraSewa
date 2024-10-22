@@ -1,5 +1,5 @@
 let { userModel, roomModel, verificationModel } = require("../models/index");
-let { loginAlert } = require("./mail");
+let { registerAccountAlert, loginAlert, deleteAccountAlert, hostRoomAlert, editRoomAlert, changePassAlert } = require("./mail");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
@@ -61,9 +61,15 @@ let loginUser = async (req, res) => {
 
     let user = await userModel.findOne({ email, password });
 
+    let userData = {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
+    }
+
     if (user) {
         res.json({ userID: `${user._id}` });
-        loginAlert(email);
+        loginAlert(userData);
     } else if (!email || !password) {
         res.json({ error: "All the input feild must be filled!" });
     } else {
@@ -87,6 +93,7 @@ let deleteUser = async (req, res) => {
         if (user) {
             let user = await userModel.findByIdAndDelete(userID);
             res.json({ success: "Account succesfully deleted!" })
+            deleteAccountAlert(user.email);
         } else {
             res.json({ error: "Password didn't matched!" })
         }
@@ -100,6 +107,11 @@ let hostRoom = async (req, res) => {
     let { userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, description, roomPictures, phoneNumber, anotherPhone } = await req.body;
 
     let user = await userModel.findById(userID);
+    let userData = {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
+    }
 
     if (anotherPhone) {
         if (roomCoordinate && address && floorNumber && bedRoom && price && roomPictures && phoneNumber) {
@@ -109,6 +121,8 @@ let hostRoom = async (req, res) => {
                     userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, description, roomPictures, phoneNumber
                 });
                 res.json({ success: "Room hosted succesfully!" });
+
+                hostRoomAlert(userData);
             } else {
                 res.json({ error: "Invalid phone number!" })
             }
@@ -181,9 +195,16 @@ let deleteRoom = async (req, res) => {
 
     if (password) {
         let user = await userModel.findOne({ _id:`${userID}`, password:`${password}` });
+        let userData = {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName
+        }
+
         if (user) {
             let room = await roomModel.findByIdAndDelete(roomID);
             res.json({ success: "Room succesfully deleted!" })
+            deleteRoomAlert(userData);
         } else {
             res.json({ error: "Password didn't matched!" })
         }
@@ -244,6 +265,13 @@ let editRoom = async (req, res) => {
     let roomID = await req.params.roomID;
     let { userID, roomCoordinate, address, flat, apartment, floorNumber, bedRoom, bathRoom, kitchen, parking, price, description, roomPictures, phoneNumber } = await req.body;
 
+    let user = await userModel.findById(userID);
+    let userData = {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
+    }
+
     if (roomCoordinate && address && floorNumber && bedRoom && price && roomPictures, phoneNumber) {
         let phoneValidator = /^(\+\d{1,3}[- ]?)?\d{10}$/;
         if (phoneValidator.test(phoneNumber)) {
@@ -264,6 +292,7 @@ let editRoom = async (req, res) => {
                 phoneNumber
             })
             res.json({ success: "Room info changed successfully!" })
+            editRoomAlert(userData);
         } else {
             res.json({ error: "Invalid phone number!" })
         }
@@ -274,6 +303,8 @@ let editRoom = async (req, res) => {
 let genOTP = async (req, res) => {
 
     let email = await req.params.email;
+
+    let user = await userModel.findOne({ email });
 
     let OTP = await (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
 
@@ -297,7 +328,7 @@ let genOTP = async (req, res) => {
     <div style="border-bottom:1px solid #eee">
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">DeraSewa</a>
     </div>
-    <p style="font-size:1.1em">Hi,</p>
+    <p style="font-size:1.1em">Dear, ${user.firstName} ${user.lastName}</p>
     <p>Thank you for choosing DeraSewa. Use the following OTP to complete your Sign Up procedures. OTP is valid for 5 minutes</p>
     <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${OTP}</h2>
     <p style="font-size:0.9em;">Regards,<br />DeraSewa</p>
@@ -340,6 +371,14 @@ let createUser = async (req, res) => {
     });
 
     res.json({ userID: `${user._id}` });
+
+    let userData = {
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
+    }
+
+    registerAccountAlert(userData);
 }
 
 let forgotPass = async (req, res) => {
@@ -367,6 +406,8 @@ let forgotPass = async (req, res) => {
 let genOTPForgotPass = async (req, res) => {
     let email = await req.params.email;
 
+    let user = await userModel.findOne({ email, password });
+
     let OTP = await (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
 
     let verification = await verificationModel.create({
@@ -389,7 +430,7 @@ let genOTPForgotPass = async (req, res) => {
     <div style="border-bottom:1px solid #eee">
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">DeraSewa</a>
     </div>
-    <p style="font-size:1.1em">Hi,</p>
+    <p style="font-size:1.1em">Dear, ${user.firstName} ${user.lastName}</p>
     <p>Thank you for choosing DeraSewa. Use the following OTP to change your password. OTP is valid for 5 minutes</p>
     <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${OTP}</h2>
     <p style="font-size:0.9em;">Regards,<br />DeraSewa</p>
@@ -424,6 +465,13 @@ let changePass = async(req, res)=>{
                 password: `${password}`
             })
             res.json({ success: "Password changed succesfully!" })
+
+            let userData = {
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName
+            }
+            changePassAlert(userData);
         }else{
             res.json({ error: "OTP did not matched!" })
         }

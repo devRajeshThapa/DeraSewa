@@ -10,6 +10,8 @@ import ContentLoader, { Rect, Circle } from 'react-content-loader/native'
 
 const HomeScreen = ({ navigation }) => {
 
+  console.warn(IP_ADDRESS)
+
   let [filterValue, setFilterValue] = useState("")
   let [filteredData, setFilteredData] = useState("")
   let [flat, setFlat] = useState(false);
