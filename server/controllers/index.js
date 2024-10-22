@@ -311,8 +311,6 @@ let genOTP = async (req, res) => {
 
     let email = await req.params.email;
 
-    let user = await userModel.findOne({ email });
-
     let OTP = await (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
 
     let verification = await verificationModel.create({
@@ -335,7 +333,7 @@ let genOTP = async (req, res) => {
     <div style="border-bottom:1px solid #eee">
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">DeraSewa</a>
     </div>
-    <p style="font-size:1.1em">Dear, ${user.firstName} ${user.lastName}</p>
+    <p style="font-size:1.1em">Dear, User</p>
     <p>Thank you for choosing DeraSewa. Use the following OTP to complete your Sign Up procedures. OTP is valid for 5 minutes</p>
     <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${OTP}</h2>
     <p style="font-size:0.9em;">Regards,<br />DeraSewa</p>
