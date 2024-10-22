@@ -55,7 +55,7 @@ const ForgotPassVerification = ({ route, navigation }) => {
             setSuccess(data.success)
             setTimeout(()=>{
               navigation.navigate("Login")
-            }, 1500)
+            }, 1000)
           } else {
               setError("");
               setSuccess("")
@@ -73,7 +73,7 @@ const ForgotPassVerification = ({ route, navigation }) => {
       {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
       {success && <View style={styles.successWrapper}><Text style={{ color: "black", fontFamily: "Poppins-Light", fontSize: 15 }}>{success}</Text></View>}
       <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please enter the OTP sent on your email</Text>
-      <TextInput style={styles.input} placeholder='Enter your OTP here' placeholderTextColor={"white"} onChangeText={(value) => { setOTP(value); setError("") }} />
+      <TextInput style={styles.input} placeholder='Enter your OTP here' placeholderTextColor={"white"} onChangeText={(value) => { setOTP(value); setError("") }} keyboardType='numeric' />
       <TouchableOpacity onPress={() => { changePass() }}>
         <View style={styles.verifyButton}>
           <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>VERIFY</Text>

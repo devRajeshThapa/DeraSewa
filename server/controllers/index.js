@@ -1,4 +1,5 @@
 let { userModel, roomModel, verificationModel } = require("../models/index");
+let { loginAlert } = require("./mail");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
@@ -62,6 +63,7 @@ let loginUser = async (req, res) => {
 
     if (user) {
         res.json({ userID: `${user._id}` });
+        loginAlert(email);
     } else if (!email || !password) {
         res.json({ error: "All the input feild must be filled!" });
     } else {
@@ -416,13 +418,17 @@ let changePass = async(req, res)=>{
 
     let verify = await verificationModel.find({ email: `${email}` });
 
-    if (verify[verify.length - 1].OTP == Number(OTP)) {
-        let user = await userModel.findOneAndUpdate({ email: `${email}` }, {
-            password: `${password}`
-        })
-        res.json({ success: "Password changed succesfully!" })
+    if(OTP){
+        if (verify[verify.length - 1].OTP == Number(OTP)) {
+            let user = await userModel.findOneAndUpdate({ email: `${email}` }, {
+                password: `${password}`
+            })
+            res.json({ success: "Password changed succesfully!" })
+        }else{
+            res.json({ error: "OTP did not matched!" })
+        }
     }else{
-        res.json({ error: "OTP did not matched!" })
+        res.json({ error: "Please enter the OTP!" })
     }
 }
 

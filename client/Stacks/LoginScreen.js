@@ -11,21 +11,20 @@ const LoginScreen = ({ navigation }) => {
 
   let navTitle = "LOGIN";
 
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
-  let [error, setError] = useState("");
-  let [passHidden, setPassHidden] = useState(true)
-
-  let userAuth = async () => {
+  //IIFE
+  (async () => {
     let userID = await AsyncStorage.getItem('userID');
     let validUser = await AsyncStorage.getItem('validUser');
 
     if (validUser && userID) {
       navigation.navigate("Tab");
     }
-  }
+  })();
 
-  userAuth();
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
+  let [error, setError] = useState("");
+  let [passHidden, setPassHidden] = useState(true)
 
   let uploadForm = async () => {
     let data = {
@@ -100,7 +99,7 @@ const LoginScreen = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <View style={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <Text style={{ color: "red", fontFamily: "Poppins-Light", textDecorationLine:"underline" }} onPress={()=>{navigation.navigate("ForgotPass")}}>Forgot Password?</Text>
+          <Text style={{ color: "red", fontFamily: "Poppins-Light", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("ForgotPass") }}>Forgot Password?</Text>
           <Text style={{ color: "white", fontFamily: "Poppins-Light" }}>Don't have Account? <Text style={{ color: "#88ff00", textDecorationLine: "underline" }} onPress={() => { navigation.navigate("Register") }}>Register</Text></Text>
         </View>
       </View>

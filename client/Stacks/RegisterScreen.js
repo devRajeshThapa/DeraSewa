@@ -68,7 +68,7 @@ const RegisterScreen = ({ navigation }) => {
                             <TextInput style={styles.nameInput} placeholder="Last Name" placeholderTextColor="white" onChangeText={(value) => { setLastName(value); setError("") }} autoCorrect={false} />
                         </View>
                         <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={(value) => { setEmail(value); setError("") }} autoCorrect={false} />
-                        <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} />
+                        <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" onChangeText={(value) => { setPhoneNumber(value); setError("") }} keyboardType='numeric' />
                         <View style={{ position: "relative", display: "flex", justifyContent: "center" }}>
                             {
                                 passHidden ?

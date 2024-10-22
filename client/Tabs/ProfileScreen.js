@@ -137,10 +137,10 @@ const ProfileScreen = ({ navigation }) => {
                   :
                   <View>
                     <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 380 }}>
-                      <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
+                      <Image style={{ height: 250, width: "70%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
                       <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
                         <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
-                        <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>Seems like you did not hosted any room!</Text>
+                        <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>Seems like you have not hosted any rooms yet!</Text>
                       </View>
                     </View>
                   </View>

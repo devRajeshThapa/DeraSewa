@@ -17,10 +17,7 @@ const AccountInfoScreen = ({ navigation }) => {
   let [lastName, setLastName] = useState("");
   let [email, setEmail] = useState("");
   let [phoneNumber, setPhoneNumber] = useState("");
-  let [password, setPassword] = useState("");
   let [profilePicture, setProfilePicture] = useState("");
-  let [passHidden, setPassHidden] = useState(true);
-  let [hiddenPass, setHiddenPass] = useState("");
 
   useEffect(() => {
 
@@ -33,13 +30,7 @@ const AccountInfoScreen = ({ navigation }) => {
         setLastName(data.lastName);
         setEmail(data.email);
         setPhoneNumber(data.phoneNumber);
-        setPassword(data.password);
         setProfilePicture(data.profilePicture);
-
-        let passLen = data.password.length;
-        let star = "*";
-        pass = star.padStart(passLen, "*");
-        setHiddenPass(pass);
       } catch (err) {
         console.log(err);
       }
@@ -83,34 +74,6 @@ const AccountInfoScreen = ({ navigation }) => {
             {
               phoneNumber ?
                 <Text style={styles.value}>{phoneNumber}</Text>
-                :
-                <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
-                  <Rect x="0" y="0" rx="5" ry="5" width="150" height="20" />
-                </ContentLoader>
-            }
-          </View>
-          <View style={{ backgroundColor: "#202020", padding: 10, borderRadius: 10, position: "relative", display: "flex", justifyContent: "flex-end" }}>
-            {
-              passHidden ?
-                <TouchableOpacity onPress={() => { setPassHidden(false) }} style={{ position: "absolute", alignSelf: "flex-end", paddingBottom: 15, paddingRight: 15, zIndex: 4 }} >
-                  <FontAwesome6 name="eye-slash" style={{ fontSize: 15, color: "white" }} />
-                </TouchableOpacity>
-                :
-                <TouchableOpacity onPress={() => { setPassHidden(true) }} style={{ position: "absolute", alignSelf: "flex-end", paddingBottom: 15, paddingRight: 15, zIndex: 4 }} >
-                  <FontAwesome6 name="eye" style={{ fontSize: 15, color: "white" }} />
-                </TouchableOpacity>
-            }
-            <Text style={styles.title}>Password</Text>
-            {
-              password ?
-                <View>
-                  {
-                    passHidden ?
-                      <Text style={styles.value}>{hiddenPass}</Text>
-                      :
-                      <Text style={styles.value}>{password}</Text>
-                  }
-                </View>
                 :
                 <ContentLoader viewBox="0 0" width={"100%"} height={"25"} speed={1} backgroundColor='#d9d9d9' foregroundColor='#202020'>
                   <Rect x="0" y="0" rx="5" ry="5" width="150" height="20" />

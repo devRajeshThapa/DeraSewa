@@ -13,8 +13,17 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = ({ navigation }) => {
 
-  let logout = async () => {
+  //IIFE
+  (async () => {
+    let userID = await AsyncStorage.getItem('userID');
+    let validUser = await AsyncStorage.getItem('validUser');
 
+    if (!validUser && !userID) {
+      navigation.navigate("Login");
+    }
+  })();
+
+  let logout = async()=>{
     await AsyncStorage.removeItem('userID');
     await AsyncStorage.removeItem('validUser');
 

@@ -16,6 +16,10 @@ const ForgotPass = ({ navigation }) => {
 
     let changePass = async () => {
 
+        if(!email || !password){
+            setError("All the input feild must be filled!");
+        }
+
         let data = {
             password: password,
         }

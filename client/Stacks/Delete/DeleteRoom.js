@@ -35,12 +35,13 @@ const DeleteAccount = ({ navigation }) => {
             .then(res => res.json())
             .then(async (data) => {
                 if (data.success) {
-                    await AsyncStorage.removeItem('userID');
-                    await AsyncStorage.removeItem('validUser')
                     setError("");
                     setSuccess("")
                     setSuccess(data.success);
                     setPassword("");
+                    setTimeout(()=>{
+                        navigation.navigate("Profile");
+                    }, 1000)
                 } else {
                     setError("");
                     setSuccess("")

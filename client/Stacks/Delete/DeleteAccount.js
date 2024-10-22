@@ -9,9 +9,10 @@ const DeleteAccount = ({ navigation }) => {
 
     let navTitle = "DELETE ACCOUNT";
 
+    let [success, setSuccess] = useState("")
     let [password, setPassword] = useState("");
     let [error, setError] = useState("");
-    let [passHidden, setPassHidden]= useState(true);
+    let [passHidden, setPassHidden] = useState(true);
 
     let deleteUser = async () => {
 
@@ -31,11 +32,15 @@ const DeleteAccount = ({ navigation }) => {
             .then(res => res.json())
             .then(async (data) => {
                 if (data.success) {
-                    await AsyncStorage.removeItem('userID');
-                    await AsyncStorage.removeItem('validUser')
-                    navigation.navigate("Login")
+                    setSuccess("Your account has been deleted!");
+                    setTimeout(async () => {
+                        await AsyncStorage.removeItem('userID');
+                        await AsyncStorage.removeItem('validUser')
+                        navigation.navigate("Login")
+                    }, 1000);
                 } else {
                     setError("");
+                    setSuccess("");
                     setError(data.error)
                 }
             })
@@ -49,6 +54,7 @@ const DeleteAccount = ({ navigation }) => {
             </View>
             <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please enter your password to delete account</Text>
             {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
+            {success && <View style={styles.successWrapper}><Text style={{ color: "black", fontFamily: "Poppins-Light", fontSize: 15 }}>{success}</Text></View>}
             <View style={{ position: "relative", display: "flex", justifyContent: "center" }}>
                 {
                     passHidden ?
@@ -62,9 +68,9 @@ const DeleteAccount = ({ navigation }) => {
                 }
                 {
                     passHidden ?
-                        <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError("") }} autoCorrect={false} />
+                        <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" secureTextEntry onChangeText={(value) => { setPassword(value); setError(""); setSuccess("") }} autoCorrect={false} />
                         :
-                        <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" onChangeText={(value) => { setPassword(value); setError("") }} autoCorrect={false} />
+                        <TextInput style={styles.input} placeholder='Password' value={password} placeholderTextColor="white" onChangeText={(value) => { setPassword(value); setError(""); setSuccess(); }} autoCorrect={false} />
                 }
             </View>
             <TouchableOpacity onPress={() => { deleteUser() }}>

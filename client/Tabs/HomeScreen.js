@@ -30,7 +30,7 @@ const HomeScreen = ({ navigation }) => {
     }
 
     getData();
-  }, [filteredData]);
+  }, [filterValue]);
 
   let roomClick = async (roomID) => {
     await AsyncStorage.removeItem('roomID')
@@ -85,7 +85,7 @@ const HomeScreen = ({ navigation }) => {
               <View>
                 <Text style={{ color: "white", fontFamily: "Poppins-Bold", fontSize: 18, marginBottom: 10 }}>AVAILABLE ROOMS</Text>
                 <View style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "column", height: 400 }}>
-                  <Image style={{ height: 250, width: "100%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
+                  <Image style={{ height: 250, width: "70%", borderRadius: 10, }} source={require("../assets/images/not_found.png")} />
                   <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
                     <FontAwesome6 name="triangle-exclamation" style={{ fontSize: 15, color: "white" }} />
                     <Text style={{ color: "white", fontFamily: "Poppins-Light", }}>No rooms are available!</Text>
