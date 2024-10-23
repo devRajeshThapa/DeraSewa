@@ -123,15 +123,15 @@ const EditProfile = ({ navigation }) => {
                     <Text style={styles.title}>Phone Number</Text>
                     <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="white" value={`${phoneNumber}`} onChangeText={(value) => { setPhoneNumber(value); setError(""); setSuccess(""); setDoneChanges(true); }} />
                 </View>
-                <View style={{ position: "relative", display: "flex", justifyContent: "center" }}>
+                <View style={{ position: "relative", display: "flex", justifyContent: "center"}}>
                     <Text style={styles.title}>Password</Text>
                     {
                         passHidden ?
-                            <TouchableOpacity onPress={() => { setPassHidden(false) }} style={{ position: "absolute", alignSelf: "flex-end", paddingRight: 15, zIndex: 4 }} >
+                            <TouchableOpacity onPress={() => { setPassHidden(false) }} style={{ position: "absolute", alignSelf: "flex-end", paddingRight: 15, zIndex: 4, paddingTop:25 }} >
                                 <FontAwesome6 name="eye-slash" style={{ fontSize: 15, color: "white" }} />
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity onPress={() => { setPassHidden(true) }} style={{ position: "absolute", alignSelf: "flex-end", paddingRight: 15, zIndex: 4 }} >
+                            <TouchableOpacity onPress={() => { setPassHidden(true) }} style={{ position: "absolute", alignSelf: "flex-end", paddingRight: 15, zIndex: 4, paddingTop:25 }} >
                                 <FontAwesome6 name="eye" style={{ fontSize: 15, color: "white" }} />
                             </TouchableOpacity>
                     }

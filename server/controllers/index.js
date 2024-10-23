@@ -123,12 +123,14 @@ let hostRoom = async (req, res) => {
                 });
                 res.json({ success: "Room hosted succesfully!" });
 
-                let userData = {
-                    email: user.email,
-                    firstName: user.firstName,
-                    lastName: user.lastName
+                if(user){
+                    let userData = {
+                        email: user.email,
+                        firstName: user.firstName,
+                        lastName: user.lastName
+                    }
+                    hostRoomAlert(userData);
                 }
-                hostRoomAlert(userData);
             } else {
                 res.json({ error: "Invalid phone number!" })
             }
@@ -225,7 +227,7 @@ let updateUserInfo = async (req, res) => {
 
     let { firstName, lastName, email, phoneNumber, password, profilePicture } = await req.body;
 
-    if (firstName && lastName, email, phoneNumber, password) {
+    if (firstName && lastName, email, phoneNumber, password, profilePicture) {
         if (firstName.length >= 3 && lastName.length >= 3) {
 
             let emailValidator = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
