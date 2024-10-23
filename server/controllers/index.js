@@ -225,7 +225,7 @@ let updateUserInfo = async (req, res) => {
 
     let { firstName, lastName, email, phoneNumber, password, profilePicture } = await req.body;
 
-    if (firstName && lastName, email, phoneNumber, password, profilePicture) {
+    if (firstName && lastName, email, phoneNumber, password) {
         if (firstName.length >= 3 && lastName.length >= 3) {
 
             let emailValidator = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;

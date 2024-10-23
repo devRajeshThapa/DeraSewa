@@ -104,7 +104,7 @@ let deleteAccountAlert = async (userData) => {
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">DeraSewa</a>
     </div>
     <p style="font-size:1.1em">Dear, ${userData.firstName} ${userData.lastName}</p>
-    <p>Your DeraSewa account has been deleted permanently as per your requirement.Now you are no longer a part of DeraSewa community and all the information we have collected from you will not be tracked from now on as they are removed permanently and cannot be recovered.Thank you for being part of DeraSewa.</p>
+    <p>Your DeraSewa account has been deleted permanently as per your request. Now you are no longer a part of DeraSewa community and all the information we have collected from you will not be tracked from now on as they are removed permanently and cannot be recovered. Thank you for being part of DeraSewa.</p>
     <p style="font-size:0.9em;">Regards,<br />DeraSewa</p>
     <hr style="border:none;border-top:1px solid #eee" />
     <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
@@ -141,7 +141,7 @@ let hostRoomAlert = async (userData) => {
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">DeraSewa</a>
     </div>
     <p style="font-size:1.1em">Dear, ${userData.firstName} ${userData.lastName}</p>
-    <p>We have noticed a room is hosted from your account on DeraSewa.If this was you, there's nothing to worry about. If you did not authorize this activity, please change your account password ASAP.</p>
+    <p>We have noticed a room is hosted from your account on DeraSewa. If this was you, there's nothing to worry about. If you did not authorize this activity, please change your account password ASAP.</p>
     <p style="font-size:0.9em;">Regards,<br />DeraSewa</p>
     <hr style="border:none;border-top:1px solid #eee" />
     <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
@@ -178,7 +178,7 @@ let deleteRoomAlert = async (userData) => {
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">DeraSewa</a>
     </div>
     <p style="font-size:1.1em">Dear, ${userData.firstName} ${userData.lastName}</p>
-    <p>We have noticed a room is deleted from your account on DeraSewa.If this was you, there's nothing to worry about. If you did not authorize this activity, please change your account password ASAP.</p>
+    <p>We have noticed a room is deleted from your account on DeraSewa. If this was you, there's nothing to worry about. If you did not authorize this activity, please change your account password ASAP.</p>
     <p style="font-size:0.9em;">Regards,<br />DeraSewa</p>
     <hr style="border:none;border-top:1px solid #eee" />
     <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
@@ -215,7 +215,7 @@ let editRoomAlert = async (userData) => {
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">DeraSewa</a>
     </div>
     <p style="font-size:1.1em">Dear, ${userData.firstName} ${userData.lastName}</p>
-    <p>We have noticed some information of a room is changed from your account on DeraSewa.If this was you, there's nothing to worry about. If you did not authorize this activity, please change your account password ASAP.</p>
+    <p>We have noticed some information of a room is changed from your account on DeraSewa. If this was you, there's nothing to worry about. If you did not authorize this activity, please change your account password ASAP.</p>
     <p style="font-size:0.9em;">Regards,<br />DeraSewa</p>
     <hr style="border:none;border-top:1px solid #eee" />
     <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
@@ -252,7 +252,7 @@ let changePassAlert = async (userData) => {
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">DeraSewa</a>
     </div>
     <p style="font-size:1.1em">Dear, ${userData.firstName} ${userData.lastName}</p>
-    <p>We have noticed your account password has been changed from your account on DeraSewa.If this was you, there's nothing to worry about. If you did not authorize this activity, please change your account password ASAP.</p>
+    <p>We have noticed your account password has been changed from your account on DeraSewa. If this was you, there's nothing to worry about. If you did not authorize this activity, please change your account password ASAP.</p>
     <p style="font-size:0.9em;">Regards,<br />DeraSewa</p>
     <hr style="border:none;border-top:1px solid #eee" />
     <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
