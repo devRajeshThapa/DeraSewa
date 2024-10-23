@@ -32,15 +32,15 @@ const RegisterVarification = ({ route, navigation }) => {
   }, []);
 
   let createUser = async () => {
-    await fetch(`${IP_ADDRESS}/get-otp/${Data["email"]}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        if (OTP == '') {
-          setError("");
-          setError("Please enter the OTP!")
-        } else {
+    if (!OTP) {
+      setError("");
+      setError("Please enter the OTP!")
+    } else {
+      await fetch(`${IP_ADDRESS}/get-otp/${Data["email"]}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
           if (data.OTP == Number(OTP)) {
 
             let uploadForm = async () => {
@@ -87,8 +87,8 @@ const RegisterVarification = ({ route, navigation }) => {
             setError("");
             setError("OTP did not matched!");
           }
-        }
-      })
+        })
+    }
   }
 
   return (
@@ -98,7 +98,7 @@ const RegisterVarification = ({ route, navigation }) => {
       </View>
       <Text style={{ color: "white", fontFamily: "Poppins-SemiBold", fontSize: 15 }}>Please enter the OTP sent on your email</Text>
       {error && <View style={styles.errorWrapper}><Text style={{ color: "white", fontFamily: "Poppins-Light", fontSize: 15 }}>{error}</Text></View>}
-      <TextInput style={styles.input} placeholder='Enter your OTP here' placeholderTextColor={"white"} onChangeText={(value) => { setOTP(value); setError("")  }} keyboardType='numeric' />
+      <TextInput style={styles.input} placeholder='Enter your OTP here' placeholderTextColor={"white"} onChangeText={(value) => { setOTP(value); setError("") }} keyboardType='numeric' />
       <TouchableOpacity onPress={() => { createUser() }}>
         <View style={styles.verifyButton}>
           <Text style={{ color: "black", fontFamily: "Poppins-Bold", fontSize: 15 }}>VERIFY</Text>

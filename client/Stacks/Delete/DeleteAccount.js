@@ -32,6 +32,8 @@ const DeleteAccount = ({ navigation }) => {
             .then(res => res.json())
             .then(async (data) => {
                 if (data.success) {
+                    setError("");
+                    setSuccess(data.success);
                     setSuccess("Your account has been deleted!");
                     setTimeout(async () => {
                         await AsyncStorage.removeItem('userID');
@@ -105,6 +107,15 @@ let styles = StyleSheet.create({
     errorWrapper: {
         width: "100%",
         backgroundColor: "red",
+        padding: 10,
+        maxHeight: 65,
+        display: "flex",
+        justifyContent: "center",
+        borderRadius: 10
+    },
+    successWrapper: {
+        width: "100%",
+        backgroundColor: "#88ff00",
         padding: 10,
         maxHeight: 65,
         display: "flex",

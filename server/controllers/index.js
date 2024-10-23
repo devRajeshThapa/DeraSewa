@@ -92,14 +92,14 @@ let deleteUser = async (req, res) => {
         }
         if (user) {
             let user = await userModel.findByIdAndDelete(userID);
-            res.json({ success: "Account succesfully deleted!" })
-
             let userData = {
                 email: user.email,
                 firstName: user.firstName,
                 lastName: user.lastName
             }
             deleteAccountAlert(userData);
+            
+            res.json({ success: "Account succesfully deleted!" })
         } else {
             res.json({ error: "Password didn't matched!" })
         }

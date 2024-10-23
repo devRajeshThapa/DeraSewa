@@ -29,7 +29,7 @@ const HomeScreen = ({ navigation }) => {
       setLoading(false)
     }
 
-    getData();
+      getData();
   }, [filterValue]);
 
   let roomClick = async (roomID) => {
